@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// debugging: check if POST data is received
+// check if POST data is received
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['questionDesc']) && isset($_POST['questionType'])) {
         $question_desc = $_POST['questionDesc'];

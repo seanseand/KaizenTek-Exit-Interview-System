@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
+
 <body>
+
     <h1>Welcome, Admin</h1>
 
-    <section id="questionManagement">
+    <section id="viewQuestions">
+        <h2>View Questions</h2>
+        <form id="sortQuestionsForm">
+            <label for="sortOption">Sort by:</label>
+            <select name="sortOption" id="sortOption">
+                <option value="CreatorID">Creator ID</option>
+                <option value="QuestionType">Question Type</option>
+                <option value="QuestionID" selected>Question ID</option>
+            </select>
+            <button type="button" onclick="loadQuestions()">Sort</button>
+        </form>
+        <div id="questionsList">
+            <!-- questions will be displayed here via AJAX -->
+        </div>
+    </section>
+
+    <section id="addQuestions">
         <h2>Add Questions</h2>
         <form id="addQuestionForm" action="add_questions.php" method="POST">
             <input type="text" name="questionDesc" placeholder="Enter question" required>
@@ -19,10 +38,62 @@
             </select>
             <button type="submit">Add Question</button>
         </form>
-        <!-- display list of questions -->
+    </section>
+    
+    <script>
+        function loadQuestions() {
+            const sortOption = document.getElementById('sortOption').value;
+            const xhr = new XMLHttpRequest();
+    
+            xhr.open('GET', `view_questions.php?sortOption=${sortOption}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('questionsList').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+        
+        // load questions on page load
+        window.onload = loadQuestions;
+    </script>
+
+    <section id="editQuestions">
+        <h2>Edit Questions</h2>
+        <form method="POST" action="edit_question.php">
+            <label for="questionID">Question ID:</label>
+            <input type="number" name="questionID" id="questionID" required>
+            <label for="questionDesc">New Description:</label>
+            <input type="text" name="questionDesc" id="questionDesc" required>
+            <label for="questionType">New Type:</label>
+            <select name="questionType" id="questionType" required>
+                <option value="TrueOrFalse">TrueOrFalse</option>
+                <option value="Multiple Choice">Multiple Choice</option>
+            </select>
+            <button type="submit">Update Question</button>
+        </form>
+    </section>    
+
+    <section id="viewEvaluations">
+        <br></br>
+        <br></br>
+        <h2>View Evaluations</h2>
+        <form id="sortEvaluationsForm">
+            <label for="evaluationSortOption">Sort by:</label>
+            <select name="sortOption" id="evaluationSortOption">
+                <option value="EvaluationID" selected>Evaluation ID</option>
+                <option value="ProgramID">Program ID</option>
+                <option value="StartDate">Start Date</option>
+                <option value="EndDate">End Date</option>
+            </select>
+            <button type="button" onclick="loadEvaluations()">Sort</button>
+        </form>
+        <div id="evaluationsList">
+            <!-- evaluations will be displayed here via AJAX -->
+        </div>
     </section>
 
-    <section id="evaluationManagement">
+    <section id="setEvaluation">
         <h2>Set Evaluation Periods</h2>
         <form id="setEvaluationForm" action="set_evaluation.php" method="POST">
             <input type="text" name="evaluationName" placeholder="Evaluation Name" required>
@@ -43,8 +114,104 @@
             <input type="date" name="endDate" required>
             <button type="submit">Set Evaluation Period</button>
         </form>
-
     </section>
 
+    <script>
+        function loadEvaluations() {
+            const sortOption = document.getElementById('evaluationSortOption').value;
+            const xhr = new XMLHttpRequest();
+    
+            xhr.open('GET', `view_evaluations.php?sortOption=${sortOption}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('evaluationsList').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        // load evaluations on page load
+        window.onload = function () {
+            loadQuestions();
+            loadEvaluations();
+        };
+    </script>    
+
+    <section id="editEvaluations">
+        <h2>Edit Evaluation Periods</h2>
+        <form method="POST" action="edit_evaluation.php">
+            <label for="evaluationID">Evaluation ID:</label>
+            <input type="number" name="evaluationID" id="evaluationID" required>
+            <label for="evaluationName">Evaluation Name:</label>
+            <input type="text" name="evaluationName" id="evaluationName" required>
+            <label for="programID">Program:</label>
+            <select name="programID" required>
+                <option value=1>Computer Science</option>
+                <option value=2>Accountancy</option>
+                <option value=3>Management Accounting</option>
+                <option value=4>Entrepreneurship</option>
+                <option value=5>Tourism Management</option>
+                <option value=6>Multimedia Arts</option>
+                <option value=7>Information Technology</option>
+                <option value=8>Financial Management</option>
+                <option value=9>Marketing Management</option>
+                <option value=10>Hostpitality Management</option>
+            </select>
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" required>
+            <label for="endDate">End Date:</label>
+            <input type="date" name="endDate" required>
+            <button type="submit">Update Evaluation</button>
+        </form>
+    </section>    
+
+    <section id="checkResponses">
+        <br></br>
+        <br></br>
+        <h2>Check Student Responses</h2>
+        <label for="evaluationIDInput">Enter Evaluation ID:</label>
+        <input type="number" id="evaluationIDInput" placeholder="Evaluation ID" required>
+        <button type="button" onclick="checkResponses()">Check Responses</button>
+    
+        <!-- display the response results here -->
+        <div id="responseStatus">
+            <!-- list of students who responded will appear here -->
+        </div>
+    </section>
+
+    <script>
+        function checkResponses() {
+            const evaluationID = document.getElementById('evaluationIDInput').value;
+            if (!evaluationID) {
+                alert("Please enter an Evaluation ID.");
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `check_responses.php?evaluationID=${evaluationID}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const responseStatusDiv = document.getElementById('responseStatus');
+
+                    if (response.error) {
+                        responseStatusDiv.innerHTML = `<p style="color:red;">${response.error}</p>`;
+                    } else if (response.status === "no_responses") {
+                        responseStatusDiv.innerHTML = `<p>${response.message}</p>`;
+                    } else {
+                        // display the list of students
+                        let studentList = "<h3>Student/s who responded:</h3><ol>";
+                        response.students.forEach(studentID => {
+                            studentList += `<li>Student ID: ${studentID}</li>`;
+                        });
+                        studentList += "</ol>";
+                        responseStatusDiv.innerHTML = studentList;
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+    
 </body>
 </html>
