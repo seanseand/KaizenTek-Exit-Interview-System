@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2024 at 11:01 AM
+-- Generation Time: Nov 01, 2024 at 03:16 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kaizentek-mid`
+-- Database: `kaizentekmid`
 --
 
 -- --------------------------------------------------------
@@ -44,15 +44,15 @@ CREATE TABLE IF NOT EXISTS `answer` (
 --
 
 INSERT INTO `answer` (`AnswerID`, `EvaluationID`, `QuestionID`, `Answer`, `DateAnswered`) VALUES
-(1, 1, 1, 'TRUE', '2024-08-02'),
-(2, 1, 2, 'FALSE', '2024-08-02'),
-(3, 1, 3, 'TRUE', '2024-08-02'),
-(4, 2, 1, 'TRUE', '2024-09-02'),
-(5, 2, 2, 'TRUE', '2024-09-02'),
-(6, 2, 3, 'TRUE', '2024-09-02'),
-(7, 3, 1, 'FALSE', '2024-10-02'),
-(8, 3, 2, 'TRUE', '2024-10-02'),
-(9, 3, 3, 'TRUE', '2024-10-02');
+(1, 1, 1, 'True', '2024-08-02'),
+(2, 1, 2, 'False', '2024-08-02'),
+(3, 1, 3, 'True', '2024-08-02'),
+(4, 2, 1, 'True', '2024-09-02'),
+(5, 2, 2, 'True', '2024-09-02'),
+(6, 2, 3, 'True', '2024-09-02'),
+(7, 3, 1, 'False', '2024-10-02'),
+(8, 3, 2, 'True', '2024-10-02'),
+(9, 3, 3, 'True', '2024-10-02');
 
 -- --------------------------------------------------------
 
@@ -63,12 +63,14 @@ INSERT INTO `answer` (`AnswerID`, `EvaluationID`, `QuestionID`, `Answer`, `DateA
 DROP TABLE IF EXISTS `evaluation`;
 CREATE TABLE IF NOT EXISTS `evaluation` (
   `EvaluationID` int NOT NULL AUTO_INCREMENT,
+  `EvaluationName` varchar(60) COLLATE utf8mb4_bin NOT NULL,
   `ProgramID` int NOT NULL,
   `Semester` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `StartDate` date NOT NULL,
   `EndDate` date NOT NULL,
-  `Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'Ongoing',
   PRIMARY KEY (`EvaluationID`),
+  UNIQUE KEY `EvaluationName` (`EvaluationName`),
   KEY `evaluation_ibfk_1` (`ProgramID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -76,10 +78,10 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
 -- Dumping data for table `evaluation`
 --
 
-INSERT INTO `evaluation` (`EvaluationID`, `ProgramID`, `Semester`, `StartDate`, `EndDate`, `Status`) VALUES
-(1, 1, 'First', '2024-08-01', '2024-08-03', 'Finished'),
-(2, 2, 'First', '2024-09-01', '2024-09-03', 'Finished'),
-(3, 3, 'First', '2024-10-01', '2024-10-03', 'Finished');
+INSERT INTO `evaluation` (`EvaluationID`, `EvaluationName`, `ProgramID`, `Semester`, `StartDate`, `EndDate`, `Status`) VALUES
+(1, 'BSCS\' Eval', 1, 'First', '2024-08-01', '2024-08-03', 'Finished'),
+(2, 'BSA\'s Eval', 2, 'First', '2024-09-01', '2024-09-03', 'Finished'),
+(3, 'BSMA\'s Eval', 3, 'First', '2024-10-01', '2024-10-03', 'Finished');
 
 -- --------------------------------------------------------
 
@@ -133,9 +135,12 @@ INSERT INTO `program` (`ProgramID`, `ProgramName`) VALUES
 (2, 'BSA'),
 (1, 'BSCS'),
 (4, 'BSE'),
+(8, 'BSFM'),
+(10, 'BSHM'),
+(7, 'BSIT'),
 (3, 'BSMA'),
+(9, 'BSMM'),
 (6, 'BSMMA'),
-(7, 'BST'),
 (5, 'BSTM');
 
 -- --------------------------------------------------------
@@ -231,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `UserType` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`UserID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `user`

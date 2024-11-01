@@ -8,8 +8,9 @@
 </head>
 <body>
     <h1>Welcome, Admin</h1>
+
     <section id="questionManagement">
-        <h2>Question Pool</h2>
+        <h2>Add Questions</h2>
         <form id="addQuestionForm" action="add_questions.php" method="POST">
             <input type="text" name="questionDesc" placeholder="Enter question" required>
             <select name="questionType" required>
@@ -20,14 +21,30 @@
         </form>
         <!-- display list of questions -->
     </section>
+
     <section id="evaluationManagement">
-        <h2>Manage Evaluations</h2>
+        <h2>Set Evaluation Periods</h2>
         <form id="setEvaluationForm" action="set_evaluation.php" method="POST">
+            <input type="text" name="evaluationName" placeholder="Evaluation Name" required>
+            <select name="programID" placeholder="Program" required>
+                <option value=1>Computer Science</option>
+                <option value=2>Accountancy</option>
+                <option value=3>Management Accounting</option>
+                <option value=4>Entrepreneurship</option>
+                <option value=5>Tourism Management</option>
+                <option value=6>Multimedia Arts</option>
+                <option value=7>Information Technology</option>
+                <option value=8>Financial Management</option>
+                <option value=9>Marketing Management</option>
+                <option value=10>Hostpitality Management</option>
+            </select>
             <input type="text" name="semester" placeholder="Enter Semester" required>
             <input type="date" name="startDate" required>
             <input type="date" name="endDate" required>
             <button type="submit">Set Evaluation Period</button>
         </form>
+
     </section>
+
 </body>
 </html>
