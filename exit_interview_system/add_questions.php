@@ -2,7 +2,7 @@
 include('db.php');
 
 $question_desc = $_POST['questionDesc'];
-$creator_id = 1; // Placeholder for admin ID
+$creator_id = 1; // placeholder for admin ID
 
 $query = "INSERT INTO QUESTION (questionDesc, QuestionType, CreatorID) VALUES (?, 'Text', ?)";
 $stmt = $conn->prepare($query);
