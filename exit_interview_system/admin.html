@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <h1>Welcome, Admin</h1>
+    <section id="questionManagement">
+        <h2>Question Pool</h2>
+        <form id="addQuestionForm" action="add_question.php" method="POST">
+            <input type="text" name="questionDesc" placeholder="Enter question" required>
+            <button type="submit">Add Question</button>
+        </form>
+        <!-- Display list of questions -->
+    </section>
+    <section id="evaluationManagement">
+        <h2>Manage Evaluations</h2>
+        <form id="setEvaluationForm" action="set_evaluation.php" method="POST">
+            <input type="text" name="semester" placeholder="Enter Semester" required>
+            <input type="date" name="startDate" required>
+            <input type="date" name="endDate" required>
+            <button type="submit">Set Evaluation Period</button>
+        </form>
+    </section>
+</body>
+</html>
