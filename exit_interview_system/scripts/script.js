@@ -1,14 +1,14 @@
 // TEMPORARY
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const answerForm = document.getElementById("answerForm");
-    
+
     fetch("get_questions.php")
         .then(response => response.json())
         .then(data => {
             data.questions.forEach(question => {
                 const questionLabel = document.createElement("label");
                 questionLabel.textContent = question.questionDesc;
-                
+
                 const answerInput = document.createElement("textarea");
                 answerInput.name = "answers[]";
                 answerInput.required = true;
@@ -31,7 +31,7 @@ function loadQuestions() {
 
     xhr.open('GET', `view_questions.php?sortOption=${sortOption}`, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById('questionsList').innerHTML = xhr.responseText;
         }
     };
@@ -45,7 +45,7 @@ function loadEvaluations() {
 
     xhr.open('GET', `view_evaluations.php?sortOption=${sortOption}`, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById('evaluationsList').innerHTML = xhr.responseText;
         }
     };
@@ -63,7 +63,7 @@ function checkResponses() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `check_responses.php?evaluationID=${evaluationID}`, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
             const responseStatusDiv = document.getElementById('responseStatus');
 
