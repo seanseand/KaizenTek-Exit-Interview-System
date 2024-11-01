@@ -10,8 +10,12 @@
     <h1>Welcome, Admin</h1>
     <section id="questionManagement">
         <h2>Question Pool</h2>
-        <form id="addQuestionForm" action="add_question.php" method="POST">
+        <form id="addQuestionForm" action="add_questions.php" method="POST">
             <input type="text" name="questionDesc" placeholder="Enter question" required>
+            <select name="questionType" required>
+                <option value="TrueOrFalse">TrueOrFalse</option>
+                <option value="Multiple Choice">Multiple Choice</option>
+            </select>
             <button type="submit">Add Question</button>
         </form>
         <!-- display list of questions -->

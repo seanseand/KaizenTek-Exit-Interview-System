@@ -1,4 +1,4 @@
-// Load questions for the student
+// load questions for the student
 document.addEventListener("DOMContentLoaded", function() {
     const answerForm = document.getElementById("answerForm");
     
