@@ -20,15 +20,35 @@ if ($result->num_rows > 0) {
     $_SESSION['user_id'] = $user['UserID'];
     $_SESSION['user_type'] = $user['UserType'];
     
-    // redirect based on user type
-    if ($user['UserType'] === 'Admin') {
-        header("Location: admin.html");
-        exit();  // ensure script stops executing after redirect
-    } else if ($user['UserType'] === 'Student') {
+    // check if the user is a student and retrieve their ProgramID
+    if ($user['UserType'] === 'Student') {
+        // fetch ProgramID from the STUDENT table
+        $programQuery = "SELECT ProgramID FROM STUDENT WHERE StudentID = ?";
+        $stmt = $conn->prepare($programQuery);
+        $stmt->bind_param("i", $user['UserID']);
+        $stmt->execute();
+        $programResult = $stmt->get_result();
+
+        if ($programResult->num_rows > 0) {
+            $student = $programResult->fetch_assoc();
+            $_SESSION['program_id'] = $student['ProgramID'];
+        } else {
+            echo "Error: ProgramID not found for this student.";
+            exit();
+        }
+
+        // redirect to student page
         header("Location: student.html");
-        exit();  // ensure script stops executing after redirect
+        exit();
+    } else if ($user['UserType'] === 'Admin') {
+        // redirect to admin page
+        header("Location: admin.html");
+        exit();
     }
 } else {
     echo "Invalid login credentials. Please try again.";
 }
+
+$stmt->close();
+$conn->close();
 ?>

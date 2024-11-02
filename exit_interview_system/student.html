@@ -4,19 +4,41 @@
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <script defer src="student_script.js"></script>
 </head>
 <body>
+
     <h1>Welcome, Student</h1>
-    <section id="questionnaire">
-        <h2>Answer Questionnaire</h2>
-        <form id="answerForm" action="submit_response.php" method="POST">
-            <!-- questions will be populated here using JavaScript -->
+
+    <section id="publishedEvaluations">
+        <h2>Published Evaluations</h2>
+        <div id="publishedList">
+            <!-- list of published evaluations will load here via AJAX -->
+        </div>
+    </section>
+
+    <section id="archivedEvaluations">
+        <h2>Archived Evaluations</h2>
+        <div id="archivedList">
+            <!-- list of archived evaluations will load here via AJAX -->
+        </div>
+    </section>
+
+    <section id="answerEvaluation">
+        <h2>Answer an Evaluation</h2>
+        <form id="selectEvaluationForm">
+            <label for="evaluationName">Enter Evaluation Name:</label>
+            <input type="text" id="evaluationName" placeholder="Evaluation Name" required>
+            <button type="button" onclick="loadQuestions()">Load Questions</button>
         </form>
+        <div id="questionsSection">
+            <!-- questions will be loaded here via AJAX -->
+            <form id="submitAnswersForm" style="display: none;">
+                <div id="questionsList"></div>
+                <button type="button" onclick="submitAnswers()">Submit Answers</button>
+            </form>
+        </div>
     </section>
-    <section id="viewResponses">
-        <h2>Your Responses</h2>
-        <!-- response history will be dynamically loaded here -->
-    </section>
+
 </body>
 </html>
