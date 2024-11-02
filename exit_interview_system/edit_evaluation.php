@@ -14,6 +14,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['evaluationID'], $_POS
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
 
+    // check if the evaluation status is "Draft" before updating
+    $checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
+    $stmt = $conn->prepare($checkStatusQuery);
+    $stmt->bind_param("i", $evaluationID);
+    $stmt->execute();
+    $stmt->bind_result($status);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($status !== 'Draft') {
+        echo "Only evaluations with a status of 'Draft' can be edited.";
+        exit();
+    }
+
+    // proceed with the update if the status is "Draft"
     $updateQuery = "UPDATE EVALUATION SET EvaluationName = ?, ProgramID = ?, StartDate = ?, EndDate = ? WHERE EvaluationID = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("sissi", $evaluationName, $programID, $startDate, $endDate, $evaluationID);

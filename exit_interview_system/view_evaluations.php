@@ -18,9 +18,9 @@ $query = "SELECT * FROM EVALUATION ORDER BY $orderBy";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
-    echo "<table><tr><th>Evaluation ID</th><th>Evaluation Name</th><th>Program ID</th><th>Semester</th><th>Start Date</th><th>End Date</th></tr>";
+    echo "<table><tr><th>Evaluation ID</th><th>Evaluation Name</th><th>Program ID</th><th>Semester</th><th>Start Date</th><th>End Date</th><th>Status</th></tr>";
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td>{$row['EvaluationID']}</td><td>{$row['EvaluationName']}</td><td>{$row['ProgramID']}</td><td>{$row['Semester']}</td><td>{$row['StartDate']}</td><td>{$row['EndDate']}</td></tr>";
+        echo "<tr><td>{$row['EvaluationID']}</td><td>{$row['EvaluationName']}</td><td>{$row['ProgramID']}</td><td>{$row['Semester']}</td><td>{$row['StartDate']}</td><td>{$row['EndDate']}</td><td>{$row['Status']}</td></tr>";
     }
     echo "</table>";
 } else {

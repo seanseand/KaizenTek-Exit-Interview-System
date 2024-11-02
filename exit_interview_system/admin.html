@@ -31,7 +31,7 @@
     <section id="addQuestions">
         <h2>Add Questions</h2>
         <form id="addQuestionForm" action="add_questions.php" method="POST">
-            <input type="text" name="questionDesc" placeholder="Enter question" required>
+            <input type="text" name="questionDesc" placeholder="Enter a Question" required>
             <select name="questionType" required>
                 <option value="TrueOrFalse">TrueOrFalse</option>
                 <option value="Multiple Choice">Multiple Choice</option>
@@ -44,9 +44,9 @@
         <h2>Edit Questions</h2>
         <form method="POST" action="edit_question.php">
             <label for="questionID">Question ID:</label>
-            <input type="number" name="questionID" id="questionID" required>
+            <input type="number" name="questionID" placeholder="Enter Question ID" id="questionID" required>
             <label for="questionDesc">New Description:</label>
-            <input type="text" name="questionDesc" id="questionDesc" required>
+            <input type="text" name="questionDesc" placeholder="New Question" id="questionDesc" required>
             <label for="questionType">New Type:</label>
             <select name="questionType" id="questionType" required>
                 <option value="TrueOrFalse">TrueOrFalse</option>
@@ -76,10 +76,12 @@
     </section>
 
     <section id="setEvaluation">
-        <h2>Set Evaluation Periods</h2>
+        <h2>Set Draft Evaluations</h2>
         <form id="setEvaluationForm" action="set_evaluation.php" method="POST">
-            <input type="text" name="evaluationName" placeholder="Evaluation Name" required>
-            <select name="programID" placeholder="Program" required>
+            <input type="text" name="evaluationName" placeholder="Enter Evaluation Name" required>
+            
+            <label for="programID">Program:</label>
+            <select name="programID" required>
                 <option value=1>Computer Science</option>
                 <option value=2>Accountancy</option>
                 <option value=3>Management Accounting</option>
@@ -89,22 +91,36 @@
                 <option value=7>Information Technology</option>
                 <option value=8>Financial Management</option>
                 <option value=9>Marketing Management</option>
-                <option value=10>Hostpitality Management</option>
+                <option value=10>Hospitality Management</option>
             </select>
+            
             <input type="text" name="semester" placeholder="Enter Semester" required>
             <input type="date" name="startDate" required>
             <input type="date" name="endDate" required>
-            <button type="submit">Set Evaluation Period</button>
+            
+            <label for="questionIDs">Question IDs (comma-separated):</label>
+            <input type="text" name="questionIDs" placeholder="e.g., 1,2,3" required>
+            
+            <button type="submit">Save as Draft</button>
+        </form>
+    </section>
+
+    <section id="publishEvaluation">
+        <h2>Publish Draft Evaluations</h2>
+        <form id="publishEvaluationForm" action="publish_evaluation.php" method="POST">
+            <label for="publishEvaluationID">Enter Evaluation ID:</label>
+            <input type="number" name="evaluationID" id="publishEvaluationID" placeholder="Evaluation ID" required>
+            <button type="submit">Publish Evaluation</button>
         </form>
     </section>
 
     <section id="editEvaluations">
-        <h2>Edit Evaluation Periods</h2>
+        <h2>Edit Drafted Evaluations</h2>
         <form method="POST" action="edit_evaluation.php">
-            <label for="evaluationID">Evaluation ID:</label>
-            <input type="number" name="evaluationID" id="evaluationID" required>
+            <label for="evaluationID">Enter Evaluation ID:</label>
+            <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
             <label for="evaluationName">Evaluation Name:</label>
-            <input type="text" name="evaluationName" id="evaluationName" required>
+            <input type="text" name="evaluationName" placeholder="New Evaluation Name" id="evaluationName" required>
             <label for="programID">Program:</label>
             <select name="programID" required>
                 <option value=1>Computer Science</option>
@@ -126,10 +142,29 @@
         </form>
     </section>    
 
+    <section id="addOrRemoveQuestionsFromEvaluation">
+        <h2>Modify Questions in Draft Evaluation</h2>
+        <form id="updateQuestionsForm" action="add_remove_questions.php" method="POST">
+            <label for="evaluationID">Enter Evaluation ID:</label>
+            <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
+            
+            <label for="action">Action:</label>
+            <select name="action" id="action" required>
+                <option value="add">Add Questions</option>
+                <option value="remove">Remove Questions</option>
+            </select>
+    
+            <label for="questionIDs">Question IDs (comma-separated):</label>
+            <input type="text" name="questionIDs" id="questionIDs" placeholder="e.g., 1,2,3" required>
+            
+            <button type="submit">Update Question/s</button>
+        </form>
+    </section>
+
     <section id="checkResponses">
         <br></br>
         <br></br>
-        <h2>Check Student Responses</h2>
+        <h2>Check Student Who Responded</h2>
         <label for="evaluationIDInput">Enter Evaluation ID:</label>
         <input type="number" id="evaluationIDInput" placeholder="Evaluation ID" required>
         <button type="button" onclick="checkResponses()">Check Responses</button>
