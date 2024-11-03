@@ -1,30 +1,4 @@
-// TEMPORARY
-document.addEventListener("DOMContentLoaded", function() {
-    const answerForm = document.getElementById("answerForm");
-    
-    fetch("get_questions.php")
-        .then(response => response.json())
-        .then(data => {
-            data.questions.forEach(question => {
-                const questionLabel = document.createElement("label");
-                questionLabel.textContent = question.questionDesc;
-                
-                const answerInput = document.createElement("textarea");
-                answerInput.name = "answers[]";
-                answerInput.required = true;
-
-                answerForm.appendChild(questionLabel);
-                answerForm.appendChild(answerInput);
-            });
-
-            const submitButton = document.createElement("button");
-            submitButton.type = "submit";
-            submitButton.textContent = "Submit Answers";
-            answerForm.appendChild(submitButton);
-        });
-});
-
-// load Questions based on selected sort option
+// load questions based on selected sort option
 function loadQuestions() {
     const sortOption = document.getElementById('sortOption').value;
     const xhr = new XMLHttpRequest();
@@ -38,7 +12,7 @@ function loadQuestions() {
     xhr.send();
 }
 
-// load Evaluations based on selected sort option
+// load evaluations based on selected sort option
 function loadEvaluations() {
     const sortOption = document.getElementById('evaluationSortOption').value;
     const xhr = new XMLHttpRequest();
@@ -52,7 +26,7 @@ function loadEvaluations() {
     xhr.send();
 }
 
-// check Student Responses for a specific Evaluation ID
+// check student responses for a specific Evaluation ID
 function checkResponses() {
     const evaluationID = document.getElementById('evaluationIDInput').value;
     if (!evaluationID) {

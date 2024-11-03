@@ -2,6 +2,7 @@
 session_start();
 include('db.php');
 
+// check if the user logged in is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Admin') {
     echo "Access denied.";
     exit();

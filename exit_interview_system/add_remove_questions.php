@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['evaluationID'], $_POST['action'], $_POST['questionIDs'])) {
         $evaluationID = $_POST['evaluationID'];
         $action = $_POST['action'];
-        $questionIDs = explode(',', $_POST['questionIDs']); // Expecting comma-separated list of question IDs
+        $questionIDs = explode(',', $_POST['questionIDs']); // expecting comma-separated list of question IDs
 
-        // Check if evaluation is in Draft status
+        // check if evaluation is in Draft status
         $checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
         $statusStmt = $conn->prepare($checkStatusQuery);
         $statusStmt->bind_param("i", $evaluationID);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($evaluation && $evaluation['Status'] === 'Draft') {
             if ($action === 'add') {
-                // Add questions to the draft evaluation
+                // add questions to the draft evaluation
                 $linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES (?, ?)";
                 $linkStmt = $conn->prepare($linkQuery);
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 echo "Questions added to the evaluation successfully!";
             } elseif ($action === 'remove') {
-                // Remove questions from the draft evaluation
+                // remove questions from the draft evaluation
                 $unlinkQuery = "DELETE FROM LINK WHERE EvaluationID = ? AND QuestionID = ?";
                 $unlinkStmt = $conn->prepare($unlinkQuery);
 

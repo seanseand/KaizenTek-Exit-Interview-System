@@ -2,6 +2,7 @@
 session_start();
 include('db.php');
 
+// check if the user logged in is an admin
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to remove a question.";
     exit();

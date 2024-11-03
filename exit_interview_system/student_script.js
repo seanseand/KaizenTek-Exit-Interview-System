@@ -42,7 +42,7 @@ function loadQuestions() {
                     document.getElementById('submitAnswersForm').style.display = 'none';
                 } else {
                     let questionsHtml = '';
-                    document.getElementById('evaluationID').value = evaluationID; // Set evaluation ID
+                    document.getElementById('evaluationID').value = evaluationID; // set evaluation ID
                     response.questions.forEach(question => {
                         questionsHtml += `
                             <div class="question">

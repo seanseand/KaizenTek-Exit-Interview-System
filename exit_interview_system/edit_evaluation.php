@@ -2,6 +2,7 @@
 session_start();
 include('db.php');
 
+// check if the user logged in is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Admin') {
     echo "Access denied.";
     exit();
@@ -14,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['evaluationID'], $_POS
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
 
-    // check if the evaluation status is "Draft" before updating
+    // check if the evaluation status is Draft before updating
     $checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
     $stmt = $conn->prepare($checkStatusQuery);
     $stmt->bind_param("i", $evaluationID);
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['evaluationID'], $_POS
         exit();
     }
 
-    // proceed with the update if the status is "Draft"
+    // proceed with the update if the status is Draft
     $updateQuery = "UPDATE EVALUATION SET EvaluationName = ?, ProgramID = ?, StartDate = ?, EndDate = ? WHERE EvaluationID = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("sissi", $evaluationName, $programID, $startDate, $endDate, $evaluationID);
