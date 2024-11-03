@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2024 at 03:16 PM
+-- Generation Time: Nov 03, 2024 at 07:04 AM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   PRIMARY KEY (`AnswerID`),
   KEY `evaluationID` (`EvaluationID`),
   KEY `questionID` (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `answer`
@@ -63,7 +63,7 @@ INSERT INTO `answer` (`AnswerID`, `EvaluationID`, `QuestionID`, `Answer`, `DateA
 DROP TABLE IF EXISTS `evaluation`;
 CREATE TABLE IF NOT EXISTS `evaluation` (
   `EvaluationID` int NOT NULL AUTO_INCREMENT,
-  `EvaluationName` varchar(60) COLLATE utf8mb4_bin NOT NULL,
+  `EvaluationName` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `ProgramID` int NOT NULL,
   `Semester` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `StartDate` date NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   PRIMARY KEY (`EvaluationID`),
   UNIQUE KEY `EvaluationName` (`EvaluationName`),
   KEY `evaluation_ibfk_1` (`ProgramID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `evaluation`
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `question` (
 INSERT INTO `question` (`QuestionID`, `QuestionDesc`, `QuestionType`, `CreatorID`) VALUES
 (1, 'The program/course met my expectations.', 'TrueOrFalse', 1),
 (2, 'The course content was easy to understand.', 'TrueOrFalse', 1),
-(3, 'The professor was an effective teacher.', 'TrueOrFalse', 3);
+(3, 'The professor was an effective teacher.', 'TrueOrFalse', 6);
 
 -- --------------------------------------------------------
 
