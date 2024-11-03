@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 03, 2024 at 07:04 AM
+-- Generation Time: Nov 03, 2024 at 07:25 AM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   PRIMARY KEY (`AnswerID`),
   KEY `evaluationID` (`EvaluationID`),
   KEY `questionID` (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `answer`
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   PRIMARY KEY (`EvaluationID`),
   UNIQUE KEY `EvaluationName` (`EvaluationName`),
   KEY `evaluation_ibfk_1` (`ProgramID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `evaluation`
