@@ -39,7 +39,6 @@ if ($result->num_rows > 0) {
         header("Location: ../student_side/student.html");
         exit();
     } else if ($user['UserType'] === 'Admin') {
-        // header("Location: ../../public/old/admin.html");
         header("Location: ../admin_side/admin.html");
         exit();
     }
