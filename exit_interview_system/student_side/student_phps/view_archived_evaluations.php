@@ -14,7 +14,7 @@ $programID = $_SESSION['program_id'];
 $query = "
     SELECT EvaluationID, Semester, StartDate, EndDate, Status 
     FROM EVALUATION 
-    WHERE Status = 'Archived' AND ProgramID = ?
+    WHERE Status = 'Finished' AND ProgramID = ?
 ";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $programID);
@@ -23,7 +23,16 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<p>Evaluation ID: {$row['EvaluationID']}, Semester: {$row['Semester']}, Dates: {$row['StartDate']} - {$row['EndDate']}</p>";
+        echo "<div class='evaluation-card-item'>
+            <div>
+                <h2 id='evaluationID-{$row['EvaluationID']}'>{$row['EvaluationID']}</h2>
+                <p id='semester-{$row['EvaluationID']}'>{$row['Semester']} Semester</p>
+                <p>
+                    <span id='startDate-{$row['EvaluationID']}'>{$row['StartDate']}</span> - 
+                    <span id='endDate-{$row['EvaluationID']}'>{$row['EndDate']}</span>
+                </p>
+            </div>
+        </div>";
     }
 } else {
     echo "<p>No archived evaluations available.</p>";

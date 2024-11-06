@@ -87,6 +87,15 @@ main {
     width: 81.25rem;
 }
 
+#archivedList {
+    display: none;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 36px;
+    width: 81.25rem;
+}
+
 .evaluation-card-item {
     flex: 0 1 28%;
     border-radius: 11px;

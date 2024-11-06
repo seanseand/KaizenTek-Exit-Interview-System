@@ -4,7 +4,7 @@ function loadPublishedEvaluations() {
     xhr.open('GET', '../student_side/student_phps/view_published_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            document.getElementById('publishedList').innerHTML = xhr.responseText;
+            publishedList.innerHTML = xhr.responseText;
         }
     };
     xhr.send();
@@ -16,7 +16,7 @@ function loadArchivedEvaluations() {
     xhr.open('GET', '../student_side/student_phps/view_archived_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            document.getElementById('archivedList').innerHTML = xhr.responseText;
+            archivedList.innerHTML = xhr.responseText;
         }
     };
     xhr.send();
@@ -86,13 +86,21 @@ function submitAnswers() {
 document.addEventListener("DOMContentLoaded", function() {
     const todoButton = document.getElementById('todoButton');
     const doneButton = document.getElementById('doneButton');
+    const publishedList = document.getElementById('publishedList');
+    const archivedList = document.getElementById('archivedList');
+
+    // Load published evals initially
+    loadPublishedEvaluations();
+    todoButton.classList.add('active')
 
     todoButton.addEventListener('click', function() {
         setActiveButton(todoButton);
+        showPublishedList();
     });
 
     doneButton.addEventListener('click', function() {
-        setActiveButton(doneButton); 
+        setActiveButton(doneButton);
+        showArchivedList(); 
     });
 
     function setActiveButton(activeButton) {
@@ -101,6 +109,18 @@ document.addEventListener("DOMContentLoaded", function() {
             button.classList.remove('active');
         });
         activeButton.classList.add('active');
+    }
+
+    function showPublishedList() {
+        publishedList.style.display = 'flex'
+        archivedList.style.display = 'none'
+        loadPublishedEvaluations();
+    }
+
+    function showArchivedList() {
+        publishedList.style.display = 'none'
+        archivedList.style.display = 'flex'
+        loadArchivedEvaluations();
     }
 });
 
