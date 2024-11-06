@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Exit Interview Login</title>
-    <!--<link rel="stylesheet" href="style.css">--> 
+    <link rel="stylesheet" href="../entry_point/index_style.css">
 </head>
 <body>
-    <h1>Exit Interview System</h1>
-    <form id="loginForm" action="../entry_point/login.php" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="login-page">
+        <div class="login-image"></div>
+        <div class="login-container">
+            <h1>Welcome to <span class="logo-text">KaizenForms</span></h1>
+            <p class="login-header">Log in</p>
+            <p class="login-subheader">With your given school account</p>
+            <form id="loginForm" action="../entry_point/login.php" method="POST">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
