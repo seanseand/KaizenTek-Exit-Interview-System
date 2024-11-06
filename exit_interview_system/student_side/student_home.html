@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../student_side/student_home_style.css" rel="stylesheet">
+    <script defer src="../student_side/student_scripts/student_script.js"></script>
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
+        </div>
+        <div class="user-account">
+            <h1 class="username">Username</h1>
+            <a class="logout">
+                <img alt="logout" src="../resources/power-button-svgrepo-com.svg">
+            </a>
+        </div>
+    </nav>
+    <main>
+        <div>
+            <button id="todoButton" class="tab-button">To-do</button>
+            <button id="doneButton" class="tab-button">Done</button>
+        </div>
+        <div id="publishedList"></div>
+    </main>
+</body>
+</html>
