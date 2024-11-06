@@ -4,7 +4,7 @@ function loadPublishedEvaluations() {
     xhr.open('GET', '../student_side/student_phps/view_published_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            publishedList.innerHTML = xhr.responseText;
+            document.getElementById('publishedList').innerHTML = xhr.responseText;
         }
     };
     xhr.send();
@@ -16,7 +16,7 @@ function loadArchivedEvaluations() {
     xhr.open('GET', '../student_side/student_phps/view_archived_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            archivedList.innerHTML = xhr.responseText;
+            document.getElementById('archivedList').innerHTML = xhr.responseText;
         }
     };
     xhr.send();
@@ -114,13 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
     function showPublishedList() {
         publishedList.style.display = 'flex'
         archivedList.style.display = 'none'
-        loadPublishedEvaluations();
     }
 
     function showArchivedList() {
         publishedList.style.display = 'none'
         archivedList.style.display = 'flex'
-        loadArchivedEvaluations();
     }
 });
 
