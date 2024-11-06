@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+include('../../database/db.php');
 
 // verify if the user is an admin
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Admin') {

@@ -1,7 +1,7 @@
 // load published evaluations for the student's program
 function loadPublishedEvaluations() {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'view_published_evaluations.php', true);
+    xhr.open('GET', '../student_side/student_phps/view_published_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('publishedList').innerHTML = xhr.responseText;
@@ -13,7 +13,7 @@ function loadPublishedEvaluations() {
 // load archived evaluations for the student's program
 function loadArchivedEvaluations() {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'view_archived_evaluations.php', true);
+    xhr.open('GET', '../student_side/student_phps/view_archived_evaluations.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('archivedList').innerHTML = xhr.responseText;
@@ -31,7 +31,7 @@ function loadQuestions() {
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `get_evaluation_questions.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
+    xhr.open('GET', `../student_side/student_phps/get_evaluation_questions.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             const questionsListDiv = document.getElementById('questionsList');
@@ -66,7 +66,7 @@ function loadQuestions() {
 function submitAnswers() {
     const formData = new FormData(document.getElementById('submitAnswersForm'));
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'submit_answers.php', true);
+    xhr.open('POST', '../student_side/student_phps/submit_answers.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {

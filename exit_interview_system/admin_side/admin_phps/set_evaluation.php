@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+include('../../database/db.php');
 
 // check if the user is logged in
 if (!isset($_SESSION['user_id'])) {

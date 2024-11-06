@@ -3,7 +3,7 @@ function loadQuestions() {
     const sortOption = document.getElementById('sortOption').value;
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `view_questions.php?sortOption=${sortOption}`, true);
+    xhr.open('GET', `../admin_side/admin_phps/view_questions.php?sortOption=${sortOption}`, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById('questionsList').innerHTML = xhr.responseText;
@@ -17,7 +17,7 @@ function loadEvaluations() {
     const sortOption = document.getElementById('evaluationSortOption').value;
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `view_evaluations.php?sortOption=${sortOption}`, true);
+    xhr.open('GET', `../admin_side/admin_phps/view_evaluations.php?sortOption=${sortOption}`, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById('evaluationsList').innerHTML = xhr.responseText;
@@ -35,7 +35,7 @@ function checkResponses() {
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `check_responses.php?evaluationID=${evaluationID}`, true);
+    xhr.open('GET', `../admin_side/admin_phps/check_responses.php?evaluationID=${evaluationID}`, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             const response = JSON.parse(xhr.responseText);

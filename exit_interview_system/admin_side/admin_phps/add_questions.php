@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-include('db.php');
+include('../../database/db.php');
 
 // check if the user is logged in and retrieve the UserID from the session
 if (!isset($_SESSION['user_id'])) {

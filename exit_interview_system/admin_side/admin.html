@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="admin_script.js"></script>
+    <link rel="stylesheet" href="../admin_side/admin_styles/admin_style.css">
+    <script defer src="../admin_side/admin_scripts/admin_script.js"></script>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
 
     <section id="addQuestions">
         <h2>Add Questions</h2>
-        <form id="addQuestionForm" action="add_questions.php" method="POST">
+        <form id="addQuestionForm" action="../admin_side/admin_phps/add_questions.php" method="POST">
             <input type="text" name="questionDesc" placeholder="Enter a Question" required>
             <select name="questionType" required>
                 <option value="TrueOrFalse">TrueOrFalse</option>
@@ -42,7 +42,7 @@
 
     <section id="editQuestions">
         <h2>Edit Questions</h2>
-        <form method="POST" action="edit_question.php">
+        <form method="POST" action="../admin_side/admin_phps/edit_question.php">
             <label for="questionID">Question ID:</label>
             <input type="number" name="questionID" placeholder="Enter Question ID" id="questionID" required>
             <label for="questionDesc">New Description:</label>
@@ -58,7 +58,7 @@
 
     <section id="removeQuestions">
         <h2>Remove Questions</h2>
-        <form id="removeQuestionForm" action="remove_question.php" method="POST">
+        <form id="removeQuestionForm" action="../admin_side/admin_phps/remove_question.php" method="POST">
             <label for="removeQuestionID">Enter Question ID to Remove:</label>
             <input type="number" name="questionID" id="removeQuestionID" placeholder="Question ID" required>
             <button type="submit">Remove Question</button>
@@ -86,7 +86,7 @@
 
     <section id="setEvaluation">
         <h2>Set Draft Evaluations</h2>
-        <form id="setEvaluationForm" action="set_evaluation.php" method="POST">
+        <form id="setEvaluationForm" action="../admin_side/admin_phps/set_evaluation.php" method="POST">
             <input type="text" name="evaluationName" placeholder="Enter Evaluation Name" required>
             
             <label for="programID">Program:</label>
@@ -116,7 +116,7 @@
 
     <section id="publishEvaluation">
         <h2>Publish Draft Evaluations</h2>
-        <form id="publishEvaluationForm" action="publish_evaluation.php" method="POST">
+        <form id="publishEvaluationForm" action="../admin_side/admin_phps/publish_evaluation.php" method="POST">
             <label for="publishEvaluationID">Enter Evaluation ID:</label>
             <input type="number" name="evaluationID" id="publishEvaluationID" placeholder="Evaluation ID" required>
             <button type="submit">Publish Evaluation</button>
@@ -125,7 +125,7 @@
 
     <section id="editEvaluations">
         <h2>Edit Drafted Evaluations</h2>
-        <form method="POST" action="edit_evaluation.php">
+        <form method="POST" action="../admin_side/admin_phps/edit_evaluation.php">
             <label for="evaluationID">Enter Evaluation ID:</label>
             <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
             <label for="evaluationName">Evaluation Name:</label>
@@ -153,7 +153,7 @@
 
     <section id="addOrRemoveQuestionsFromEvaluation">
         <h2>Modify Questions in Draft Evaluation</h2>
-        <form id="updateQuestionsForm" action="add_remove_questions.php" method="POST">
+        <form id="updateQuestionsForm" action="../admin_side/admin_phps/add_remove_questions.php" method="POST">
             <label for="evaluationID">Enter Evaluation ID:</label>
             <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
             

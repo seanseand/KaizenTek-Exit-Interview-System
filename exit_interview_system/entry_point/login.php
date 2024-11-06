@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+include(__DIR__ . '/../database/db.php');
 
 // collect the form data
 $username = $_POST['username'];
@@ -38,11 +38,11 @@ if ($result->num_rows > 0) {
         }
 
         // redirect to student page
-        header("Location: student.html");
+        header("Location: ../student_side/student.html");
         exit();
     } else if ($user['UserType'] === 'Admin') {
         // redirect to admin page
-        header("Location: admin.html");
+        header("Location: ../admin_side/admin.html");
         exit();
     }
 } else {

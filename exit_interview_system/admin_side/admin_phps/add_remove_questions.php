@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+include('../../database/db.php');
 
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to modify evaluation questions.";

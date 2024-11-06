@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+include('../../database/db.php');
 
 // check if the user is logged in and is a student
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Student') {
