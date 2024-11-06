@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 03, 2024 at 07:25 AM
+-- Generation Time: Nov 06, 2024 at 03:41 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   PRIMARY KEY (`AnswerID`),
   KEY `evaluationID` (`EvaluationID`),
   KEY `questionID` (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `answer`
@@ -52,7 +52,10 @@ INSERT INTO `answer` (`AnswerID`, `EvaluationID`, `QuestionID`, `Answer`, `DateA
 (6, 2, 3, 'True', '2024-09-02'),
 (7, 3, 1, 'False', '2024-10-02'),
 (8, 3, 2, 'True', '2024-10-02'),
-(9, 3, 3, 'True', '2024-10-02');
+(9, 3, 3, 'True', '2024-10-02'),
+(10, 4, 1, 'True', '2024-11-06'),
+(11, 4, 2, 'True', '2024-11-06'),
+(12, 4, 3, 'True', '2024-11-06');
 
 -- --------------------------------------------------------
 
@@ -72,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   PRIMARY KEY (`EvaluationID`),
   UNIQUE KEY `EvaluationName` (`EvaluationName`),
   KEY `evaluation_ibfk_1` (`ProgramID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `evaluation`
@@ -81,7 +84,8 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
 INSERT INTO `evaluation` (`EvaluationID`, `EvaluationName`, `ProgramID`, `Semester`, `StartDate`, `EndDate`, `Status`) VALUES
 (1, 'BSCS\' Eval', 1, 'First', '2024-08-01', '2024-08-03', 'Finished'),
 (2, 'BSA\'s Eval', 2, 'First', '2024-09-01', '2024-09-03', 'Finished'),
-(3, 'BSMA\'s Eval', 3, 'First', '2024-10-01', '2024-10-03', 'Finished');
+(3, 'BSMA\'s Eval', 3, 'First', '2024-10-01', '2024-10-03', 'Finished'),
+(4, 'hello', 1, 'First', '2024-12-01', '2024-12-07', 'Published');
 
 -- --------------------------------------------------------
 
@@ -111,7 +115,10 @@ INSERT INTO `link` (`EvaluationID`, `QuestionID`) VALUES
 (2, 3),
 (3, 1),
 (3, 2),
-(3, 3);
+(3, 3),
+(4, 1),
+(4, 2),
+(4, 3);
 
 -- --------------------------------------------------------
 
@@ -189,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `response` (
 
 INSERT INTO `response` (`StudentID`, `EvaluationID`) VALUES
 (2, 1),
+(2, 4),
 (3, 2),
 (4, 3);
 
