@@ -36,7 +36,7 @@ if ($result->num_rows > 0) {
             echo "Error: ProgramID not found for this student.";
             exit();
         }
-        header("Location: ../student_side/student.html");
+        header("Location: ../student_side/student_home.html");
         exit();
     } else if ($user['UserType'] === 'Admin') {
         header("Location: ../admin_side/admin.html");

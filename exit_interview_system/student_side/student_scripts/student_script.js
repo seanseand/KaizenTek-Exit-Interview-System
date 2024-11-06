@@ -82,6 +82,28 @@ function submitAnswers() {
     xhr.send(formData);
 }
 
+// button tab listeners
+document.addEventListener("DOMContentLoaded", function() {
+    const todoButton = document.getElementById('todoButton');
+    const doneButton = document.getElementById('doneButton');
+
+    todoButton.addEventListener('click', function() {
+        setActiveButton(todoButton);
+    });
+
+    doneButton.addEventListener('click', function() {
+        setActiveButton(doneButton); 
+    });
+
+    function setActiveButton(activeButton) {
+        const buttons = document.querySelectorAll('.tab-button');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        activeButton.classList.add('active');
+    }
+});
+
 // load evaluations on page load
 window.onload = function () {
     loadPublishedEvaluations();
