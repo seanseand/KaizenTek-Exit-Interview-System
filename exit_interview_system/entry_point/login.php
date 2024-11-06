@@ -15,11 +15,11 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    
+
     // store user data in session
     $_SESSION['user_id'] = $user['UserID'];
     $_SESSION['user_type'] = $user['UserType'];
-    
+
     // check if the user is a student and retrieve their ProgramID
     if ($user['UserType'] === 'Student') {
         // fetch ProgramID from the STUDENT table
@@ -36,12 +36,10 @@ if ($result->num_rows > 0) {
             echo "Error: ProgramID not found for this student.";
             exit();
         }
-
-        // redirect to student page
         header("Location: ../student_side/student.html");
         exit();
     } else if ($user['UserType'] === 'Admin') {
-        // redirect to admin page
+        // header("Location: ../../public/old/admin.html");
         header("Location: ../admin_side/admin.html");
         exit();
     }
