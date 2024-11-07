@@ -25,7 +25,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='evaluation-card-item'>
+        echo "<div class='answered-evaluation-card-item'>
             <div>
                 <h2 id='evaluationName-{$row['EvaluationID']}'>{$row['EvaluationName']}</h2>
                 <p id='semester-{$row['EvaluationID']}'>{$row['Semester']} Semester</p>

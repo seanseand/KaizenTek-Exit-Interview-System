@@ -96,7 +96,7 @@ main {
     width: 81.25rem;
 }
 
-.evaluation-card-item {
+.evaluation-card-item, .answered-evaluation-card-item{
     flex: 0 1 28%;
     border-radius: 11px;
     border-style: solid;
@@ -120,20 +120,20 @@ main {
     cursor: pointer
 }
 
-#evaluationContent {
+#evaluationContent, #answeredEvaluationContent {
     width: 50rem;
     display: flex;
     flex-direction: column;
 }
 
-#questionsList {
+#questionsList, #answeredQuestionsList {
     display: flex;
     flex-direction: column;
     padding-top: 18px;
     gap: 28px;
 }
 
-.question-card-item {
+.question-card-item, .answered-question-card-item {
     background-color: #FFFFFF;
     display: flex;
     flex-flow: column;
@@ -145,6 +145,7 @@ main {
 }
 
 #submitAnswersBtn {
+    margin-top: 50px;
     background-color: #E2AD0F; /* Yellow color */
     color: #ffffff; /* White text */
     padding: 10px 20px;

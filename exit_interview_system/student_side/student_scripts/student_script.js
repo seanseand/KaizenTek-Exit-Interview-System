@@ -35,6 +35,7 @@ function loadAnsweredEvaluations() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('answeredList').innerHTML = xhr.responseText;
+            setupAnsweredCardClickEvents();
         }
     };
     xhr.send();
@@ -122,6 +123,87 @@ function displayEvaluationQuestions(evaluationID, evaluationName, startDate, end
         </div>
     `;
     loadQuestions(evaluationID);  // Load questions when evaluation is clicked
+}
+
+function loadAllQuestionsWithAnswers(evaluationID) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `../student_side/student_phps/get_evaluation_questions.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            const questionsListDiv = document.getElementById('answeredQuestionsList');
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    questionsListDiv.innerHTML = `<p style="color:red;">${response.error}</p>`;
+                } else {
+                    let questionsHtml = '';
+
+                    // Fetch all answers once
+                    const answerXHR = new XMLHttpRequest();
+                    answerXHR.open('GET', `../student_side/student_phps/get_answers.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
+                    answerXHR.onreadystatechange = function () {
+                        if (answerXHR.readyState === XMLHttpRequest.DONE && answerXHR.status === 200) {
+                            const answerResponse = JSON.parse(answerXHR.responseText);
+
+                            // Build HTML by pairing each question with its answer
+                            response.questions.forEach(question => {
+                                const answer = answerResponse.answers.find(a => a.QuestionID === question.QuestionID);
+
+                                questionsHtml += `
+                                    <div class="answered-question-card-item">
+                                        <p><strong>Question:</strong> ${question.questionDesc}</p>
+                                        <p><strong>Your Answer:</strong> ${answer ? answer.Answer : 'Not answered yet.'}</p>
+                                        <p><strong>Date Answered:</strong> ${answer ? answer.DateAnswered : '-'}</p>
+                                    </div>
+                                `;
+                            });
+
+                            questionsListDiv.innerHTML = questionsHtml;
+                        }
+                    };
+                    answerXHR.send();
+                }
+            } else {
+                questionsListDiv.innerHTML = `<p style="color:red;">Error loading questions. Please try again.</p>`;
+            }
+        }
+    };
+    xhr.send();
+}
+
+// Setup click event for each answered evaluation card
+function setupAnsweredCardClickEvents() {
+    document.querySelectorAll('.answered-evaluation-card-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const evaluationID = this.querySelector('h2').id.split('-')[1];
+            const evaluationName = this.querySelector('h2').textContent.trim();
+            const startDate = item.querySelector('span[id^="startDate-"]').textContent.trim();
+            const endDate = item.querySelector('span[id^="endDate-"]').textContent.trim();
+            displayAnsweredEvaluationQuestions(evaluationID, evaluationName, startDate, endDate);
+        });
+    });
+}
+
+// Function to display answered evaluation questions and corresponding answers
+function displayAnsweredEvaluationQuestions(evaluationID, evaluationName, startDate, endDate) {
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = `
+        <div>
+            <a class="back" onclick="confirmBack()">
+                <img alt="back" src="../resources/left-arrow-svgrepo-com.svg">
+            </a>
+            <div id="answeredEvaluationContent">
+                <div class="answered-question-card-item">
+                    <h1>${evaluationName}</h1>
+                    <p>${startDate} - ${endDate}</p>
+                </div>
+                <div id="answeredQuestionsList">
+                    <h2>Loading answered questions...</h2>
+                </div>
+            </div>
+        </div>
+    `;
+    loadAllQuestionsWithAnswers(evaluationID);  // Load answered questions when evaluation is clicked
 }
 
 // Submit answers function
