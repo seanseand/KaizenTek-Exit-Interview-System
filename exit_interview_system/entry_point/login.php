@@ -41,7 +41,7 @@ if ($result->num_rows > 0) {
         echo json_encode(["success" => true, "redirect" => "student_side\student_home.html"]);
         exit();
     } else if ($user['UserType'] === 'Admin') {
-        echo json_encode(["success" => true, "redirect" => "../admin_side/admin.html"]);
+        echo json_encode(["success" => true, "redirect" => "admin_side\admin.html"]);
         exit();
     }
 } else {
