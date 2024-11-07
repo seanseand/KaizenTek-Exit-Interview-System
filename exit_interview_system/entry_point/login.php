@@ -38,7 +38,7 @@ if ($result->num_rows > 0) {
             echo json_encode(["success" => false, "message" => "Error: ProgramID not found for this student."]);
             exit();
         }
-        echo json_encode(["success" => true, "redirect" => "../student_side/student_home.html"]);
+        echo json_encode(["success" => true, "redirect" => "student_side\student_home.html"]);
         exit();
     } else if ($user['UserType'] === 'Admin') {
         echo json_encode(["success" => true, "redirect" => "../admin_side/admin.html"]);
