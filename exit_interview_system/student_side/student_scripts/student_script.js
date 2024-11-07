@@ -189,7 +189,7 @@ function displayAnsweredEvaluationQuestions(evaluationID, evaluationName, startD
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div>
-            <a class="back" onclick="confirmBack()">
+            <a class="back" onclick="confirmBackAnswered()">
                 <img alt="back" src="../resources/left-arrow-svgrepo-com.svg">
             </a>
             <div id="answeredEvaluationContent">
@@ -230,6 +230,12 @@ function submitAnswers() {
 
 function confirmBack() {
     if (confirm("Are you sure you want to go back? Your answers will not be saved.")) {
+        loadMainView();
+    }
+}
+
+function confirmBackAnswered() {
+    if (confirm("Are you sure you want to go back?")) {
         loadMainView();
     }
 }
