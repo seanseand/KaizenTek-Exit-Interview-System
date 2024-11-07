@@ -219,6 +219,7 @@ function submitAnswers() {
                 alert(xhr.responseText);
                 form.reset();
                 document.getElementById('questionsList').innerHTML = '';
+                loadMainView();
             } else {
                 alert("Error submitting answers. Please try again.");
             }

@@ -110,7 +110,7 @@ main {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.evaluation-card-item:hover {
+.evaluation-card-item:hover, .answered-evaluation-card-item:hover {
     background-color: #0E0465;
     border-color: #0E0465;
     color: #ffffff;
