@@ -5,9 +5,46 @@ function loadPublishedEvaluations() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('publishedList').innerHTML = xhr.responseText;
+           setupCardClickEvents();
         }
     };
     xhr.send();
+}
+
+function loadMainView() {
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = `
+        <div class="tabs">
+            <button id="todoButton" class="tab-button">To-Do</button>
+            <button id="doneButton" class="tab-button">Done</button>
+        </div>
+        <div id="publishedList"></div>
+        <div id="archivedList" style="display: none;"></div>
+    `;
+
+    setupTabListeners();
+    loadPublishedEvaluations();
+    loadArchivedEvaluations();
+}
+
+function setupCardClickEvents() {
+    document.querySelectorAll('.evaluation-card-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const evaluationID = this.querySelector('h2').id.split('-')[1];
+            showTemporaryContent(evaluationID)
+        });
+    });
+}
+
+function showTemporaryContent(evaluationID) {
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = `
+        <div id="temporaryContent">
+            <h2>Content for Evaluation ID: ${evaluationID}</h2>
+            <p>This is a placeholder for your evaluation content. Design it as needed.</p>
+            <button onclick="loadMainView()">Back to Evaluations</button>
+        </div>
+    `;
 }
 
 // load archived evaluations for the student's program
@@ -83,7 +120,7 @@ function submitAnswers() {
 }
 
 // button tab listeners
-document.addEventListener("DOMContentLoaded", function() {
+function setupTabListeners() {
     const todoButton = document.getElementById('todoButton');
     const doneButton = document.getElementById('doneButton');
     const publishedList = document.getElementById('publishedList');
@@ -120,10 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
         publishedList.style.display = 'none'
         archivedList.style.display = 'flex'
     }
-});
+}
 
 // load evaluations on page load
-window.onload = function () {
-    loadPublishedEvaluations();
-    loadArchivedEvaluations();
-};
+window.onload = loadMainView;
