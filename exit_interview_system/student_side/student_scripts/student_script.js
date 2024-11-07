@@ -19,12 +19,13 @@ function loadMainView() {
             <button id="doneButton" class="tab-button">Done</button>
         </div>
         <div id="publishedList"></div>
-        <div id="answeredList" style="display: none;"></div> <!-- New section for answered evaluations -->
+        <div id="answeredList"></div>
     `;
 
     setupTabListeners();
     loadPublishedEvaluations();
-    loadAnsweredEvaluations(); // Load answered evaluations
+    loadAnsweredEvaluations();
+
 }
 
 // load answered evaluations for the student's program
@@ -34,18 +35,6 @@ function loadAnsweredEvaluations() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('answeredList').innerHTML = xhr.responseText;
-        }
-    };
-    xhr.send();
-}
-
-// load archived evaluations for the student's program
-function loadArchivedEvaluations() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '../student_side/student_phps/view_archived_evaluations.php', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            document.getElementById('archivedList').innerHTML = xhr.responseText;
         }
     };
     xhr.send();
@@ -167,12 +156,12 @@ function setupTabListeners() {
     const todoButton = document.getElementById('todoButton');
     const doneButton = document.getElementById('doneButton');
     const publishedList = document.getElementById('publishedList');
-    const answeredList = document.getElementById('answeredList'); // Display answered evaluations
-    const archivedList = document.getElementById('archivedList');
+    const answeredList = document.getElementById('answeredList');
+
 
     // Load published evals initially
     loadPublishedEvaluations();
-    loadAnsweredEvaluations(); // Load answered evaluations
+    loadAnsweredEvaluations();
     todoButton.classList.add('active')
 
     todoButton.addEventListener('click', function() {
@@ -182,7 +171,7 @@ function setupTabListeners() {
 
     doneButton.addEventListener('click', function() {
         setActiveButton(doneButton);
-        showAnsweredList(); // Show answered evaluations
+        showAnsweredList(); 
     });
 
     function setActiveButton(activeButton) {
@@ -195,14 +184,12 @@ function setupTabListeners() {
 
     function showPublishedList() {
         publishedList.style.display = 'flex';
-        archivedList.style.display = 'none';
-        answeredList.style.display = 'none'; // Hide answered evaluations when showing "To-Do"
+        answeredList.style.display = 'none';
     }
 
     function showAnsweredList() {
         publishedList.style.display = 'none';
-        archivedList.style.display = 'none';
-        answeredList.style.display = 'flex'; // Show answered evaluations
+        answeredList.style.display = 'flex'; 
     }
 }
 

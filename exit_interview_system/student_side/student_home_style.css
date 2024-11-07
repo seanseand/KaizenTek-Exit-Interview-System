@@ -87,7 +87,7 @@ main {
     width: 81.25rem;
 }
 
-#archivedList {
+#answeredList {
     display: none;
     margin-top: 14px;
     flex-wrap: wrap;
