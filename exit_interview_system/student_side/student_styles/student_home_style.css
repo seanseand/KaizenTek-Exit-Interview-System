@@ -1,5 +1,5 @@
 body {
-    background-image: url('../resources/student_newbg.png');
+    background-image: url('../../resources/student_newbg.png');
     background-size: cover;
     font-family: 'Poppins', sans-serif;
 }
