@@ -2,21 +2,21 @@
 session_start();
 include('../../database/db.php');
 
-// check if the user is logged in and is a student
+// Check if the user is logged in and is a student
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Student') {
     echo "Access denied.";
     exit();
 }
 
-// get student's program ID from the session 
+// Get student's program ID from the session 
 $programID = $_SESSION['program_id'];
 $studentID = $_SESSION['user_id']; // Get the student's ID
 
 $query = "
     SELECT e.EvaluationID, e.EvaluationName, e.Semester, e.StartDate, e.EndDate, e.Status 
     FROM EVALUATION e
-    LEFT JOIN RESPONSE r ON e.EvaluationID = r.EvaluationID AND r.StudentID = ?
-    WHERE e.Status = 'Published' AND e.ProgramID = ? AND r.EvaluationID IS NULL
+    INNER JOIN RESPONSE r ON e.EvaluationID = r.EvaluationID AND r.StudentID = ?
+    WHERE e.Status = 'Published' AND e.ProgramID = ?
 ";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ii", $studentID, $programID);
@@ -37,6 +37,6 @@ if ($result->num_rows > 0) {
         </div>";
     }
 } else {
-    echo "<p>No published evaluations available.</p>";
+    echo "<p>You have not answered any evaluations yet.</p>";
 }
 ?>

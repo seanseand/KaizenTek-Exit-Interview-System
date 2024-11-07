@@ -5,7 +5,7 @@ function loadPublishedEvaluations() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById('publishedList').innerHTML = xhr.responseText;
-           setupCardClickEvents();
+            setupCardClickEvents();
         }
     };
     xhr.send();
@@ -19,12 +19,24 @@ function loadMainView() {
             <button id="doneButton" class="tab-button">Done</button>
         </div>
         <div id="publishedList"></div>
-        <div id="archivedList" style="display: none;"></div>
+        <div id="answeredList" style="display: none;"></div> <!-- New section for answered evaluations -->
     `;
 
     setupTabListeners();
     loadPublishedEvaluations();
-    loadArchivedEvaluations();
+    loadAnsweredEvaluations(); // Load answered evaluations
+}
+
+// load answered evaluations for the student's program
+function loadAnsweredEvaluations() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '../student_side/student_phps/view_answered_evaluations.php', true); // Path to the new PHP file
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            document.getElementById('answeredList').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
 }
 
 // load archived evaluations for the student's program
@@ -39,7 +51,7 @@ function loadArchivedEvaluations() {
     xhr.send();
 }
 
-// load questions for a specific evaluation using EvaluationID
+// Load questions for a specific evaluation using EvaluationID
 function loadQuestions(evaluationID) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `../student_side/student_phps/get_evaluation_questions.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
@@ -53,12 +65,6 @@ function loadQuestions(evaluationID) {
                 } else {
                     let questionsHtml = '';
                     response.questions.forEach(question => {
-                        // questionsHtml += `
-                        //     <div class="question-card-item">
-                        //         <p>${question.questionDesc}</p>
-                        //         <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
-                        //     </div>
-                        // `;
                         if (question.QuestionType === 'Multiple Choice') {
                             questionsHtml += `
                                 <div class="question-card-item">
@@ -71,15 +77,16 @@ function loadQuestions(evaluationID) {
                                 <div class="question-card-item">
                                     <p>${question.questionDesc}</p>
                                     <label>
-                                        <input type="radio" name="answer_${question.QuestionID}" value="true" required> True
+                                        <input type="radio" name="answer_${question.QuestionID}" value="True" required> True
                                     </label>
                                     <label>
-                                        <input type="radio" name="answer_${question.QuestionID}" value="false" required> False
+                                        <input type="radio" name="answer_${question.QuestionID}" value="False" required> False
                                     </label>
                                 </div>
                             `;
                         }
                     });
+                    questionsHtml += `<input type="hidden" name="evaluation_id" value="${evaluationID}">`;
                     questionsListDiv.innerHTML = questionsHtml;
                 }
             } else {
@@ -103,45 +110,44 @@ function setupCardClickEvents() {
     });
 }
 
-// Function to display evaluation questions
+// Function to display evaluation questions and add a submit button
 function displayEvaluationQuestions(evaluationID, evaluationName, startDate, endDate) {
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
-    <div>
-        <a class="back" onclick="confirmBack()">
-            <img alt="back" src="../resources/left-arrow-svgrepo-com.svg">
-        </a>
-        <div id="evaluationContent">
-            <div class="question-card-item">
-                <h1>${evaluationName}</h1>
-                <p>${startDate} - ${endDate}</p>
-            </div>        
-            <div id="questionsList">
-                <h2>Loading questions...</h2>
+        <div>
+            <a class="back" onclick="confirmBack()">
+                <img alt="back" src="../resources/left-arrow-svgrepo-com.svg">
+            </a>
+            <div id="evaluationContent">
+                <div class="question-card-item">
+                    <h1>${evaluationName}</h1>
+                    <p>${startDate} - ${endDate}</p>
+                </div>        
+                <form id="submitAnswersForm">
+                    <div id="questionsList">
+                        <h2>Loading questions...</h2>
+                    </div>
+                    <button id="submitAnswersBtn" type="button" onclick="submitAnswers()">Submit</button>
+                </form>
             </div>
-    </div>
+        </div>
     `;
     loadQuestions(evaluationID);  // Load questions when evaluation is clicked
 }
 
-function confirmBack() {
-    if (confirm("Are you sure you want to go back? Your answers will not be saved.")) {
-        loadMainView();
-    }
-}
-
-// submit answers for the current evaluation
+// Submit answers function
 function submitAnswers() {
-    const formData = new FormData(document.getElementById('submitAnswersForm'));
+    const form = document.getElementById('submitAnswersForm');
+    const formData = new FormData(form);
+
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../student_side/student_phps/submit_answers.php', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 alert(xhr.responseText);
-                document.getElementById('submitAnswersForm').reset();
+                form.reset();
                 document.getElementById('questionsList').innerHTML = '';
-                document.getElementById('submitAnswersForm').style.display = 'none';
             } else {
                 alert("Error submitting answers. Please try again.");
             }
@@ -150,15 +156,23 @@ function submitAnswers() {
     xhr.send(formData);
 }
 
+function confirmBack() {
+    if (confirm("Are you sure you want to go back? Your answers will not be saved.")) {
+        loadMainView();
+    }
+}
+
 // button tab listeners
 function setupTabListeners() {
     const todoButton = document.getElementById('todoButton');
     const doneButton = document.getElementById('doneButton');
     const publishedList = document.getElementById('publishedList');
+    const answeredList = document.getElementById('answeredList'); // Display answered evaluations
     const archivedList = document.getElementById('archivedList');
 
     // Load published evals initially
     loadPublishedEvaluations();
+    loadAnsweredEvaluations(); // Load answered evaluations
     todoButton.classList.add('active')
 
     todoButton.addEventListener('click', function() {
@@ -168,7 +182,7 @@ function setupTabListeners() {
 
     doneButton.addEventListener('click', function() {
         setActiveButton(doneButton);
-        showArchivedList(); 
+        showAnsweredList(); // Show answered evaluations
     });
 
     function setActiveButton(activeButton) {
@@ -180,13 +194,15 @@ function setupTabListeners() {
     }
 
     function showPublishedList() {
-        publishedList.style.display = 'flex'
-        archivedList.style.display = 'none'
+        publishedList.style.display = 'flex';
+        archivedList.style.display = 'none';
+        answeredList.style.display = 'none'; // Hide answered evaluations when showing "To-Do"
     }
 
-    function showArchivedList() {
-        publishedList.style.display = 'none'
-        archivedList.style.display = 'flex'
+    function showAnsweredList() {
+        publishedList.style.display = 'none';
+        archivedList.style.display = 'none';
+        answeredList.style.display = 'flex'; // Show answered evaluations
     }
 }
 

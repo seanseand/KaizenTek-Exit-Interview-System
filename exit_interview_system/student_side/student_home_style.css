@@ -138,10 +138,27 @@ main {
     display: flex;
     flex-flow: column;
     border-style: solid;
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 0px 16px;
     padding-bottom: 16px;
+}
+
+#submitAnswersBtn {
+    background-color: #E2AD0F; /* Yellow color */
+    color: #ffffff; /* White text */
+    padding: 10px 20px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submitAnswersBtn:hover {
+    background-color: #0E0465; /* Slightly darker yellow for hover effect */
 }
 
 /* Bold */
