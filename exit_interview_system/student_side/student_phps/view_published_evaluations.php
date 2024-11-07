@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'Student') {
 $programID = $_SESSION['program_id'];
 
 $query = "
-    SELECT EvaluationID, Semester, StartDate, EndDate, Status 
+    SELECT EvaluationID, EvaluationName, Semester, StartDate, EndDate, Status 
     FROM EVALUATION 
     WHERE Status = 'Published' AND ProgramID = ?
 ";
@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<div class='evaluation-card-item'>
             <div>
-                <h2 id='evaluationID-{$row['EvaluationID']}'>{$row['EvaluationID']}</h2>
+                <h2 id='evaluationID-{$row['EvaluationID']}'>{$row['EvaluationName']}</h2>
                 <p id='semester-{$row['EvaluationID']}'>{$row['Semester']} Semester</p>
                 <p>
                     <span id='startDate-{$row['EvaluationID']}'>{$row['StartDate']}</span> - 
