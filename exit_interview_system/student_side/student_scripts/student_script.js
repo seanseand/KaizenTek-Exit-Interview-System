@@ -296,7 +296,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function confirmLogout() {
-    return confirm("Are you sure you want to log out?");
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "../entry_point/logout.php";
+    }
 }
 
 // load evaluations on page load
