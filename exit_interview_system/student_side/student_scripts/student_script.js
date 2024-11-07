@@ -159,5 +159,18 @@ function setupTabListeners() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('../student_side/student_phps/get_username.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.username) {
+                document.getElementById('usernameDisplay').textContent = data.username;
+            } else {
+                console.error('Error:', data.error);
+            }
+        })
+        .catch(error => console.error('Error fetching username:', error));
+});
+
 // load evaluations on page load
 window.onload = loadMainView;

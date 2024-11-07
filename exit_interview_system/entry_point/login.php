@@ -1,4 +1,5 @@
 <?php
+global $conn;
 session_start();
 include(__DIR__ . '/../database/db.php');
 
@@ -19,6 +20,7 @@ if ($result->num_rows > 0) {
     // store user data in session
     $_SESSION['user_id'] = $user['UserID'];
     $_SESSION['user_type'] = $user['UserType'];
+    $_SESSION['username'] = $user['Username'];
 
     // check if the user is a student and retrieve their ProgramID
     if ($user['UserType'] === 'Student') {
@@ -33,17 +35,17 @@ if ($result->num_rows > 0) {
             $student = $programResult->fetch_assoc();
             $_SESSION['program_id'] = $student['ProgramID'];
         } else {
-            echo "Error: ProgramID not found for this student.";
+            echo json_encode(["success" => false, "message" => "Error: ProgramID not found for this student."]);
             exit();
         }
-        header("Location: ../student_side/student_home.html");
+        echo json_encode(["success" => true, "redirect" => "../student_side/student_home.html"]);
         exit();
     } else if ($user['UserType'] === 'Admin') {
-        header("Location: ../admin_side/admin.html");
+        echo json_encode(["success" => true, "redirect" => "../admin_side/admin.html"]);
         exit();
     }
 } else {
-    echo "Invalid login credentials. Please try again.";
+    echo json_encode(["success" => false, "message" => "Invalid login credentials. Please try again."]);
 }
 
 $stmt->close();

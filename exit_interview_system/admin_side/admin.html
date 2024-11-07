@@ -4,185 +4,185 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../admin_side/admin_styles/admin_style.css">
+    <link href="../admin_side/admin_styles/admin_style.css" rel="stylesheet">
     <script defer src="../admin_side/admin_scripts/admin_script.js"></script>
 </head>
 
 <body>
 
-    <h1>Welcome, Admin</h1>
+<h1>Welcome, <span id="usernameDisplay">Admin</span></h1>
 
-    <section id="viewQuestions">
-        <h2>View Questions</h2>
-        <form id="sortQuestionsForm">
-            <label for="sortOption">Sort by:</label>
-            <select name="sortOption" id="sortOption">
-                <option value="CreatorID">Creator ID</option>
-                <option value="QuestionType">Question Type</option>
-                <option value="QuestionID" selected>Question ID</option>
-            </select>
-            <button type="button" onclick="loadQuestions()">Sort</button>
-        </form>
-        <div id="questionsList">
-            <!-- questions will be displayed here via AJAX -->
-        </div>
-    </section>
+<section id="viewQuestions">
+    <h2>View Questions</h2>
+    <form id="sortQuestionsForm">
+        <label for="sortOption">Sort by:</label>
+        <select id="sortOption" name="sortOption">
+            <option value="CreatorID">Creator ID</option>
+            <option value="QuestionType">Question Type</option>
+            <option selected value="QuestionID">Question ID</option>
+        </select>
+        <button onclick="loadQuestions()" type="button">Sort</button>
+    </form>
+    <div id="questionsList">
+        <!-- questions will be displayed here via AJAX -->
+    </div>
+</section>
 
-    <section id="addQuestions">
-        <h2>Add Questions</h2>
-        <form id="addQuestionForm" action="../admin_side/admin_phps/add_questions.php" method="POST">
-            <input type="text" name="questionDesc" placeholder="Enter a Question" required>
-            <select name="questionType" required>
-                <option value="TrueOrFalse">TrueOrFalse</option>
-                <option value="Multiple Choice">Multiple Choice</option>
-            </select>
-            <button type="submit">Add Question</button>
-        </form>
-    </section>
+<section id="addQuestions">
+    <h2>Add Questions</h2>
+    <form action="../admin_side/admin_phps/add_questions.php" id="addQuestionForm" method="POST">
+        <input name="questionDesc" placeholder="Enter a Question" required type="text">
+        <select name="questionType" required>
+            <option value="TrueOrFalse">TrueOrFalse</option>
+            <option value="Multiple Choice">Multiple Choice</option>
+        </select>
+        <button type="submit">Add Question</button>
+    </form>
+</section>
 
-    <section id="editQuestions">
-        <h2>Edit Questions</h2>
-        <form method="POST" action="../admin_side/admin_phps/edit_question.php">
-            <label for="questionID">Question ID:</label>
-            <input type="number" name="questionID" placeholder="Enter Question ID" id="questionID" required>
-            <label for="questionDesc">New Description:</label>
-            <input type="text" name="questionDesc" placeholder="New Question" id="questionDesc" required>
-            <label for="questionType">New Type:</label>
-            <select name="questionType" id="questionType" required>
-                <option value="TrueOrFalse">TrueOrFalse</option>
-                <option value="Multiple Choice">Multiple Choice</option>
-            </select>
-            <button type="submit">Update Question</button>
-        </form>
-    </section>    
+<section id="editQuestions">
+    <h2>Edit Questions</h2>
+    <form action="../admin_side/admin_phps/edit_questions.php" method="POST">
+        <label for="questionID">Question ID:</label>
+        <input id="questionID" name="questionID" placeholder="Enter Question ID" required type="number">
+        <label for="questionDesc">New Description:</label>
+        <input id="questionDesc" name="questionDesc" placeholder="New Question" required type="text">
+        <label for="questionType">New Type:</label>
+        <select id="questionType" name="questionType" required>
+            <option value="TrueOrFalse">TrueOrFalse</option>
+            <option value="Multiple Choice">Multiple Choice</option>
+        </select>
+        <button type="submit">Update Question</button>
+    </form>
+</section>
 
-    <section id="removeQuestions">
-        <h2>Remove Questions</h2>
-        <form id="removeQuestionForm" action="../admin_side/admin_phps/remove_question.php" method="POST">
-            <label for="removeQuestionID">Enter Question ID to Remove:</label>
-            <input type="number" name="questionID" id="removeQuestionID" placeholder="Question ID" required>
-            <button type="submit">Remove Question</button>
-        </form>
-    </section>
+<section id="removeQuestions">
+    <h2>Remove Questions</h2>
+    <form action="../admin_side/admin_phps/remove_question.php" id="removeQuestionForm" method="POST">
+        <label for="removeQuestionID">Enter Question ID to Remove:</label>
+        <input id="removeQuestionID" name="questionID" placeholder="Question ID" required type="number">
+        <button type="submit">Remove Question</button>
+    </form>
+</section>
 
-    <section id="viewEvaluations">
-        <br></br>
-        <br></br>
-        <h2>View Evaluations</h2>
-        <form id="sortEvaluationsForm">
-            <label for="evaluationSortOption">Sort by:</label>
-            <select name="sortOption" id="evaluationSortOption">
-                <option value="EvaluationID" selected>Evaluation ID</option>
-                <option value="ProgramID">Program ID</option>
-                <option value="StartDate">Start Date</option>
-                <option value="EndDate">End Date</option>
-            </select>
-            <button type="button" onclick="loadEvaluations()">Sort</button>
-        </form>
-        <div id="evaluationsList">
-            <!-- evaluations will be displayed here via AJAX -->
-        </div>
-    </section>
+<section id="viewEvaluations">
+    <br></br>
+    <br></br>
+    <h2>View Evaluations</h2>
+    <form id="sortEvaluationsForm">
+        <label for="evaluationSortOption">Sort by:</label>
+        <select id="evaluationSortOption" name="sortOption">
+            <option selected value="EvaluationID">Evaluation ID</option>
+            <option value="ProgramID">Program ID</option>
+            <option value="StartDate">Start Date</option>
+            <option value="EndDate">End Date</option>
+        </select>
+        <button onclick="loadEvaluations()" type="button">Sort</button>
+    </form>
+    <div id="evaluationsList">
+        <!-- evaluations will be displayed here via AJAX -->
+    </div>
+</section>
 
-    <section id="setEvaluation">
-        <h2>Set Draft Evaluations</h2>
-        <form id="setEvaluationForm" action="../admin_side/admin_phps/set_evaluation.php" method="POST">
-            <input type="text" name="evaluationName" placeholder="Enter Evaluation Name" required>
-            
-            <label for="programID">Program:</label>
-            <select name="programID" required>
-                <option value=1>Computer Science</option>
-                <option value=2>Accountancy</option>
-                <option value=3>Management Accounting</option>
-                <option value=4>Entrepreneurship</option>
-                <option value=5>Tourism Management</option>
-                <option value=6>Multimedia Arts</option>
-                <option value=7>Information Technology</option>
-                <option value=8>Financial Management</option>
-                <option value=9>Marketing Management</option>
-                <option value=10>Hospitality Management</option>
-            </select>
-            
-            <input type="text" name="semester" placeholder="Enter Semester" required>
-            <input type="date" name="startDate" required>
-            <input type="date" name="endDate" required>
-            
-            <label for="questionIDs">Question IDs (comma-separated):</label>
-            <input type="text" name="questionIDs" placeholder="e.g., 1,2,3" required>
-            
-            <button type="submit">Save as Draft</button>
-        </form>
-    </section>
+<section id="setEvaluation">
+    <h2>Set Draft Evaluations</h2>
+    <form action="../admin_side/admin_phps/set_evaluation.php" id="setEvaluationForm" method="POST">
+        <input name="evaluationName" placeholder="Enter Evaluation Name" required type="text">
 
-    <section id="publishEvaluation">
-        <h2>Publish Draft Evaluations</h2>
-        <form id="publishEvaluationForm" action="../admin_side/admin_phps/publish_evaluation.php" method="POST">
-            <label for="publishEvaluationID">Enter Evaluation ID:</label>
-            <input type="number" name="evaluationID" id="publishEvaluationID" placeholder="Evaluation ID" required>
-            <button type="submit">Publish Evaluation</button>
-        </form>
-    </section>
+        <label for="programID">Program:</label>
+        <select name="programID" required>
+            <option value=1>Computer Science</option>
+            <option value=2>Accountancy</option>
+            <option value=3>Management Accounting</option>
+            <option value=4>Entrepreneurship</option>
+            <option value=5>Tourism Management</option>
+            <option value=6>Multimedia Arts</option>
+            <option value=7>Information Technology</option>
+            <option value=8>Financial Management</option>
+            <option value=9>Marketing Management</option>
+            <option value=10>Hospitality Management</option>
+        </select>
 
-    <section id="editEvaluations">
-        <h2>Edit Drafted Evaluations</h2>
-        <form method="POST" action="../admin_side/admin_phps/edit_evaluation.php">
-            <label for="evaluationID">Enter Evaluation ID:</label>
-            <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
-            <label for="evaluationName">Evaluation Name:</label>
-            <input type="text" name="evaluationName" placeholder="New Evaluation Name" id="evaluationName" required>
-            <label for="programID">Program:</label>
-            <select name="programID" required>
-                <option value=1>Computer Science</option>
-                <option value=2>Accountancy</option>
-                <option value=3>Management Accounting</option>
-                <option value=4>Entrepreneurship</option>
-                <option value=5>Tourism Management</option>
-                <option value=6>Multimedia Arts</option>
-                <option value=7>Information Technology</option>
-                <option value=8>Financial Management</option>
-                <option value=9>Marketing Management</option>
-                <option value=10>Hostpitality Management</option>
-            </select>
-            <label for="startDate">Start Date:</label>
-            <input type="date" name="startDate" required>
-            <label for="endDate">End Date:</label>
-            <input type="date" name="endDate" required>
-            <button type="submit">Update Evaluation</button>
-        </form>
-    </section>    
+        <input name="semester" placeholder="Enter Semester" required type="text">
+        <input name="startDate" required type="date">
+        <input name="endDate" required type="date">
 
-    <section id="addOrRemoveQuestionsFromEvaluation">
-        <h2>Modify Questions in Draft Evaluation</h2>
-        <form id="updateQuestionsForm" action="../admin_side/admin_phps/add_remove_questions.php" method="POST">
-            <label for="evaluationID">Enter Evaluation ID:</label>
-            <input type="number" name="evaluationID" placeholder="Evaluation ID" id="evaluationID" required>
-            
-            <label for="action">Action:</label>
-            <select name="action" id="action" required>
-                <option value="add">Add Questions</option>
-                <option value="remove">Remove Questions</option>
-            </select>
-    
-            <label for="questionIDs">Question IDs (comma-separated):</label>
-            <input type="text" name="questionIDs" id="questionIDs" placeholder="e.g., 1,2,3" required>
-            
-            <button type="submit">Update Question/s</button>
-        </form>
-    </section>
+        <label for="questionIDs">Question IDs (comma-separated):</label>
+        <input name="questionIDs" placeholder="e.g., 1,2,3" required type="text">
 
-    <section id="checkResponses">
-        <br></br>
-        <br></br>
-        <h2>Check Student Who Responded</h2>
-        <label for="evaluationIDInput">Enter Evaluation ID:</label>
-        <input type="number" id="evaluationIDInput" placeholder="Evaluation ID" required>
-        <button type="button" onclick="checkResponses()">Check Responses</button>
-    
-        <!-- display the response results here -->
-        <div id="responseStatus">
-            <!-- list of students who responded will appear here -->
-        </div>
-    </section>
-    
+        <button type="submit">Save as Draft</button>
+    </form>
+</section>
+
+<section id="publishEvaluation">
+    <h2>Publish Draft Evaluations</h2>
+    <form action="../admin_side/admin_phps/publish_evaluation.php" id="publishEvaluationForm" method="POST">
+        <label for="publishEvaluationID">Enter Evaluation ID:</label>
+        <input id="publishEvaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
+        <button type="submit">Publish Evaluation</button>
+    </form>
+</section>
+
+<section id="editEvaluations">
+    <h2>Edit Drafted Evaluations</h2>
+    <form action="../admin_side/admin_phps/edit_evaluation.php" method="POST">
+        <label for="evaluationID">Enter Evaluation ID:</label>
+        <input id="evaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
+        <label for="evaluationName">Evaluation Name:</label>
+        <input id="evaluationName" name="evaluationName" placeholder="New Evaluation Name" required type="text">
+        <label for="programID">Program:</label>
+        <select name="programID" required>
+            <option value=1>Computer Science</option>
+            <option value=2>Accountancy</option>
+            <option value=3>Management Accounting</option>
+            <option value=4>Entrepreneurship</option>
+            <option value=5>Tourism Management</option>
+            <option value=6>Multimedia Arts</option>
+            <option value=7>Information Technology</option>
+            <option value=8>Financial Management</option>
+            <option value=9>Marketing Management</option>
+            <option value=10>Hospitality Management</option>
+        </select>
+        <label for="startDate">Start Date:</label>
+        <input name="startDate" required type="date">
+        <label for="endDate">End Date:</label>
+        <input name="endDate" required type="date">
+        <button type="submit">Update Evaluation</button>
+    </form>
+</section>
+
+<section id="addOrRemoveQuestionsFromEvaluation">
+    <h2>Modify Questions in Draft Evaluation</h2>
+    <form action="../admin_side/admin_phps/add_remove_questions.php" id="updateQuestionsForm" method="POST">
+        <label for="evaluationID">Enter Evaluation ID:</label>
+        <input id="evaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
+
+        <label for="action">Action:</label>
+        <select id="action" name="action" required>
+            <option value="add">Add Questions</option>
+            <option value="remove">Remove Questions</option>
+        </select>
+
+        <label for="questionIDs">Question IDs (comma-separated):</label>
+        <input id="questionIDs" name="questionIDs" placeholder="e.g., 1,2,3" required type="text">
+
+        <button type="submit">Update Question/s</button>
+    </form>
+</section>
+
+<section id="checkResponses">
+    <br></br>
+    <br></br>
+    <h2>Check Student Who Responded</h2>
+    <label for="evaluationIDInput">Enter Evaluation ID:</label>
+    <input id="evaluationIDInput" placeholder="Evaluation ID" required type="number">
+    <button onclick="checkResponses()" type="button">Check Responses</button>
+
+    <!-- display the response results here -->
+    <div id="responseStatus">
+        <!-- list of students who responded will appear here -->
+    </div>
+</section>
+
 </body>
 </html>

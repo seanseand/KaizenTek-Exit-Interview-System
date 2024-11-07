@@ -59,6 +59,19 @@ function checkResponses() {
     xhr.send();
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('../admin_side/admin_phps/get_username.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.username) {
+                document.getElementById('usernameDisplay').textContent = data.username;
+            } else {
+                console.error('Error:', data.error);
+            }
+        })
+        .catch(error => console.error('Error fetching username:', error));
+});
+
 // execute on page load
 window.onload = function () {
     loadQuestions();

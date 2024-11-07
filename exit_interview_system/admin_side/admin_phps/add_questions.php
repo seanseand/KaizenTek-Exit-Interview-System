@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 include('../../database/db.php');
 
 // check if the user is logged in and retrieve the UserID from the session
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             echo "Question added successfully!";
-            
+
         } else {
             echo "Error adding question: " . $stmt->error;
         }
