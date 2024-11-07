@@ -146,8 +146,8 @@ main {
 
 #submitAnswersBtn {
     margin-top: 50px;
-    background-color: #E2AD0F; /* Yellow color */
-    color: #ffffff; /* White text */
+    background-color: #E2AD0F; 
+    color: #ffffff; 
     padding: 10px 20px;
     border: none;
     font-family: 'Poppins', sans-serif;
@@ -159,7 +159,7 @@ main {
 }
 
 #submitAnswersBtn:hover {
-    background-color: #0E0465; /* Slightly darker yellow for hover effect */
+    background-color: #0E0465; 
 }
 
 /* Bold */
@@ -186,11 +186,11 @@ main {
     font-style: normal;
 }
 
-/* Media query for screens up to 1024px (e.g., larger tablets, laptops) */
+
 @media (max-width: 1024px) {
     #publishedList, #answeredList {
         width: 100%;
-        gap: 28px; /* Adjust the gap for medium-sized screens */
+        gap: 28px; 
         margin-top: 12px;
     }
 
@@ -205,59 +205,59 @@ main {
     }
 }
 
-/* Media query for screens up to 768px (e.g., tablets) */
+
 @media (max-width: 768px) {
     #publishedList, #answeredList {
         width: 100%;
-        gap: 20px; /* Reduce the gap between items */
+        gap: 20px; 
         margin-top: 10px;
     }
 
     #publishedList {
         display: flex;
-        justify-content: center; /* Center the content */
+        justify-content: center; 
     }
 
     #answeredList {
         display: flex;
-        justify-content: center; /* Center the content */
+        justify-content: center; 
     }
 }
 
-/* Media query for screens up to 480px (e.g., mobile devices) */
+
 @media (max-width: 480px) {
     #publishedList, #answeredList {
         width: 100%;
-        gap: 15px; /* Reduce the gap further on smaller screens */
+        gap: 15px;
         margin-top: 8px;
     }
 
     #publishedList {
-        display: block; /* Stack items vertically */
+        display: block; 
         justify-content: center;
     }
 
     #answeredList {
-        display: block; /* Stack items vertically */
+        display: block; 
         justify-content: center;
     }
 }
 
-/* Additional adjustments for very small screens, e.g., under 375px (small mobile) */
+
 @media (max-width: 375px) {
     #publishedList, #answeredList {
         width: 100%;
-        gap: 10px; /* Even smaller gap on very small screens */
+        gap: 10px;
         margin-top: 6px;
     }
 
     #publishedList {
-        display: block; /* Stack items vertically */
+        display: block; 
         justify-content: center;
     }
 
     #answeredList {
-        display: block; /* Stack items vertically */
+        display: block; 
         justify-content: center;
     }
 }
