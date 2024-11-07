@@ -84,7 +84,7 @@ main {
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 36px;
-    width: 81.25rem;
+    width: 93.75rem;
 }
 
 #answeredList {
@@ -93,7 +93,7 @@ main {
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 36px;
-    width: 81.25rem;
+    width: 93.75rem;
 }
 
 .evaluation-card-item, .answered-evaluation-card-item{
@@ -184,4 +184,80 @@ main {
     src: url('../resources/fonts/Poppins-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+}
+
+/* Media query for screens up to 1024px (e.g., larger tablets, laptops) */
+@media (max-width: 1024px) {
+    #publishedList, #answeredList {
+        width: 100%;
+        gap: 28px; /* Adjust the gap for medium-sized screens */
+        margin-top: 12px;
+    }
+
+    #publishedList {
+        display: flex;
+        justify-content: center;
+    }
+
+    #answeredList {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Media query for screens up to 768px (e.g., tablets) */
+@media (max-width: 768px) {
+    #publishedList, #answeredList {
+        width: 100%;
+        gap: 20px; /* Reduce the gap between items */
+        margin-top: 10px;
+    }
+
+    #publishedList {
+        display: flex;
+        justify-content: center; /* Center the content */
+    }
+
+    #answeredList {
+        display: flex;
+        justify-content: center; /* Center the content */
+    }
+}
+
+/* Media query for screens up to 480px (e.g., mobile devices) */
+@media (max-width: 480px) {
+    #publishedList, #answeredList {
+        width: 100%;
+        gap: 15px; /* Reduce the gap further on smaller screens */
+        margin-top: 8px;
+    }
+
+    #publishedList {
+        display: block; /* Stack items vertically */
+        justify-content: center;
+    }
+
+    #answeredList {
+        display: block; /* Stack items vertically */
+        justify-content: center;
+    }
+}
+
+/* Additional adjustments for very small screens, e.g., under 375px (small mobile) */
+@media (max-width: 375px) {
+    #publishedList, #answeredList {
+        width: 100%;
+        gap: 10px; /* Even smaller gap on very small screens */
+        margin-top: 6px;
+    }
+
+    #publishedList {
+        display: block; /* Stack items vertically */
+        justify-content: center;
+    }
+
+    #answeredList {
+        display: block; /* Stack items vertically */
+        justify-content: center;
+    }
 }
