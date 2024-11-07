@@ -60,13 +60,7 @@ function loadArchivedEvaluations() {
 }
 
 // load questions for a specific evaluation using EvaluationID
-function loadQuestions() {
-    const evaluationID = document.getElementById('evaluationIDInput').value;
-    if (!evaluationID) {
-        alert("Please enter an Evaluation ID.");
-        return;
-    }
-
+function loadQuestions(evaluationID) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `../student_side/student_phps/get_evaluation_questions.php?evaluationID=${encodeURIComponent(evaluationID)}`, true);
     xhr.onreadystatechange = function () {
@@ -76,10 +70,8 @@ function loadQuestions() {
                 const response = JSON.parse(xhr.responseText);
                 if (response.error) {
                     questionsListDiv.innerHTML = `<p style="color:red;">${response.error}</p>`;
-                    document.getElementById('submitAnswersForm').style.display = 'none';
                 } else {
                     let questionsHtml = '';
-                    document.getElementById('evaluationID').value = evaluationID; // set evaluation ID
                     response.questions.forEach(question => {
                         questionsHtml += `
                             <div class="question">
@@ -89,7 +81,6 @@ function loadQuestions() {
                         `;
                     });
                     questionsListDiv.innerHTML = questionsHtml;
-                    document.getElementById('submitAnswersForm').style.display = 'block';
                 }
             } else {
                 questionsListDiv.innerHTML = `<p style="color:red;">Error loading questions. Please try again.</p>`;
@@ -97,6 +88,28 @@ function loadQuestions() {
         }
     };
     xhr.send();
+}
+
+// Setup click event for each evaluation card
+function setupCardClickEvents() {
+    document.querySelectorAll('.evaluation-card-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const evaluationID = this.querySelector('h2').id.split('-')[1];
+            displayEvaluationQuestions(evaluationID);
+        });
+    });
+}
+
+// Function to display evaluation questions
+function displayEvaluationQuestions(evaluationID) {
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = `
+        <div id="questionsList">
+            <h2>Loading questions...</h2>
+        </div>
+        <button onclick="loadMainView()">Back to Evaluations</button>
+    `;
+    loadQuestions(evaluationID);  // Load questions when evaluation is clicked
 }
 
 // submit answers for the current evaluation
