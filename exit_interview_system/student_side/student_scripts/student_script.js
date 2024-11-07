@@ -53,12 +53,32 @@ function loadQuestions(evaluationID) {
                 } else {
                     let questionsHtml = '';
                     response.questions.forEach(question => {
-                        questionsHtml += `
-                            <div class="question-card-item">
-                                <p>${question.questionDesc}</p>
-                                <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
-                            </div>
-                        `;
+                        // questionsHtml += `
+                        //     <div class="question-card-item">
+                        //         <p>${question.questionDesc}</p>
+                        //         <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
+                        //     </div>
+                        // `;
+                        if (question.QuestionType === 'text') {
+                            questionsHtml += `
+                                <div class="question-card-item">
+                                    <p>${question.questionDesc}</p>
+                                    <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
+                                </div>
+                            `;
+                        } else if (question.QuestionType === 'TrueOrFalse') {
+                            questionsHtml += `
+                                <div class="question-card-item">
+                                    <p>${question.questionDesc}</p>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="true" required> True
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="false" required> False
+                                    </label>
+                                </div>
+                            `;
+                        }
                     });
                     questionsListDiv.innerHTML = questionsHtml;
                 }
@@ -182,6 +202,10 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching username:', error));
 });
+
+function confirmLogout() {
+    return confirm("Are you sure you want to log out?");
+}
 
 // load evaluations on page load
 window.onload = loadMainView;

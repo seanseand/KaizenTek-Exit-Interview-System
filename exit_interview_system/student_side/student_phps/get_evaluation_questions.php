@@ -17,7 +17,7 @@ if (!$evaluationID) {
 
 // fetch questions based on EvaluationID
 $query = "
-    SELECT q.QuestionID, q.questionDesc 
+    SELECT q.QuestionID, q.questionDesc, q.QuestionType
     FROM QUESTION q
     JOIN LINK l ON q.QuestionID = l.QuestionID
     WHERE l.EvaluationID = ?
