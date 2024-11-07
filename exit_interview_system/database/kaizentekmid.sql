@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 06, 2024 at 03:41 PM
+-- Generation Time: Nov 07, 2024 at 01:15 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -85,7 +85,7 @@ INSERT INTO `evaluation` (`EvaluationID`, `EvaluationName`, `ProgramID`, `Semest
 (1, 'BSCS\' Eval', 1, 'First', '2024-08-01', '2024-08-03', 'Finished'),
 (2, 'BSA\'s Eval', 2, 'First', '2024-09-01', '2024-09-03', 'Finished'),
 (3, 'BSMA\'s Eval', 3, 'First', '2024-10-01', '2024-10-03', 'Finished'),
-(4, 'hello', 1, 'First', '2024-12-01', '2024-12-07', 'Published');
+(4, 'Hello', 1, 'First', '2024-12-01', '2024-12-07', 'Published');
 
 -- --------------------------------------------------------
 
@@ -110,6 +110,7 @@ INSERT INTO `link` (`EvaluationID`, `QuestionID`) VALUES
 (1, 1),
 (1, 2),
 (1, 3),
+(1, 4),
 (2, 1),
 (2, 2),
 (2, 3),
@@ -159,12 +160,12 @@ INSERT INTO `program` (`ProgramID`, `ProgramName`) VALUES
 DROP TABLE IF EXISTS `question`;
 CREATE TABLE IF NOT EXISTS `question` (
   `QuestionID` int NOT NULL AUTO_INCREMENT,
-  `QuestionDesc` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `QuestionDesc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `QuestionType` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `CreatorID` int NOT NULL,
   PRIMARY KEY (`QuestionID`),
   KEY `creatorID` (`CreatorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `question`
@@ -173,7 +174,8 @@ CREATE TABLE IF NOT EXISTS `question` (
 INSERT INTO `question` (`QuestionID`, `QuestionDesc`, `QuestionType`, `CreatorID`) VALUES
 (1, 'The program/course met my expectations.', 'TrueOrFalse', 1),
 (2, 'The course content was easy to understand.', 'TrueOrFalse', 1),
-(3, 'The professor was an effective teacher.', 'TrueOrFalse', 6);
+(3, 'The professor was an effective teacher.', 'TrueOrFalse', 6),
+(4, 'How supportive were your academic advisors? A) Very great B) Great C) Not that great D) Not great at all', 'Multiple Choice', 1);
 
 -- --------------------------------------------------------
 

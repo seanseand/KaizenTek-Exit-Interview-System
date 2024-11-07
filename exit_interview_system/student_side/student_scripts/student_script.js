@@ -59,7 +59,7 @@ function loadQuestions(evaluationID) {
                         //         <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
                         //     </div>
                         // `;
-                        if (question.QuestionType === 'text') {
+                        if (question.QuestionType === 'Multiple Choice') {
                             questionsHtml += `
                                 <div class="question-card-item">
                                     <p>${question.questionDesc}</p>
