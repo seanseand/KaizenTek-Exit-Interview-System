@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<div class='evaluation-card-item'>
             <div>
-                <h2 id='evaluationID-{$row['EvaluationID']}'>{$row['EvaluationName']}</h2>
+                <h2 id='evaluationName-{$row['EvaluationID']}'>{$row['EvaluationName']}</h2>
                 <p id='semester-{$row['EvaluationID']}'>{$row['Semester']} Semester</p>
                 <p>
                     <span id='startDate-{$row['EvaluationID']}'>{$row['StartDate']}</span> - 

@@ -27,26 +27,6 @@ function loadMainView() {
     loadArchivedEvaluations();
 }
 
-function setupCardClickEvents() {
-    document.querySelectorAll('.evaluation-card-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const evaluationID = this.querySelector('h2').id.split('-')[1];
-            showTemporaryContent(evaluationID)
-        });
-    });
-}
-
-function showTemporaryContent(evaluationID) {
-    const mainContent = document.getElementById('mainContent');
-    mainContent.innerHTML = `
-        <div id="temporaryContent">
-            <h2>Content for Evaluation ID: ${evaluationID}</h2>
-            <p>This is a placeholder for your evaluation content. Design it as needed.</p>
-            <button onclick="loadMainView()">Back to Evaluations</button>
-        </div>
-    `;
-}
-
 // load archived evaluations for the student's program
 function loadArchivedEvaluations() {
     const xhr = new XMLHttpRequest();
@@ -74,7 +54,7 @@ function loadQuestions(evaluationID) {
                     let questionsHtml = '';
                     response.questions.forEach(question => {
                         questionsHtml += `
-                            <div class="question">
+                            <div class="question-card-item">
                                 <p>${question.questionDesc}</p>
                                 <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
                             </div>
@@ -95,21 +75,39 @@ function setupCardClickEvents() {
     document.querySelectorAll('.evaluation-card-item').forEach(item => {
         item.addEventListener('click', function() {
             const evaluationID = this.querySelector('h2').id.split('-')[1];
-            displayEvaluationQuestions(evaluationID);
+            const evaluationName = this.querySelector('h2').textContent.trim();
+            const startDate = item.querySelector('span[id^="startDate-"]').textContent.trim();
+            const endDate = item.querySelector('span[id^="endDate-"]').textContent.trim();
+            displayEvaluationQuestions(evaluationID, evaluationName, startDate, endDate);
         });
     });
 }
 
 // Function to display evaluation questions
-function displayEvaluationQuestions(evaluationID) {
+function displayEvaluationQuestions(evaluationID, evaluationName, startDate, endDate) {
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
-        <div id="questionsList">
-            <h2>Loading questions...</h2>
-        </div>
-        <button onclick="loadMainView()">Back to Evaluations</button>
+    <div>
+        <a class="back" onclick="confirmBack()">
+            <img alt="back" src="../resources/left-arrow-svgrepo-com.svg">
+        </a>
+        <div id="evaluationContent">
+            <div class="question-card-item">
+                <h1>${evaluationName}</h1>
+                <p>${startDate} - ${endDate}</p>
+            </div>        
+            <div id="questionsList">
+                <h2>Loading questions...</h2>
+            </div>
+    </div>
     `;
     loadQuestions(evaluationID);  // Load questions when evaluation is clicked
+}
+
+function confirmBack() {
+    if (confirm("Are you sure you want to go back? Your answers will not be saved.")) {
+        loadMainView();
+    }
 }
 
 // submit answers for the current evaluation

@@ -116,6 +116,34 @@ main {
     color: #ffffff;
 }
 
+.back {
+    cursor: pointer
+}
+
+#evaluationContent {
+    width: 50rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#questionsList {
+    display: flex;
+    flex-direction: column;
+    padding-top: 18px;
+    gap: 28px;
+}
+
+.question-card-item {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-flow: column;
+    border-style: solid;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 0px 16px;
+    padding-bottom: 16px;
+}
+
 /* Bold */
 @font-face {
     font-family: 'Poppins';
