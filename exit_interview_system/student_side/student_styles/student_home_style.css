@@ -165,7 +165,7 @@ main {
 /* Bold */
 @font-face {
     font-family: 'Poppins';
-    src: url('../resources/fonts/Poppins-Bold.ttf') format('truetype');
+    src: url('../../resources/fonts/Poppins-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
@@ -173,7 +173,7 @@ main {
 /* Medium */
 @font-face {
     font-family: 'Poppins';
-    src: url('../resources/fonts/Poppins-Medium.ttf') format('truetype');
+    src: url('../../resources/fonts/Poppins-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 }
@@ -181,7 +181,7 @@ main {
 /* Regular */
 @font-face {
     font-family: 'Poppins';
-    src: url('../resources/fonts/Poppins-Regular.ttf') format('truetype');
+    src: url('../../resources/fonts/Poppins-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
