@@ -13,9 +13,12 @@
 <h1>Welcome, <span id="usernameDisplay">Admin</span></h1>
 
 <nav>
-    <a class="logout" href="../entry_point/logout.php">
-        <p> Logout </p>
-    </a>
+    <div>
+        <a class="logout" href="../entry_point/logout.php">
+            <p> Logout </p>
+        </a>
+    </div>
+
 </nav>
 
 <section id="viewQuestions">
@@ -72,8 +75,6 @@
 </section>
 
 <section id="viewEvaluations">
-    <br></br>
-    <br></br>
     <h2>View Evaluations</h2>
     <form id="sortEvaluationsForm">
         <label for="evaluationSortOption">Sort by:</label>
@@ -117,15 +118,6 @@
         <input name="questionIDs" placeholder="e.g., 1,2,3" required type="text">
 
         <button type="submit">Save as Draft</button>
-    </form>
-</section>
-
-<section id="publishEvaluation">
-    <h2>Publish Draft Evaluations</h2>
-    <form action="../admin_side/admin_phps/publish_evaluation.php" id="publishEvaluationForm" method="POST">
-        <label for="publishEvaluationID">Enter Evaluation ID:</label>
-        <input id="publishEvaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
-        <button type="submit">Publish Evaluation</button>
     </form>
 </section>
 
@@ -176,9 +168,16 @@
     </form>
 </section>
 
+<section id="publishEvaluation">
+    <h2>Publish Draft Evaluations</h2>
+    <form action="../admin_side/admin_phps/publish_evaluation.php" id="publishEvaluationForm" method="POST">
+        <label for="publishEvaluationID">Enter Evaluation ID:</label>
+        <input id="publishEvaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
+        <button type="submit">Publish Evaluation</button>
+    </form>
+</section>
+
 <section id="checkResponses">
-    <br></br>
-    <br></br>
     <h2>Check Student Who Responded</h2>
     <label for="evaluationIDInput">Enter Evaluation ID:</label>
     <input id="evaluationIDInput" placeholder="Evaluation ID" required type="number">
