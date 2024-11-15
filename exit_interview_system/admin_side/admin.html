@@ -14,7 +14,7 @@
 
 <nav>
     <div>
-        <a class="logout" href="../entry_point/logout.php">
+        <a class="logout" href="/api/logout">
             <p> Logout </p>
         </a>
     </div>
@@ -30,7 +30,7 @@
             <option value="QuestionType">Question Type</option>
             <option selected value="QuestionID">Question ID</option>
         </select>
-        <button onclick="loadQuestions()" type="button">Sort</button>
+        <button type="button" onclick="loadQuestions()">Sort</button>
     </form>
     <div id="questionsList">
         <!-- questions will be displayed here via AJAX -->
@@ -39,7 +39,7 @@
 
 <section id="addQuestions">
     <h2>Add Questions</h2>
-    <form action="../admin_side/admin_phps/add_questions.php" id="addQuestionForm" method="POST">
+    <form action="/api/add_questions" id="addQuestionForm" method="POST">
         <input name="questionDesc" placeholder="Enter a Question" required type="text">
         <select name="questionType" required>
             <option value="TrueOrFalse">TrueOrFalse</option>
@@ -51,7 +51,7 @@
 
 <section id="editQuestions">
     <h2>Edit Questions</h2>
-    <form action="../admin_side/admin_phps/edit_questions.php" method="POST">
+    <form action="/api/edit_questions" method="POST">
         <label for="questionID">Question ID:</label>
         <input id="questionID" name="questionID" placeholder="Enter Question ID" required type="number">
         <label for="questionDesc">New Description:</label>
@@ -67,7 +67,7 @@
 
 <section id="removeQuestions">
     <h2>Remove Questions</h2>
-    <form action="../admin_side/admin_phps/remove_question.php" id="removeQuestionForm" method="POST">
+    <form action="/api/remove_questions" id="removeQuestionForm" method="POST">
         <label for="removeQuestionID">Enter Question ID to Remove:</label>
         <input id="removeQuestionID" name="questionID" placeholder="Question ID" required type="number">
         <button type="submit">Remove Question</button>
@@ -84,7 +84,7 @@
             <option value="StartDate">Start Date</option>
             <option value="EndDate">End Date</option>
         </select>
-        <button onclick="loadEvaluations()" type="button">Sort</button>
+        <button type="button" onclick="loadEvaluations()">Sort</button>
     </form>
     <div id="evaluationsList">
         <!-- evaluations will be displayed here via AJAX -->
@@ -93,7 +93,7 @@
 
 <section id="setEvaluation">
     <h2>Set Draft Evaluations</h2>
-    <form action="../admin_side/admin_phps/set_evaluation.php" id="setEvaluationForm" method="POST">
+    <form action="/api/set_evaluations" id="setEvaluationForm" method="POST">
         <input name="evaluationName" placeholder="Enter Evaluation Name" required type="text">
 
         <label for="programID">Program:</label>
@@ -123,7 +123,7 @@
 
 <section id="editEvaluations">
     <h2>Edit Drafted Evaluations</h2>
-    <form action="../admin_side/admin_phps/edit_evaluation.php" method="POST">
+    <form action="/api/edit_evaluations" method="POST">
         <label for="evaluationID">Enter Evaluation ID:</label>
         <input id="evaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
         <label for="evaluationName">Evaluation Name:</label>
@@ -151,7 +151,7 @@
 
 <section id="addOrRemoveQuestionsFromEvaluation">
     <h2>Modify Questions in Draft Evaluation</h2>
-    <form action="../admin_side/admin_phps/add_remove_questions.php" id="updateQuestionsForm" method="POST">
+    <form action="/api/add_or_remove_questions" id="updateQuestionsForm" method="POST">
         <label for="evaluationID">Enter Evaluation ID:</label>
         <input id="evaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
 
@@ -170,7 +170,7 @@
 
 <section id="publishEvaluation">
     <h2>Publish Draft Evaluations</h2>
-    <form action="../admin_side/admin_phps/publish_evaluation.php" id="publishEvaluationForm" method="POST">
+    <form action="/api/publish_evaluations" id="publishEvaluationForm" method="POST">
         <label for="publishEvaluationID">Enter Evaluation ID:</label>
         <input id="publishEvaluationID" name="evaluationID" placeholder="Evaluation ID" required type="number">
         <button type="submit">Publish Evaluation</button>
