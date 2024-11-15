@@ -13,7 +13,15 @@
         <h1>Welcome to <span class="logo-kaizen">Kaizen</span><span class="logo-forms">Forms</span></h1>
         <p class="login-header">Log in</p>
         <p class="login-subheader">With your given school account</p>
-        <form id="loginForm" action="entry_point/login.php" method="POST">
+
+        <!-- admin or student login type selection   // BETA VERSION  -->
+        <label for="loginType">Login As:</label>
+        <select id="loginType" name="loginType">
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <form id="loginForm" action="/api/login" method="POST">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password</label>
@@ -21,6 +29,7 @@
             <button type="submit">Log In</button>
             <p id="error-message" style="color: red;"></p>
         </form>
+        
     </div>
 </div>
 </body>
