@@ -104,6 +104,7 @@ app.post('/api/login', (req, res) => {
     });
 });
 
+// api for logging out
 app.get('/api/logout', (req, res) => {
     // destroy the session (equivalent to session_unset() and session_destroy())
     req.session.destroy((err) => {
