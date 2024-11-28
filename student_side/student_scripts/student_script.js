@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.username) {
                 document.getElementById('usernameDisplay').textContent = data.username;
             } else {
-                console.error('Error:', data.error);
+                window.location.href = '../../index.html';
             }
         })
         .catch(error => console.error('Error fetching username:', error));
