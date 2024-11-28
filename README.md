@@ -35,7 +35,7 @@ This project aims to:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://gitlab.com/2233692/kaizentek-mid
+   git clone https://gitlab.com/2233692/KaizenTek.git
    ```
 
 2. **Database Setup**:
@@ -47,14 +47,14 @@ Option 1: Run using XAMPP/WAMP
 
 - Ensure a local server (e.g., XAMPP, WAMP) is running.
 - Place the project folder in the server’s root directory.
-- Access the application through your browser (e.g., `http://localhost/kaizentek-mid/exit_interview_system`).
+- Access the application through your browser (e.g., `http://localhost/KaizenTek`).
 
 Option 2: Run using PHP's built-in server
 
 - Navigate to the project directory in your terminal.
 
 ```bash
-cd kaizentek-mid/exit_interview_system
+cd KaizenTek/exit_interview_system
 ```
 
 - Run the following command:
@@ -63,7 +63,7 @@ cd kaizentek-mid/exit_interview_system
 php -S localhost:8000
 ```
 
-- Access the application through your browser (`http://localhost:8000/exit_interview_system`).
+- Access the application through your browser (`http://localhost:8000/KaizenTek`).
 
 ---
 

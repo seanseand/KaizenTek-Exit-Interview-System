@@ -28,16 +28,16 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         body: (loginType === 'admin') ? JSON.stringify(requestBody) : formData,  // use JSON for admin, FormData for student
         headers: (loginType === 'admin') ? { 'Content-Type': 'application/json' } : {}  // only set JSON content type for admin
     })
-    .then(response => response.json())  // if the server responds with JSON
-    .then(data => {
-        if (data.success) {
-            window.location.href = data.redirect.replace("\\", "/"); // correct path format
-        } else {
-            document.getElementById('error-message').textContent = data.message || "Login failed. Please try again.";
-        }
-    })
-    .catch(error => {
-        console.error('Error during login:', error);
-        document.getElementById('error-message').textContent = "An error occurred. Please try again later.";
-    });
+        .then(response => response.json())  // if the server responds with JSON
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirect.replace("\\", "/"); // correct path format
+            } else {
+                document.getElementById('error-message').textContent = data.message || "Login failed. Please try again.";
+            }
+        })
+        .catch(error => {
+            console.error('Error during login:', error);
+            document.getElementById('error-message').textContent = "An error occurred. Please try again later.";
+        });
 });

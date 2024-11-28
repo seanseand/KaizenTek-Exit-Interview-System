@@ -8,7 +8,7 @@ function loadQuestions() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
             const questionsListDiv = document.getElementById('questionsList');
-            
+
             if (response.questions && response.questions.length > 0) {
                 let tableHtml = `
                 <table>
