@@ -35,7 +35,7 @@ This project aims to:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://gitlab.com/2233692/kaizentek-mid
+   git clone https://gitlab.com/2233692/KaizenTek.git
    ```
 
 2. **Database Setup**:
@@ -43,27 +43,61 @@ This project aims to:
 
 3. **Run the Application**:
 
-Option 1: Run using XAMPP/WAMP
+### Note:
 
-- Ensure a local server (e.g., XAMPP, WAMP) is running.
-- Place the project folder in the server’s root directory.
-- Access the application through your browser (e.g., `http://localhost/kaizentek-mid/exit_interview_system`).
+#### Student Access: Handled by PHP, students can log in, view, and submit evaluations.
 
-Option 2: Run using PHP's built-in server
+- mqNavigate to the php directory
 
-- Navigate to the project directory in your terminal.
+   ```bash 
+   cd php
+   ```
 
-```bash
-cd kaizentek-mid/exit_interview_system
-```
+- Run the PHP server
 
-- Run the following command:
+   ```bash
+   php -S localhost:8000 -t public
+   ```
+- Access the application through the specified port (e.g., http://localhost:8000 if your application is configured to
+  run on port 8000).
 
-```bash
-php -S localhost:8000
-```
+#### Admin Access: Handled by Node.js, administrators can log in, manage questions, and evaluations.
 
-- Access the application through your browser (`http://localhost:8000/exit_interview_system`).
+To run a Node.js application, follow these steps:
+
+1. Install Node.js:
+    - Download and install Node.js from the official website.
+
+2. Navigate to Your Project Directory:
+    - Open a terminal or command prompt.
+    - Change to the directory where your Node.js project is located.
+
+   ```bash
+    cd nodejs
+   ```
+
+3. Install Dependencies:
+    - Ensure you have a package.json file in your project directory.
+    - Run the following command to install all the dependencies listed in package.json:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the Node.js Application:
+    - Run the following command to start your Node.js application. This command assumes your entry point is index.js or
+      is
+      specified in the package.json file under the scripts section.
+   ```bash
+   node server.js
+   ```
+
+    - Alternatively, if you have a start script defined in your package.json, you can use:
+   ```bash
+   npm start
+   ```
+   Your Node.js application should now be running. You can access it through the specified port (
+   e.g., http://localhost:3000 if your application is configured to run on port 3000).
 
 ---
 
