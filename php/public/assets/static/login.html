@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exit Interview Login</title>
+    <link href="/assets/css/login.css" rel="stylesheet">
+    <script defer src="/assets/js/login.js"></script>
+</head>
+<body>
+<div class="login-page">
+    <div class="login-image"></div>
+    <div class="login-container">
+        <h1>Welcome to <span class="logo-kaizen">Kaizen</span><span class="logo-forms">Forms</span></h1>
+        <p class="login-header">Log in</p>
+        <p class="login-subheader">With your given school account</p>
+
+        <form action="/api/login" id="loginForm" method="POST">
+            <label for="username">Username</label>
+            <input id="username" name="username" required type="text">
+            <label for="password">Password</label>
+            <input id="password" name="password" required type="password">
+            <button type="submit">Log In</button>
+            <p id="error-message" style="color: red;"></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>
