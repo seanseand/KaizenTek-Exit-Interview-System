@@ -36,4 +36,28 @@ app.get('/admin', (req, res) => {
     }
 });
 
+app.get('/admin_respondents', (req, res) => {
+    if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
+        res.sendFile(path.join(__dirname, 'public', 'static', 'admin_respondents.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/admin_questions', (req, res) => {
+    if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
+        res.sendFile(path.join(__dirname, 'public', 'static', 'admin_questions.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/admin_evaluations', (req, res) => {
+    if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
+        res.sendFile(path.join(__dirname, 'public', 'static', 'admin_evaluations.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
 module.exports = app;
