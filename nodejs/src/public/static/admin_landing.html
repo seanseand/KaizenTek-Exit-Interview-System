@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/dashboard_style.css">
+    <script defer src="/public/js/dashboard_script.js"></script>   
+    <script defer src="/public/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button id="toggle-btn" type="button">
+                    <img src="public/images/burger-menu-svgrepo-com.svg" alt="toggle">
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">
+                        <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
+                    </a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="public/images/home-icon-silhouette-svgrepo-com.svg" alt="Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="public/images/person-svgrepo-com.svg" alt="Respondents">
+                        <span>Respondents</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="public/images/question-square-fill-svgrepo-com.svg" alt="Manage Questions">
+                        <span>Manage Questions</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <img src="public/images/clipboard-svgrepo-com.svg" alt="Manage Evaluations">
+                        <span>Manage Evaluations</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/api/logout" class="sidebar-link">
+                    <img src="public/images/logout-2-svgrepo-com.svg" alt="Logout">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        <div class="main p-3">
+            <div class="text-center">
+                <h1>Sample Text</h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

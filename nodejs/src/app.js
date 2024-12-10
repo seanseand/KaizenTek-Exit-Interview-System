@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.get('/admin', (req, res) => {
     if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
-        res.sendFile(path.join(__dirname, 'public', 'static', 'admin.html'));
+        res.sendFile(path.join(__dirname, 'public', 'static', 'admin_landing.html'));
     } else {
         res.redirect('/');
     }
