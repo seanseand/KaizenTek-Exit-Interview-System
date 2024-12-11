@@ -2,9 +2,9 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "A sample Node.js project",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "KaizenTek",
@@ -13,6 +13,7 @@
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
     "dotenv": "^16.4.6",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
