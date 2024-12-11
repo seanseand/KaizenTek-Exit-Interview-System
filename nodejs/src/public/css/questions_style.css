@@ -230,5 +230,12 @@ a.sidebar-link:hover {
 }
 
 .question-modal {
-    flex: 1 1 auto;
+    position: relative;
+    width: 300px;
+    pointer-events: none;
+}
+
+.question-desc-input {
+    width: 462px;
+    
 }

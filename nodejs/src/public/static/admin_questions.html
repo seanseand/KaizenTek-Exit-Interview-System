@@ -84,34 +84,39 @@
                         </tr>
                     </thead>
                     <tbody id="questions-table">
-                        
+                        <!-- Questions will be populated here -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-labelledby="createQuestionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createQuestionModalLabel">Create a Question</h5>
-          <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body question-modal">
-            <label for="basic-url" class="form-label">Your vanity URL</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon3">Question Description</span>
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    <!-- Modal -->
+    <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-labelledby="createQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createQuestionModalLabel">Create Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <form id="create-question-form">
+                        <div class="mb-3">
+                            <label for="question-desc-input" class="form-label">Question</label>
+                            <input type="text" class="form-control" id="question-desc-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="question-type" class="form-label">Type</label>
+                            <select class="form-select" id="question-type" required>
+                                <option value="text">True or False</option>
+                                <option value="multiple-choice">Multiple Choice</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-mdb-ripple-init>Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
 </body>
 </html>
