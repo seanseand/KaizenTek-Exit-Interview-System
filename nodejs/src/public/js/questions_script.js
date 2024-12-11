@@ -4,6 +4,12 @@ hamBurger.addEventListener("click", function () {
   document.querySelector("#sidebar").classList.toggle("expand");
 });
 
+// Open Create Question Modal
+document.getElementById('add-button').addEventListener('click', function() {
+    const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
+    modal.show();
+});
+
 // Function to load questions based on the selected sorting option
 function loadQuestions() {
     const xhr = new XMLHttpRequest();
@@ -48,6 +54,51 @@ function loadQuestions() {
     };
 
     xhr.send();
+}
+
+// Handle Create Question Form Submission
+document.getElementById('save-question-btn').addEventListener('click', createQuestion);
+
+function createQuestion() {
+    // Get values from the modal form
+    const questionDesc = document.getElementById('question-desc').value;
+    const questionType = document.getElementById('question-type').value;
+
+    if (!questionDesc || !questionType) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    // Prepare the data for the POST request
+    const data = {
+        questionDesc: questionDesc,
+        questionType: questionType
+    };
+
+    // Send the data to the backend using fetch API
+    fetch('/api/questions/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Question added successfully!') {
+            alert("Question added successfully!");
+            // Close the modal
+            $('#createQuestionModal').modal('hide');
+            // Reload the questions table or perform any other desired action
+            loadQuestions();  // Assumes you have a function to refresh the questions
+        } else {
+            alert(data.message || "Something went wrong.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error adding question.");
+    });
 }
 
 document.addEventListener('DOMContentLoaded', loadQuestions);

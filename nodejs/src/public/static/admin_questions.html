@@ -63,11 +63,7 @@
                 <h1>Manage Questions</h1>
                 <hr class="hr" />
                 <div class="add-sort-container">
-                    <button id="add-button" class="btn btn-dark" type="button">Create</button>
-                    <!-- <select name="sort" id="sort" class="select-container">
-                        <option value=""></option>
-                        <option value=""></option>
-                    </select> -->
+                    <button id="add-button" class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#createQuestionModal">Create</button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -80,12 +76,46 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="questions-table">
-                        
+                    <tbody id="questions-table-body">
+                        <!-- Questions will be dynamically loaded here -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <!-- Modal for Creating Question -->
+    <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-labelledby="createQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createQuestionModalLabel">Create New Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createQuestionForm">
+                        <div class="mb-3">
+                            <label for="question-desc" class="form-label">Question Description</label>
+                            <input type="text" class="form-control" id="question-desc" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="question-type" class="form-label">Question Type</label>
+                            <select class="form-select" id="question-type" required>
+                                <option value="" disabled selected>Select Question Type</option>
+                                <option value="multiple_choice">Multiple Choice</option>
+                                <option value="short_answer">Short Answer</option>
+                                <option value="long_answer">Long Answer</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-question-btn">Save Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
