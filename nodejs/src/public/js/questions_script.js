@@ -1,33 +1,35 @@
-const hamBurger = document.querySelector("#toggle-btn");
-const createQuestionButton = document.getElementById('create-question-button');
+document.addEventListener('DOMContentLoaded', function() {
+    const hamBurger = document.querySelector("#toggle-btn");
+    const createQuestionButton = document.getElementById('create-question-button');
 
-hamBurger.addEventListener("click", function () {
-    document.querySelector("#sidebar").classList.toggle("expand");
-});
+    hamBurger.addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("expand");
+    });
 
-createQuestionButton.addEventListener('click', function () {
-    const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
-    modal.show();
-});
+    createQuestionButton.addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
+        modal.show();
+    });
 
-// Function to load questions based on the selected sorting option
-function loadQuestions() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/api/view_questions`, true);
+    // Function to load questions based on the selected sorting option
+    function loadQuestions() {
+        const xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
+        xhr.open('GET', `/api/view_questions`, true);
 
-            // Reference to the table body
-            const tbody = document.querySelector('#questions-table tbody');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
 
-            if (response.questions && response.questions.length > 0) {
-                tbody.innerHTML = ''; // Clear existing rows
+                // Reference to the table body 
+                const tbody = document.querySelector('#questions-table tbody');  
 
-                response.questions.forEach((question) => {
-                    // Combine FirstName and LastName for CreatorName
-                    const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
+                if (response.questions && response.questions.length > 0) {
+                    tbody.innerHTML = '';  // Clear existing rows
+
+                    response.questions.forEach((question) => {
+                        // Combine FirstName and LastName for CreatorName
+                        const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
 
                     // Create table row
                     const row = document.createElement('tr');
@@ -52,8 +54,8 @@ function loadQuestions() {
         }
     };
 
-    xhr.send();
-}
+        xhr.send();
+    }
 
 // Function to handle question creation
 document.getElementById('create-question-form').addEventListener('submit', function (e) {

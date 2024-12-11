@@ -135,3 +135,39 @@ exports.viewQuestions = (req, res) => {
         }
     });
 };
+
+exports.getQuestion = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({message: 'Access denied.'});
+    }
+
+    // Get the question ID from the query string
+    const questionID = req.query.questionID;
+
+    if (!questionID) {
+        return res.status(400).json({message: 'Question ID is required.'});
+    }
+
+    // Prepare the SQL query to fetch the question by ID
+    const query = `
+        SELECT q.QuestionID, q.QuestionDesc, q.QuestionType, 
+               q.CreatorID, u.FirstName AS CreatorFirstName, u.LastName AS CreatorLastName
+        FROM QUESTION q
+        LEFT JOIN USER u ON q.CreatorID = u.UserID
+        WHERE q.QuestionID = ?`;
+
+    db.execute(query, [questionID], (err, results) => {
+        if (err) {
+            console.error('Error fetching question:', err);
+            return res.status(500).json({message: 'Error fetching question.', error: err.message});
+        }
+
+        if (results.length > 0) {
+            // Return the question details
+            res.status(200).json(results[0]);
+        } else {
+            res.status(404).json({message: 'Question not found.'});
+        }
+    });
+};
