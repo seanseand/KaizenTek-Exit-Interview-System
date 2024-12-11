@@ -1,35 +1,33 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const hamBurger = document.querySelector("#toggle-btn");
-    const createQuestionButton = document.getElementById('create-question-button');
+const hamBurger = document.querySelector("#toggle-btn");
+const createQuestionButton = document.getElementById('create-question-button');
 
-    hamBurger.addEventListener("click", function () {
-        document.querySelector("#sidebar").classList.toggle("expand");
-    });
+hamBurger.addEventListener("click", function () {
+    document.querySelector("#sidebar").classList.toggle("expand");
+});
 
-    createQuestionButton.addEventListener('click', function() {
-        const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
-        modal.show();
-    });
+createQuestionButton.addEventListener('click', function () {
+    const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
+    modal.show();
+});
 
-    // Function to load questions based on the selected sorting option
-    function loadQuestions() {
-        const xhr = new XMLHttpRequest();
+// Function to load questions based on the selected sorting option
+function loadQuestions() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/view_questions`, true);
 
-        xhr.open('GET', `/api/view_questions`, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
+            // Reference to the table body
+            const tbody = document.querySelector('#questions-table tbody');
 
-                // Reference to the table body 
-                const tbody = document.querySelector('#questions-table tbody');  
+            if (response.questions && response.questions.length > 0) {
+                tbody.innerHTML = ''; // Clear existing rows
 
-                if (response.questions && response.questions.length > 0) {
-                    tbody.innerHTML = '';  // Clear existing rows
-
-                    response.questions.forEach((question) => {
-                        // Combine FirstName and LastName for CreatorName
-                        const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
+                response.questions.forEach((question) => {
+                    // Combine FirstName and LastName for CreatorName
+                    const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
 
                     // Create table row
                     const row = document.createElement('tr');
@@ -54,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-        xhr.send();
-    }
+    xhr.send();
+}
 
 // Function to handle question creation
 document.getElementById('create-question-form').addEventListener('submit', function (e) {
@@ -112,14 +110,29 @@ document.getElementById('create-question-form').addEventListener('submit', funct
     xhr.send(JSON.stringify(formData));
 });
 
+// Function to handle the Edit button click
+window.editQuestion = function(questionID) {
+        
+    // Fetch the question data based on questionID
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/get_question?questionID=${questionID}`, true);
 
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const question = JSON.parse(xhr.responseText);
 
+            // Populate the modal with the question data
+            document.getElementById('edit-question-desc-input').value = question.QuestionDesc;
+            document.getElementById('edit-question-type').value = question.QuestionType;
 
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('editQuestionModal'));
+            modal.show();
+        }
+    };
 
-// Placeholder for editing a question
-function editQuestion(questionID) {
-    alert(`Edit functionality for Question ID: ${questionID} is not implemented yet.`);
-}
+    xhr.send();
+};
 
 // Placeholder for deleting a question
 function deleteQuestion(questionID) {
