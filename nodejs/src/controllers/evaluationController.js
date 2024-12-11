@@ -72,8 +72,8 @@ exports.checkResponses = (req, res) => {
         return res.status(400).json({error: 'Evaluation ID is required.'});
     }
 
-    // prepare the SQL query to get distinct StudentID values for the given evaluation
-    const query = "SELECT DISTINCT StudentID FROM RESPONSE WHERE EvaluationID = ?";
+    // prepare the SQL query to count distinct StudentID values for the given evaluation
+    const query = "SELECT COUNT(DISTINCT StudentID) AS respondentCount FROM RESPONSE WHERE EvaluationID = ?";
     db.execute(query, [evaluationID], (err, results) => {
         if (err) {
             console.error('Database query failed:', err);
@@ -81,13 +81,20 @@ exports.checkResponses = (req, res) => {
         }
 
         // check if there are responses for the given evaluation
-        if (results.length > 0) {
-            const studentIDs = results.map(row => row.StudentID);
-            res.status(200).json({status: 'success', students: studentIDs});
+        if (results.length > 0 && results[0].respondentCount > 0) {
+            res.status(200).json({
+                status: 'success',
+                respondentCount: results[0].respondentCount // include the count in the response
+            });
         } else {
-            res.status(200).json({status: 'no_responses', message: 'No responses yet for this evaluation.'});
+            res.status(200).json({
+                status: 'no_responses',
+                message: 'No responses yet for this evaluation.',
+                respondentCount: 0 // include the count in the response
+            });
         }
-    });};
+    });
+};
 
 exports.editEvaluations = (req, res) => {
     // check if the user is an admin
@@ -266,3 +273,4 @@ exports.viewEvaluations = (req, res) => {
         }
     });
 };
+
