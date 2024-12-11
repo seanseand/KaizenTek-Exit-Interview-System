@@ -1,7 +1,13 @@
 const hamBurger = document.querySelector("#toggle-btn");
+const createQuestionButton = document.getElementById('create-question-button');
 
 hamBurger.addEventListener("click", function () {
   document.querySelector("#sidebar").classList.toggle("expand");
+});
+
+createQuestionButton.addEventListener('click', function() {
+    const modal = new bootstrap.Modal(document.getElementById('createQuestionModal'));
+    modal.show();
 });
 
 // Function to load questions based on the selected sorting option

@@ -8,8 +8,10 @@
 
     <link rel="stylesheet" href="/public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/questions_style.css">
+    <link rel="stylesheet" href="/public/css/questions_style.css">
+
     <script defer src="/public/js/questions_script.js"></script>   
-    <script defer src="/public/js/bootstrap.min.js"></script>
+    <script defer src="/public/js/bootstrap.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -63,7 +65,8 @@
                 <h1>Manage Questions</h1>
                 <hr class="hr" />
                 <div class="add-sort-container">
-                    <button id="add-button" class="btn btn-dark" type="button">Create</button>
+                    <button id="create-question-button" class="btn btn-dark" type="button" 
+                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="createQuestionModal">Create</button>
                     <select name="sort" id="sort" class="select-container">
                         <option value=""></option>
                         <option value=""></option>
@@ -81,11 +84,34 @@
                         </tr>
                     </thead>
                     <tbody id="questions-table">
-                        
+                        <!-- Questions will be populated here -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-labelledby="createQuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createQuestionModalLabel">Create a Question</h5>
+          <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body question-modal">
+            <label for="basic-url" class="form-label">Your vanity URL</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">Question Description</span>
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-mdb-ripple-init>Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

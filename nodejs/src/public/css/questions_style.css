@@ -228,3 +228,7 @@ a.sidebar-link:hover {
 .sidebar-item {
     position: relative;
 }
+
+.question-modal {
+    flex: 1 1 auto;
+}
