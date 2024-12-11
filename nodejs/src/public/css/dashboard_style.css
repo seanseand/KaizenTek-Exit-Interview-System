@@ -44,6 +44,7 @@ h1 {
 
 body {
     font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
 
 .text-center {
@@ -135,4 +136,32 @@ a.sidebar-link:hover {
 
 .sidebar-item {
     position: relative;
+}
+
+.text-center {
+    text-align: center;
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 400px;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
 }

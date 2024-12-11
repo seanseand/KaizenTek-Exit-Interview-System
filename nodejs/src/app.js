@@ -5,6 +5,7 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const evaluationRoutes = require('./routes/evaluationRoutes');
 const questionRoutes = require('./routes/questionRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/api', authRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes);
+app.use('/api', dashboardRoutes);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'static', 'login.html'));
