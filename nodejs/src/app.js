@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -10,13 +11,13 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: false }
+    cookie: {secure: false, httpOnly: false}
 }));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -25,6 +26,8 @@ app.use('/api', authRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes);
 app.use('/api', dashboardRoutes);
+
+app.use('/js', express.static(path.join(__dirname, '..', 'node_modules')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'static', 'login.html'));
@@ -60,6 +63,12 @@ app.get('/admin_evaluations', (req, res) => {
     } else {
         res.redirect('/');
     }
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 module.exports = app;
