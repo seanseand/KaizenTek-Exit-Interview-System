@@ -1,6 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const hamBurger = document.querySelector("#toggle-btn");
-    const createQuestionButton = document.getElementById('create-question-button');
+const hamBurger = document.querySelector("#toggle-btn");
+const createQuestionButton = document.getElementById('create-question-button');
 
 hamBurger.addEventListener("click", function () {
     document.querySelector("#sidebar").classList.toggle("expand");
@@ -16,9 +15,9 @@ function loadQuestions() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `/api/view_questions`, true);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
 
             // Reference to the table body
             const tbody = document.querySelector('#questions-table tbody');
@@ -26,9 +25,9 @@ function loadQuestions() {
             if (response.questions && response.questions.length > 0) {
                 tbody.innerHTML = ''; // Clear existing rows
 
-                    response.questions.forEach((question) => {
-                        // Combine FirstName and LastName for CreatorName
-                        const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
+                response.questions.forEach((question) => {
+                    // Combine FirstName and LastName for CreatorName
+                    const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
 
                     // Create table row
                     const row = document.createElement('tr');
@@ -53,8 +52,8 @@ function loadQuestions() {
         }
     };
 
-        xhr.send();
-    }
+    xhr.send();
+}
 
 // Function to handle question creation
 document.getElementById('create-question-form').addEventListener('submit', function (e) {
@@ -113,12 +112,34 @@ document.getElementById('create-question-form').addEventListener('submit', funct
 
 
 
+// Function to handle the Edit button click
+window.editQuestion = function(questionID) {
+        
+    // Fetch the question data based on questionID
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/get_question?questionID=${questionID}`, true);
 
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const question = JSON.parse(xhr.responseText);
 
-// Placeholder for editing a question
-function editQuestion(questionID) {
-    alert(`Edit functionality for Question ID: ${questionID} is not implemented yet.`);
-}
+            // Populate the modal with the question data
+            document.getElementById('edit-question-desc-input').value = question.QuestionDesc;
+            document.getElementById('edit-question-type').value = question.QuestionType;
+
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('editQuestionModal'));
+            modal.show();
+        }
+    };
+
+    xhr.send();
+};
+
+// // Placeholder for editing a question
+// function editQuestion(questionID) {
+//     alert(`Edit functionality for Question ID: ${questionID} is not implemented yet.`);
+// }
 
 // Placeholder for deleting a question
 function deleteQuestion(questionID) {
