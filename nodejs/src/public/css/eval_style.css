@@ -128,8 +128,8 @@ h1 {
     font-weight: 600;
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    text-align: center;
     color: #1D184A;
+    padding: 1.125rem;
 }
 
 /* Text Alignments */
