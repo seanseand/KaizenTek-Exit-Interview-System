@@ -7,7 +7,7 @@
     <title>Evaluations</title>
 
     <link rel="stylesheet" href="/public/css/bootstrap.css">
-    <link rel="stylesheet" href="/nodejs/src/public/css/eval_style.css">
+    <link rel="stylesheet" href="/public/css/eval_style.css">
     <script defer src="/public/js/eval_script.js"></script>   
     <script defer src="/public/js/bootstrap.min.js"></script>
 </head>
@@ -57,6 +57,12 @@
                 </a>
             </div>
         </aside>
+        <select name="sort" id="sort">
+            <option value=""></option>
+            <option value=""></option>
+        </select>
+        
+        <button id="add-button">Create</button>
         <div class="main p-3">
             <div class="text-center mb-4">
                 <h1>Manage Evaluations</h1>
@@ -73,7 +79,7 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="evalutions-table">
                         
                     </tbody>
                 </table>

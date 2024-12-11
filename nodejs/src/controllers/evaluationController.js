@@ -226,22 +226,27 @@ exports.setEvaluations = async (req, res) => {
 exports.viewEvaluations = (req, res) => {
     // Verify if the user is an admin
     if (!req.session.user_id || req.session.user_type !== 'Admin') {
-        return res.status(403).json({message: 'Access denied.'});
+        return res.status(403).json({ message: 'Access denied.' });
     }
 
-    // set sorting order for evaluations
+    // Set sorting order for evaluations
     const sortOption = req.query.sortOption || 'EvaluationID';
     const validSortOptions = ['EvaluationID', 'ProgramID', 'StartDate', 'EndDate'];
     const orderBy = validSortOptions.includes(sortOption) ? sortOption : 'EvaluationID';
 
-    // fetch evaluations sorted by the chosen option
-    const query = `SELECT *
-                   FROM EVALUATION
-                   ORDER BY ${orderBy}`;
+    // Fetch evaluations along with program names
+    const query = `
+        SELECT e.EvaluationID, e.EvaluationName, e.ProgramID, e.Semester, 
+               e.StartDate, e.EndDate, e.Status, p.ProgramName
+        FROM EVALUATION e
+        LEFT JOIN PROGRAM p ON e.ProgramID = p.ProgramID
+        ORDER BY ${orderBy}
+    `;
+
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching evaluations:', err);
-            return res.status(500).json({message: 'Error fetching evaluations.', error: err.message});
+            return res.status(500).json({ message: 'Error fetching evaluations.', error: err.message });
         }
 
         if (results.length > 0) {
@@ -249,14 +254,16 @@ exports.viewEvaluations = (req, res) => {
                 EvaluationID: row.EvaluationID,
                 EvaluationName: row.EvaluationName,
                 ProgramID: row.ProgramID,
+                ProgramName: row.ProgramName,
                 Semester: row.Semester,
                 StartDate: row.StartDate,
                 EndDate: row.EndDate,
-                Status: row.Status
+                Status: row.Status,
             }));
-            res.status(200).json({evaluations: tableRows});
+            res.status(200).json({ evaluations: tableRows });
         } else {
-            res.status(200).json({message: 'No evaluations found.'});
+            res.status(200).json({ message: 'No evaluations found.' });
         }
     });
 };
+
