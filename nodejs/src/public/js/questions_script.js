@@ -4,45 +4,50 @@ hamBurger.addEventListener("click", function () {
   document.querySelector("#sidebar").classList.toggle("expand");
 });
 
-// function to load questions based on the selected sorting option
+// Function to load questions based on the selected sorting option
 function loadQuestions() {
-    const sortOption = document.getElementById('sortOption').value;
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `/api/view_questions?sortOption=${sortOption}`, true);
+    xhr.open('GET', `/api/view_questions`, true);
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
-            const questionsListDiv = document.getElementById('questionsList');
+
+            // Reference to the table body 
+            const tbody = document.querySelector('#questions-table tbody');  
 
             if (response.questions && response.questions.length > 0) {
-                let tableHtml = `
-                <table>
-                    <tr>
-                        <th>Question ID</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>Creator ID</th>
-                    </tr>
-                `;
+                tbody.innerHTML = '';  // Clear existing rows
 
                 response.questions.forEach((question) => {
-                    tableHtml += `
-                    <tr>
-                        <td>${question.QuestionID}</td>
-                        <td>${question.Description}</td>
-                        <td>${question.Type}</td>
-                        <td>${question.CreatorID}</td>
-                    </tr>
-                    `;
-                });
+                    // Combine FirstName and LastName for CreatorName
+                    const creatorName = `${question.CreatorFirstName} ${question.CreatorLastName}`;
 
-                tableHtml += '</table>';
-                questionsListDiv.innerHTML = tableHtml;
+                    // Create table row
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${question.QuestionDesc}</td>
+                        <td>${question.QuestionType}</td>
+                        <td>${creatorName}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-primary btn-sm" onclick="editQuestion(${question.QuestionID})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${question.QuestionID})">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
             } else {
-                questionsListDiv.innerHTML = '<p>No questions found.</p>';
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">No questions found.</td>
+                </tr>
+                `;
             }
         }
     };
+
     xhr.send();
 }
+
+document.addEventListener('DOMContentLoaded', loadQuestions);

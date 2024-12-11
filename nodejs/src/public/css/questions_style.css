@@ -1,4 +1,4 @@
-/* Bold */
+/* Fonts */
 @font-face {
     font-family: 'Poppins';
     src: url('/public/fonts/Poppins-Bold.ttf') format('truetype');
@@ -6,7 +6,6 @@
     font-style: normal;
 }
 
-/* Medium */
 @font-face {
     font-family: 'Poppins';
     src: url('/public/fonts/Poppins-Medium.ttf') format('truetype');
@@ -14,7 +13,6 @@
     font-style: normal;
 }
 
-/* Regular */
 @font-face {
     font-family: 'Poppins';
     src: url('/public/fonts/Poppins-Regular.ttf') format('truetype');
@@ -22,6 +20,11 @@
     font-style: normal;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Global Reset */
 ::after,
 ::before {
     box-sizing: border-box;
@@ -37,19 +40,104 @@ li {
     list-style: none;
 }
 
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header-style {
+    background-color: #1D184A;
+}
+
+table thead {
+    background-color: #1D184A; /* Dark header background */
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+}
+
+table thead th {
+    padding: 1rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+table tbody tr:hover {
+    background-color: #f8f9fa; /* Light gray on hover */
+}
+
+table tbody td {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+/* Row Highlights */
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Buttons in Table */
+button.btn {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+button.btn-primary {
+    background-color: #3b7ddd;
+    color: #fff;
+    border: none;
+}
+
+button.btn-primary:hover {
+    background-color: #345fcc;
+}
+
+button.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
+
+button.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Page Title */
 h1 {
     font-weight: 600;
     font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1D184A;
 }
 
-body {
-    font-family: 'Poppins', sans-serif;
-}
-
+/* Text Alignments */
 .text-center {
     text-align: center;
 }
 
+/* Wrapper & Sidebar */
 .wrapper {
     display: flex;
 }
@@ -66,7 +154,7 @@ body {
     width: 80px;
     min-width: 80px;
     z-index: 1000;
-    transition: all .25s ease-in-out;
+    transition: all 0.25s ease-in-out;
     display: flex;
     flex-direction: column;
     background-color: #1D184A;
@@ -83,7 +171,6 @@ body {
     cursor: pointer;
     border: 0;
     padding: 1rem 1.875rem;
-    
 }
 
 #toggle-btn i {
@@ -112,7 +199,7 @@ body {
 }
 
 a.sidebar-link {
-    padding: .625rem 1.625rem;
+    padding: 0.625rem 1.625rem;
     color: #fff;
     display: block;
     font-size: 0.9rem;
@@ -121,7 +208,7 @@ a.sidebar-link {
 }
 
 .sidebar-link img {
-    margin-right: .875rem;
+    margin-right: 0.875rem;
 }
 
 .sidebar-link span {
@@ -129,7 +216,7 @@ a.sidebar-link {
 }
 
 a.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, .075);
+    background-color: rgba(255, 255, 255, 0.075);
     border-left: 3px solid #3b7ddd;
 }
 

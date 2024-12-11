@@ -95,20 +95,24 @@ exports.removeQuestions = (req, res) => {
 };
 
 exports.viewQuestions = (req, res) => {
-    // verify if the user is an admin
+    // Verify if the user is an admin
     if (!req.session.user_id || req.session.user_type !== 'Admin') {
         return res.status(403).json({message: 'Access denied.'});
     }
 
-    // set sorting order
+    // Set sorting order based on the request query
     const sortOption = req.query.sortOption || 'CreatorID';
     const validSortOptions = ['CreatorID', 'QuestionType', 'QuestionID'];
     const orderBy = validSortOptions.includes(sortOption) ? sortOption : 'CreatorID';
 
-    // fetch questions sorted by the chosen option
-    const query = `SELECT *
-                   FROM QUESTION
-                   ORDER BY ${orderBy}`;
+    // Fetch questions sorted by the chosen option
+    const query = `
+        SELECT q.QuestionID, q.QuestionDesc, q.QuestionType, 
+                q.CreatorID, u.UserID, u.FirstName, u.LastName
+        FROM QUESTION q
+        LEFT JOIN USER u ON q.CreatorID = u.UserID
+        ORDER BY ${orderBy}`;
+    
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching questions:', err);
@@ -116,13 +120,16 @@ exports.viewQuestions = (req, res) => {
         }
 
         if (results.length > 0) {
-            const questions = results.map(row => ({
+            // Format results into a structured response
+            const tableRows = results.map(row => ({
                 QuestionID: row.QuestionID,
-                Description: row.QuestionDesc,
-                Type: row.QuestionType,
-                CreatorID: row.CreatorID
+                QuestionDesc: row.QuestionDesc,  
+                QuestionType: row.QuestionType,  
+                CreatorID: row.CreatorID,
+                CreatorFirstName: row.FirstName,
+                CreatorLastName: row.LastName
             }));
-            res.status(200).json({questions});
+            res.status(200).json({questions: tableRows}); 
         } else {
             res.status(200).json({message: 'No questions found.'});
         }
