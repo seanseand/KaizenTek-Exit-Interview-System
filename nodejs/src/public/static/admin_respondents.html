@@ -8,8 +8,10 @@
 
     <link rel="stylesheet" href="/public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/dashboard_style.css">
+    <link rel="stylesheet" href="/public/css/admin_respondents.css">
     <script defer src="/public/js/dashboard_script.js"></script>   
-    <script defer src="/public/js/bootstrap.min.js"></script>
+    <script defer src="/public/js/bootstrap.js"></script>
+    <script defer src="/public/js/admin_respondents.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -34,7 +36,7 @@
                 <li class="sidebar-item">
                     <a href="/admin_respondents" class="sidebar-link">
                         <img src="public/images/person-svgrepo-com.svg" alt="Respondents">
-                        <span>Respondents</span>
+                        <span>Results</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -58,8 +60,17 @@
             </div>
         </aside>
         <div class="main p-3">
-            <div class="text-center">
-                <h1>Sample Text</h1>
+            <div class="text-start">
+                <h1 class="page-title">Results</h1>
+                <hr class="hr" />
+                <div class="search-div">
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+                    </div>
+                </div>
+                <div class="container-sm" style="padding-top: 1.125rem;" id="resultsContainer">
+                </div>
             </div>
         </div>
     </div>
