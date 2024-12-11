@@ -110,8 +110,6 @@ document.getElementById('create-question-form').addEventListener('submit', funct
     xhr.send(JSON.stringify(formData));
 });
 
-
-
 // Function to handle the Edit button click
 window.editQuestion = function(questionID) {
         
@@ -135,11 +133,6 @@ window.editQuestion = function(questionID) {
 
     xhr.send();
 };
-
-// // Placeholder for editing a question
-// function editQuestion(questionID) {
-//     alert(`Edit functionality for Question ID: ${questionID} is not implemented yet.`);
-// }
 
 // Placeholder for deleting a question
 function deleteQuestion(questionID) {
