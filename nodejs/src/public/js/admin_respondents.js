@@ -4,29 +4,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to load evaluations
     function loadEvaluations() {
         const xhr = new XMLHttpRequest();
-
         xhr.open('GET', '/api/view_evaluations', true);
+
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
+                evaluationsData = response.evaluations || [];  // Store evaluations for searching
+
                 const container = document.getElementById('resultsContainer');
-                if (container && response.evaluations && response.evaluations.length > 0) {
-                    container.innerHTML = '';
-                    response.evaluations.forEach((evaluation) => {
-                        const card = document.createElement('div');
-                        card.classList.add('evaluation-card');
-                        card.innerHTML = `
-                            <h2>${evaluation.EvaluationName}</h2>
-                            <p>Program: ${evaluation.ProgramName}</p>
-                            <p id="respondent-count-${evaluation.EvaluationID}">Loading respondent count...</p>
-                        `;
-                        container.appendChild(card);
-                        loadRespondentCounts(evaluation.EvaluationID);
-                    });
+                if (container && evaluationsData.length > 0) {
+                    container.innerHTML = '';  // Clear previous evaluations
+                    renderEvaluations(evaluationsData);  // Render all evaluations initially
                 } else if (container) {
-                    container.innerHTML = `
-                        <p class="text-center">No evaluations found.</p>
-                    `;
+                    container.innerHTML = `<p class="text-center">No evaluations found.</p>`;
                 }
             }
         };
@@ -34,41 +24,25 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.send();
     }
 
-    loadEvaluations();
-
-    // Search functionality
-    const searchInput = document.querySelector('input[type="search"]');
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value.toLowerCase();  // Get the search query
-        const filteredEvaluations = evaluationsData.filter(evaluation =>
-            evaluation.EvaluationName.toLowerCase().includes(query)  // Case-insensitive search
-        );
-
-        // Update the results container with filtered evaluations
+    // Function to render evaluations to the container
+    function renderEvaluations(evaluations) {
         const container = document.getElementById('resultsContainer');
-        container.innerHTML = '';  // Clear the container before adding filtered results
+        evaluations.forEach((evaluation) => {
+            const card = document.createElement('div');
+            card.classList.add('evaluation-card');
+            card.innerHTML = `
+                <h2>${evaluation.EvaluationName}</h2>
+                <p>Program: ${evaluation.ProgramName}</p>
+                <p id="respondent-count-${evaluation.EvaluationID}">Loading respondent count...</p>
+            `;
+            container.appendChild(card);
+            loadRespondentCounts(evaluation.EvaluationID);
+        });
+    }
 
-        if (filteredEvaluations.length > 0) {
-            filteredEvaluations.forEach((evaluation) => {
-                const card = document.createElement('div');
-                        card.classList.add('evaluation-card');
-                        card.innerHTML = `
-                            <h2>${evaluation.EvaluationName}</h2>
-                            <p>Program: ${evaluation.ProgramName}</p>
-                            <p id="respondent-count-${evaluation.EvaluationID}">Loading respondent count...</p>
-                        `;
-                        container.appendChild(card);
-                        loadRespondentCounts(evaluation.EvaluationID);
-            });
-        } else {
-            container.innerHTML = `<p class="text-center">No evaluations found for "${query}".</p>`;
-        }
-    });
-
-
+    // Function to load respondent counts for an evaluation
     function loadRespondentCounts(evaluationID) {
         const xhr = new XMLHttpRequest();
-
         xhr.open('GET', `/api/check_responses?evaluationID=${evaluationID}`, true);
 
         xhr.onreadystatechange = function () {
@@ -90,8 +64,25 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.send();
     }
 
+    // Search functionality
+    const searchInput = document.querySelector('input[type="search"]');
+    searchInput.addEventListener('input', function () {
+        const query = searchInput.value.toLowerCase();  // Get the search query
+        const filteredEvaluations = evaluationsData.filter(evaluation =>
+            evaluation.EvaluationName.toLowerCase().includes(query)  // Case-insensitive search
+        );
 
+        // Update the results container with filtered evaluations
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = '';  // Clear the container before adding filtered results
+
+        if (filteredEvaluations.length > 0) {
+            renderEvaluations(filteredEvaluations);  // Render filtered evaluations
+        } else {
+            container.innerHTML = `<p class="text-center">No evaluations found for "${query}".</p>`;
+        }
+    });
+
+    // Initial call to load all evaluations
     loadEvaluations();
-
-    
 });
