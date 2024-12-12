@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: 'Poppins';
     src: url('/public/fonts/Poppins-Bold.ttf') format('truetype');
@@ -67,68 +68,13 @@ button.btn-danger:hover {
     background-color: #c82333;
 }
 
-button {
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f8f9fa;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-button:hover {
-    background-color: #e2e6ea;
-    color: #000;
-}
-
-button:active {
-    background-color: #dae0e5;
-    color: #000;
-}
-
-button:disabled {
-    background-color: #e9ecef;
-    color: #6c757d;
-    cursor: not-allowed;
-}
-
-input[type="file"].btn {
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f8f9fa;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-input[type="file"].btn:hover {
-    background-color: #e2e6ea;
-    color: #000;
-}
-
-input[type="file"].btn:active {
-    background-color: #dae0e5;
-    color: #000;
-}
-
-input[type="file"].btn:disabled {
-    background-color: #e9ecef;
-    color: #6c757d;
-    cursor: not-allowed;
-}
-
+/* Page Title */
 h1 {
-    padding: 1.125rem;
     font-weight: 600;
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: #1D184A;
+    padding: 1.125rem;
 }
 
 /* Text Alignments */
@@ -223,16 +169,18 @@ a.sidebar-link:hover {
     position: relative;
 }
 
+/* Responsive Form Container */
 .form-container {
     border: 2px solid #ccc;
-    max-width: 80%;
+    max-width: 100%;
     padding: 20px;
     border-radius: 5px;
-    margin: 50px auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #submit {
