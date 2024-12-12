@@ -136,7 +136,7 @@ window.editQuestion = function(questionID) {
 
 // Placeholder for deleting a question
 function deleteQuestion(questionID) {
-    const confirmDelete = confirm(`Are you sure you want to delete Question ID: ${questionID}?`);
+    const confirmDelete = confirm(`Are you sure you want to delete this question?`);
     if (confirmDelete) {
         const xhr = new XMLHttpRequest();
         xhr.open('DELETE', `/api/removeQuestions?questionID=${questionID}`, true);
@@ -149,7 +149,8 @@ function deleteQuestion(questionID) {
                         alert('Question deleted successfully!');
                         loadQuestions(); // Reload the questions list
                     } else {
-                        alert('Error deleting question: ' + (response.message || 'Unknown error.'));
+                        alert('Deleting question: ' + (response.message || 'Unknown error.'));
+                        loadQuestions();
                     }
                 } else {
                     alert('Error: ' + xhr.statusText + '\n' + xhr.responseText);
