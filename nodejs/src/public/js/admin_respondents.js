@@ -11,10 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 const response = JSON.parse(xhr.responseText);
                 evaluationsData = response.evaluations || [];  // Store evaluations for searching
 
+                // Filter evaluations to only include those with status "Finished" or "Published"
+                const filteredEvaluations = evaluationsData.filter(evaluation => 
+                    evaluation.Status === 'Finished' || evaluation.Status === 'Published'
+                );
+
                 const container = document.getElementById('resultsContainer');
-                if (container && evaluationsData.length > 0) {
+                if (container && filteredEvaluations.length > 0) {
                     container.innerHTML = '';  // Clear previous evaluations
-                    renderEvaluations(evaluationsData);  // Render all evaluations initially
+                    renderEvaluations(filteredEvaluations);  // Render filtered evaluations
                 } else if (container) {
                     container.innerHTML = `<p class="text-center">No evaluations found.</p>`;
                 }
@@ -35,9 +40,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Program: ${evaluation.ProgramName}</p>
                 <p id="respondent-count-${evaluation.EvaluationID}">Loading respondent count...</p>
             `;
+            card.onclick = function() {
+                loadEvaluationModal(evaluation);
+            };
             container.appendChild(card);
             loadRespondentCounts(evaluation.EvaluationID);
         });
+    }
+
+    // Function to load the modal with evaluation details
+    function loadEvaluationModal(evaluation) {
+        // document.getElementById('modal-evaluation-name').innerText = evaluation.EvaluationName;
+        // document.getElementById('modal-program-name').innerText = evaluation.ProgramName;
+        // document.getElementById('modal-semester').innerText = evaluation.Semester;
+        // document.getElementById('modal-start-date').innerText = evaluation.StartDate;
+        // document.getElementById('modal-end-date').innerText = evaluation.EndDate;
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('evaluationModal'));
+        modal.show();
     }
 
     // Function to load respondent counts for an evaluation
