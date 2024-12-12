@@ -154,22 +154,22 @@
     </div>
 
     <!-- Edit Modal -->
-    <div class="modal fade" id="createEvaluationModal" tabindex="-1" aria-labelledby="createEvaluationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editEvaluationModal" tabindex="-1" aria-labelledby="editEvaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createEvaluationModalLabel">Create Evaluation</h5>
+                    <h5 class="modal-title" id="editEvaluationModalLabel">Edit Evaluation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="create-evaluation-form">
+                    <form id="edit-evaluation-form">
                         <div class="mb-3">
-                            <label for="evaluation-name-input" class="form-label">Evaluation Name</label>
-                            <input type="text" class="form-control" id="evaluation-name-input" required>
+                            <label for="edit-evaluation-name-input" class="form-label">Evaluation Name</label>
+                            <input type="text" class="form-control" id="edit-evaluation-name-input" required>
                         </div>
                         <div class="mb-3">
-                            <label for="evaluation-program-input" class="form-label">Program</label>
-                            <select class="form-control" id="evaluation-program-input" required>
+                            <label for="edit-evaluation-program-input" class="form-label">Program</label>
+                            <select class="form-control" id="edit-evaluation-program-input" required>
                                 <option value=1>Computer Science</option>
                                 <option value=2>Accountancy</option>
                                 <option value=3>Management Accounting</option>
@@ -183,23 +183,23 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="evaluation-program-input" class="form-label">Semester</label>
-                            <input type="text" class="form-control" id="evaluation-semester-input" required>
+                            <label for="edit-evaluation-program-input" class="form-label">Semester</label>
+                            <input type="text" class="form-control" id="edit-evaluation-semester-input" required>
                         </div>
                         <div class="mb-3">
-                            <label for="evaluation-start-input" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="evaluation-start-input" required>
+                            <label for="edit-evaluation-start-input" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="edit-evaluation-start-input" required>
                         </div>
                         <div class="mb-3" style="padding-bottom: 10px;">
-                            <label for="evaluation-end-input" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="evaluation-end-input" required>
+                            <label for="edit-evaluation-end-input" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="edit-evaluation-end-input" required>
                         </div>
                         <hr class="hr" />
                         <p>Questions</p>
-                        <div class="container" id="add-questions-container">
-                            <label for="evaluation-questions-input" class="form-label">Questions</label>
+                        <div class="container" id="edit-add-questions-container">
+                            <label for="edit-evaluation-questions-input" class="form-label">Questions</label>
                         </div>   
-                        <button class="btn btn-dark" id="set-evaluation-button">Set Evaluation</button>                     
+                        <button class="btn btn-dark" id="edit-evaluation-button" onclick="applyEditEvaluation()">Apply</button>                     
                     </form>
                 </div>
             </div>

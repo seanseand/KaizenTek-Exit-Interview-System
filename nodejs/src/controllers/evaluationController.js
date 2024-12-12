@@ -292,10 +292,9 @@ exports.getEvaluation = (req, res) => {
 
     // Prepare the SQL query to fetch the evaluation by ID
     const query = `
-        SELECT e.EvaluationID, e.EvaluationName, e.Description, e.StartDate, e.EndDate, 
-               e.ProgramName, u.FirstName AS CreatorFirstName, u.LastName AS CreatorLastName
+        SELECT e.EvaluationID, e.EvaluationName, e.StartDate, e.EndDate, 
+               e.ProgramID
         FROM EVALUATION e
-        LEFT JOIN USER u ON e.CreatorID = u.UserID
         WHERE e.EvaluationID = ?`;
 
     db.execute(query, [evaluationID], (err, results) => {

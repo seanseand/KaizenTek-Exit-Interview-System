@@ -198,10 +198,38 @@ dropdown.addEventListener('change', sortTable);
 // Load evaluations when the page loads
 document.addEventListener('DOMContentLoaded', loadEvaluations);
 
-// Example edit and delete functions (you will replace them with actual logic)
-function editEvaluation(evaluationID) {
-    console.log(`Edit evaluation with ID: ${evaluationID}`);
-    // You can later replace this with code to edit the evaluation (e.g., open a modal with the evaluation details)
+// Function to handle the Edit button click
+window.editEvaluation = function(evaluationID) {
+        
+    const xhr = new XMLHttpRequest();
+    // Replace ___insertgetevaluation___ with the correct API endpoint
+    xhr.open('GET', `/api/get_evaluation?evaluationID=${evaluationID}`, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const evaluation = JSON.parse(xhr.responseText);
+
+            document.getElementById('edit-evaluation-name-input').value = evaluation.EvaluationName;
+            document.getElementById('edit-evaluation-program-input').value = evaluation.programID;
+
+            // Populate the modal with the question data
+            document.getElementById('edit-evaluation-semester-input').value = evaluation.Semester;
+            document.getElementById('edit-evaluation-start-input').value = evaluation.StartDate;
+            document.getElementById('edit-evaluation-end-input').value = evaluation.EndDate;
+
+            // Store the questionID in the modal
+            document.getElementById('editEvaluationModal').setAttribute('data-evaluation-id', evaluationID);
+
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('editEvaluationModal'));
+            modal.show();
+        }
+    };
+    xhr.send();
+};
+
+function applyEditQuestion() {
+    //insert edit eval logic here
 }
 
 function deleteEvaluation(evaluationID) {
