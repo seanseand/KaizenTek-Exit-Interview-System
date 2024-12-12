@@ -310,8 +310,58 @@ function createQuestionTableForEdit(questions, evaluationID) {
 
 
 function applyEditQuestion() {
-    //insert edit eval logic here
+    const evaluationID = document.getElementById('editEvaluationModal').getAttribute('data-evaluation-id'); // Get the evaluation ID from the modal
+
+    // Collect the new form data
+    const evaluationName = document.getElementById('edit-evaluation-name-input').value;
+    const programID = document.getElementById('edit-evaluation-program-input').value;
+    const semester = document.getElementById('edit-evaluation-semester-input').value;
+    const startDate = document.getElementById('edit-evaluation-start-input').value;
+    const endDate = document.getElementById('edit-evaluation-end-input').value;
+
+    // Collect selected question IDs
+    const selectedQuestions = Array.from(document.querySelectorAll('input[name="selectedQuestions"]:checked'))
+        .map(checkbox => checkbox.value);
+
+    // Prepare data to send to the server
+    const data = {
+        evaluationID: evaluationID,
+        evaluationName: evaluationName,
+        programID: programID,
+        semester: semester,
+        startDate: startDate,
+        endDate: endDate,
+        questionIDs: selectedQuestions
+    };
+
+    // Send a POST request to update the evaluation
+    fetch('/api/editEvaluations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Handle the response
+        if (result.message) {
+            alert(result.message);
+        } else {
+            alert('Evaluation updated successfully.');
+        }
+        
+        // Refresh the evaluations list and close the modal
+        loadEvaluations();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editEvaluationModal'));
+        modal.hide();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating evaluation.');
+    });
 }
+
 
 function deleteEvaluation(evaluationID) {
     console.log(`Delete evaluation with ID: ${evaluationID}`);
