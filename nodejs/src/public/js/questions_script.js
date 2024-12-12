@@ -139,7 +139,7 @@ function deleteQuestion(questionID) {
     const confirmDelete = confirm(`Are you sure you want to delete Question ID: ${questionID}?`);
     if (confirmDelete) {
         const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', `/api/delete_question/${questionID}`, true);
+        xhr.open('DELETE', `/api/removeQuestions?questionID=${questionID}`, true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {

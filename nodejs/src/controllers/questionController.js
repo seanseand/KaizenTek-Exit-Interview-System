@@ -72,7 +72,7 @@ exports.removeQuestions = (req, res) => {
         return res.status(403).json({message: 'You must be logged in to remove a question.'});
     }
 
-    const {questionID} = req.body;
+    const {questionID} = req.query;
 
     if (!questionID) {
         return res.status(400).json({message: 'Question ID is required.'});
