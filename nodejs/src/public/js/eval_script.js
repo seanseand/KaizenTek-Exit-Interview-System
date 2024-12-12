@@ -5,7 +5,7 @@ const setEvaluationButton = document.getElementById('set-evaluation-button');
 const createEvaluationForm = document.getElementById('create-evaluation-form');
 
 hamBurger.addEventListener("click", function () {
-  document.querySelector("#sidebar").classList.toggle("expand");
+    document.querySelector("#sidebar").classList.toggle("expand");
 });
 
 createEvaluationButton.addEventListener('click', function () {
@@ -45,23 +45,23 @@ setEvaluationButton.addEventListener('click', function () {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(result => {
-        // Handle the response
-        if (result.message) {
-            alert(result.message);
-        } else {
-            alert('Evaluation created successfully.');
-        }
-        // Optionally, refresh the evaluations list or close the modal
-        loadEvaluations();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('createEvaluationModal'));
-        modal.hide();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error creating evaluation.');
-    });
+        .then(response => response.json())
+        .then(result => {
+            // Handle the response
+            if (result.message) {
+                alert(result.message);
+            } else {
+                alert('Evaluation created successfully.');
+            }
+            // Optionally, refresh the evaluations list or close the modal
+            loadEvaluations();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('createEvaluationModal'));
+            modal.hide();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error creating evaluation.');
+        });
 });
 
 function loadEvaluations() {
@@ -82,7 +82,7 @@ function loadEvaluations() {
                     const endDate = new Date(evaluation.EndDate).toLocaleDateString('en-GB');
 
                     const row = document.createElement('tr');
-                    
+
                     row.innerHTML = `
                         <td>${evaluation.EvaluationName}</td>
                         <td>${evaluation.ProgramName}</td>
@@ -198,7 +198,7 @@ dropdown.addEventListener('change', sortTable);
 // Load evaluations when the page loads
 document.addEventListener('DOMContentLoaded', loadEvaluations);
 
-window.editEvaluation = function(evaluationID) {
+window.editEvaluation = function (evaluationID) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `/api/get_evaluation?evaluationID=${evaluationID}`, true);
 
@@ -227,40 +227,65 @@ window.editEvaluation = function(evaluationID) {
 };
 
 function loadQuestionsForEdit(evaluationID) {
-    // Fetch all questions
-    fetch('/api/view_questions')
-        .then(response => response.json())
+    fetch(`/api/associated_questions?evaluationID=${evaluationID}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.questions && data.questions.length > 0) {
                 const addQuestionContainer = document.getElementById('edit-add-questions-container');
                 addQuestionContainer.innerHTML = ''; // Clear the container
 
-                // Create the question table
-                const questionTable = createQuestionTableForEdit(data.questions, evaluationID);
-                addQuestionContainer.appendChild(questionTable);
+                // Separate associated and unassociated questions
+                const associatedQuestions = data.questions;
+                fetch('/api/view_questions')
+                    .then(response => response.json())
+                    .then(allData => {
+                        const unassociatedQuestions = allData.questions.filter(q => !associatedQuestions.some(aq => aq.QuestionID === q.QuestionID));
+
+                        // Create tables for associated and unassociated questions
+                        const associatedTable = createQuestionTableForEdit(associatedQuestions, evaluationID, true);
+                        const unassociatedTable = createQuestionTableForEdit(unassociatedQuestions, evaluationID, false);
+
+                        // Append both tables with headings
+                        addQuestionContainer.appendChild(createSectionHeader('Questions to Remove'));
+                        addQuestionContainer.appendChild(associatedTable);
+
+                        addQuestionContainer.appendChild(createSectionHeader('Available Questions to Add'));
+                        addQuestionContainer.appendChild(unassociatedTable);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching all questions:', error);
+                        addQuestionContainer.innerHTML = '<p>Error loading questions.</p>';
+                    });
             } else {
                 addQuestionContainer.innerHTML = '<p>No questions available.</p>';
             }
         })
         .catch(error => {
-            console.error('Error fetching questions:', error);
+            console.error('Error fetching associated questions:', error);
             addQuestionContainer.innerHTML = '<p>Error loading questions.</p>';
         });
 }
 
-// Modify the function to create a table with checkboxes for editing
-function createQuestionTableForEdit(questions, evaluationID) {
+function createSectionHeader(title) {
+    const header = document.createElement('h5');
+    header.textContent = title;
+    header.classList.add('mt-3');
+    return header;
+}
+
+function createQuestionTableForEdit(questions, evaluationID, isAssociated) {
     // Create the table element
     const table = document.createElement('table');
-    table.classList.add('table');
+    table.classList.add('table', 'table-bordered');
 
     // Create the table header
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-
-    const thCheckbox = document.createElement('th');
-    thCheckbox.textContent = 'Select';
-    headerRow.appendChild(thCheckbox);
 
     const thDescription = document.createElement('th');
     thDescription.textContent = 'Question Description';
@@ -269,6 +294,10 @@ function createQuestionTableForEdit(questions, evaluationID) {
     const thType = document.createElement('th');
     thType.textContent = 'Question Type';
     headerRow.appendChild(thType);
+
+    const thAction = document.createElement('th');
+    thAction.textContent = 'Action';
+    headerRow.appendChild(thAction);
 
     thead.appendChild(headerRow);
     table.appendChild(thead);
@@ -279,20 +308,6 @@ function createQuestionTableForEdit(questions, evaluationID) {
     questions.forEach(question => {
         const row = document.createElement('tr');
 
-        const tdCheckbox = document.createElement('td');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.name = 'selectedQuestions';
-        checkbox.value = question.QuestionID;
-
-        // Check if the question is already associated with the evaluation
-        if (question.EvaluationIDs && question.EvaluationIDs.includes(evaluationID)) {
-            checkbox.checked = true; // Pre-select the checkbox if the question is associated with this evaluation
-        }
-
-        tdCheckbox.appendChild(checkbox);
-        row.appendChild(tdCheckbox);
-
         const tdDescription = document.createElement('td');
         tdDescription.textContent = question.QuestionDesc;
         row.appendChild(tdDescription);
@@ -301,6 +316,22 @@ function createQuestionTableForEdit(questions, evaluationID) {
         tdType.textContent = question.QuestionType;
         row.appendChild(tdType);
 
+        const tdAction = document.createElement('td');
+        const actionButton = document.createElement('button');
+        actionButton.classList.add('btn', 'btn-sm');
+
+        if (isAssociated) {
+            actionButton.textContent = 'remove';
+            actionButton.classList.add('btn-danger');
+            actionButton.onclick = () => removeQuestionFromEvaluation(evaluationID, question.QuestionID);
+        } else {
+            actionButton.textContent = 'add';
+            actionButton.classList.add('btn-success');
+            actionButton.onclick = () => addQuestionToEvaluation(evaluationID, question.QuestionID);
+        }
+        tdAction.appendChild(actionButton);
+        row.appendChild(tdAction);
+
         tbody.appendChild(row);
     });
 
@@ -308,64 +339,44 @@ function createQuestionTableForEdit(questions, evaluationID) {
     return table;
 }
 
-
-function applyEditQuestion() {
-    const evaluationID = document.getElementById('editEvaluationModal').getAttribute('data-evaluation-id'); // Get the evaluation ID from the modal
-
-    // Collect the new form data
-    const evaluationName = document.getElementById('edit-evaluation-name-input').value;
-    const programID = document.getElementById('edit-evaluation-program-input').value;
-    const semester = document.getElementById('edit-evaluation-semester-input').value;
-    const startDate = document.getElementById('edit-evaluation-start-input').value;
-    const endDate = document.getElementById('edit-evaluation-end-input').value;
-
-    // Collect selected question IDs
-    const selectedQuestions = Array.from(document.querySelectorAll('input[name="selectedQuestions"]:checked'))
-        .map(checkbox => checkbox.value);
-
-    // Prepare data to send to the server
-    const data = {
-        evaluationID: evaluationID,
-        evaluationName: evaluationName,
-        programID: programID,
-        semester: semester,
-        startDate: startDate,
-        endDate: endDate,
-        questionIDs: selectedQuestions
-    };
-
-    // Send a POST request to update the evaluation
-    fetch('/api/editEvaluations', {
+// Function to add a question to the evaluation
+function addQuestionToEvaluation(evaluationID, questionID) {
+    fetch('/api/add_or_remove_questions', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'add', evaluationID, questionID})
     })
-    .then(response => response.json())
-    .then(result => {
-        // Handle the response
-        if (result.message) {
-            alert(result.message);
-        } else {
-            alert('Evaluation updated successfully.');
-        }
-        
-        // Refresh the evaluations list and close the modal
-        loadEvaluations();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editEvaluationModal'));
-        modal.hide();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error updating evaluation.');
-    });
+        .then(response => response.json())
+        .then(result => {
+            alert(result.message || 'Question added successfully!');
+            loadQuestionsForEdit(evaluationID);
+        })
+        .catch(error => {
+            console.error('Error adding question:', error);
+            alert('Failed to add question.');
+        });
 }
 
+// Function to remove a question from the evaluation
+function removeQuestionFromEvaluation(evaluationID, questionID) {
+    fetch('/api/add_or_remove_questions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'remove', evaluationID, questionID})
+    })
+        .then(response => response.json())
+        .then(result => {
+            alert(result.message || 'Question removed successfully!');
+            loadQuestionsForEdit(evaluationID);
+        })
+        .catch(error => {
+            console.error('Error removing question:', error);
+            alert('Failed to remove question.');
+        });
+}
 
-function deleteEvaluation(evaluationID) {
-    console.log(`Delete evaluation with ID: ${evaluationID}`);
-    // You can later replace this with code to delete the evaluation (e.g., send a delete request to the server)
+function applyEditQuestion() {
+    //TODO: insert edit eval logic here
 }
 
 // Function to load questions and populate the table
@@ -448,21 +459,21 @@ function publishEvaluation(evaluationID) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ evaluationID: evaluationID })
+        body: JSON.stringify({evaluationID: evaluationID})
     })
-    .then(response => response.json())
-    .then(result => {
-        // Handle the response
-        if (result.message) {
-            alert(result.message);
-        } else {
-            alert('Evaluation published successfully.');
-        }
-        // Optionally, refresh the evaluations list
-        loadEvaluations();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error publishing evaluation.');
-    });
+        .then(response => response.json())
+        .then(result => {
+            // Handle the response
+            if (result.message) {
+                alert(result.message);
+            } else {
+                alert('Evaluation published successfully.');
+            }
+            // Optionally, refresh the evaluations list
+            loadEvaluations();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error publishing evaluation.');
+        });
 }

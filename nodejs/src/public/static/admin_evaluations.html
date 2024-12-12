@@ -8,202 +8,202 @@
 
     <link rel="stylesheet" href="/public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/eval_style.css">
-    <script defer src="/public/js/eval_script.js"></script>   
+    <script defer src="/public/js/eval_script.js"></script>
     <script defer src="/public/js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-        <aside id="sidebar">
-            <div class="d-flex">
-                <button id="toggle-btn" type="button">
-                    <img src="public/images/burger-menu-svgrepo-com.svg" alt="toggle">
-                </button>
-                <div class="sidebar-logo">
-                    <a href="/admin">
-                        <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
-                    </a>
-                </div>
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="/admin" class="sidebar-link">
-                        <img src="public/images/home-icon-silhouette-svgrepo-com.svg" alt="Home">
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="/admin_respondents" class="sidebar-link">
-                        <img src="public/images/person-svgrepo-com.svg" alt="Respondents">
-                        <span>Respondents</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="/admin_questions" class="sidebar-link">
-                        <img src="public/images/question-square-fill-svgrepo-com.svg" alt="Manage Questions">
-                        <span>Manage Questions</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="/admin_evaluations" class="sidebar-link">
-                        <img src="public/images/clipboard-svgrepo-com.svg" alt="Manage Evaluations">
-                        <span>Manage Evaluations</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="/admin_utilities">
-                        <img alt="Utilities" src="public/images/util_wrench.svg">
-                        <span>Utilities</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="/api/logout" class="sidebar-link">
-                    <img src="public/images/logout-2-svgrepo-com.svg" alt="Logout">
-                    <span>Logout</span>
+<div class="wrapper">
+    <aside id="sidebar">
+        <div class="d-flex">
+            <button id="toggle-btn" type="button">
+                <img src="public/images/burger-menu-svgrepo-com.svg" alt="toggle">
+            </button>
+            <div class="sidebar-logo">
+                <a href="/admin">
+                    <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
                 </a>
             </div>
-        </aside>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="sidebar-item">
+                <a href="/admin" class="sidebar-link">
+                    <img src="public/images/home-icon-silhouette-svgrepo-com.svg" alt="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/admin_respondents" class="sidebar-link">
+                    <img src="public/images/person-svgrepo-com.svg" alt="Respondents">
+                    <span>Respondents</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/admin_questions" class="sidebar-link">
+                    <img src="public/images/question-square-fill-svgrepo-com.svg" alt="Manage Questions">
+                    <span>Manage Questions</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/admin_evaluations" class="sidebar-link">
+                    <img src="public/images/clipboard-svgrepo-com.svg" alt="Manage Evaluations">
+                    <span>Manage Evaluations</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin_utilities">
+                    <img alt="Utilities" src="public/images/util_wrench.svg">
+                    <span>Utilities</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/api/logout" class="sidebar-link">
+                <img src="public/images/logout-2-svgrepo-com.svg" alt="Logout">
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
 
-        <div class="main p-3">
-            <div class="text-start mb-4">
-                <h1>Manage Evaluations</h1>
-                <hr class="hr" />
-                <button id="create-evaluation-button" class="btn btn-dark" type="button" 
-                data-mdb-ripple-init data-mdb-modal-init data-mdb-target="createEvaluationModal">Create</button>
-                <select name="sort" id="sort" class="select-container">
-                    <option value="EvaluationName">Name</option>
-                    <option value="ProgramName">Program</option>
-                    <option value="Semester">Semester</option>
-                    <option value="StartDate">Start Date</option>
-                    <option value="EndDate">End Date</option>
-                    <option value="Status">Status</option>
-                </select>
+    <div class="main p-3">
+        <div class="text-start mb-4">
+            <h1>Manage Evaluations</h1>
+            <hr class="hr" />
+            <button id="create-evaluation-button" class="btn btn-dark" type="button"
+                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="createEvaluationModal">Create</button>
+            <select name="sort" id="sort" class="select-container">
+                <option value="EvaluationName">Name</option>
+                <option value="ProgramName">Program</option>
+                <option value="Semester">Semester</option>
+                <option value="StartDate">Start Date</option>
+                <option value="EndDate">End Date</option>
+                <option value="Status">Status</option>
+            </select>
+        </div>
+        <div class="table-responsive">
+            <table id="evaluations-table" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Program</th>
+                    <th>Semester</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="evalutions-table">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createEvaluationModal" tabindex="-1" aria-labelledby="createEvaluationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEvaluationModalLabel">Create Evaluation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="table-responsive">
-                <table id="evaluations-table" class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Name</th>
-                            <th>Program</th>
-                            <th>Semester</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="evalutions-table">
-                        
-                    </tbody>
-                </table>
+            <div class="modal-body">
+                <form id="create-evaluation-form">
+                    <div class="mb-3">
+                        <label for="evaluation-name-input" class="form-label">Evaluation Name</label>
+                        <input type="text" class="form-control" id="evaluation-name-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="evaluation-program-input" class="form-label">Program</label>
+                        <select class="form-control" id="evaluation-program-input" required>
+                            <option value=1>Computer Science</option>
+                            <option value=2>Accountancy</option>
+                            <option value=3>Management Accounting</option>
+                            <option value=4>Entrepreneurship</option>
+                            <option value=5>Tourism Management</option>
+                            <option value=6>Multimedia Arts</option>
+                            <option value=7>Information Technology</option>
+                            <option value=8>Financial Management</option>
+                            <option value=9>Marketing Management</option>
+                            <option value=10>Hospitality Management</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="evaluation-program-input" class="form-label">Semester</label>
+                        <input type="text" class="form-control" id="evaluation-semester-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="evaluation-start-input" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="evaluation-start-input" required>
+                    </div>
+                    <div class="mb-3" style="padding-bottom: 10px;">
+                        <label for="evaluation-end-input" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="evaluation-end-input" required>
+                    </div>
+                    <hr class="hr" />
+                    <p>Questions</p>
+                    <div class="container" id="add-questions-container">
+                        <label for="evaluation-questions-input" class="form-label">Questions</label>
+                    </div>
+                    <button class="btn btn-dark" id="set-evaluation-button">Set Evaluation</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="createEvaluationModal" tabindex="-1" aria-labelledby="createEvaluationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createEvaluationModalLabel">Create Evaluation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="create-evaluation-form">
-                        <div class="mb-3">
-                            <label for="evaluation-name-input" class="form-label">Evaluation Name</label>
-                            <input type="text" class="form-control" id="evaluation-name-input" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="evaluation-program-input" class="form-label">Program</label>
-                            <select class="form-control" id="evaluation-program-input" required>
-                                <option value=1>Computer Science</option>
-                                <option value=2>Accountancy</option>
-                                <option value=3>Management Accounting</option>
-                                <option value=4>Entrepreneurship</option>
-                                <option value=5>Tourism Management</option>
-                                <option value=6>Multimedia Arts</option>
-                                <option value=7>Information Technology</option>
-                                <option value=8>Financial Management</option>
-                                <option value=9>Marketing Management</option>
-                                <option value=10>Hospitality Management</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="evaluation-program-input" class="form-label">Semester</label>
-                            <input type="text" class="form-control" id="evaluation-semester-input" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="evaluation-start-input" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="evaluation-start-input" required>
-                        </div>
-                        <div class="mb-3" style="padding-bottom: 10px;">
-                            <label for="evaluation-end-input" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="evaluation-end-input" required>
-                        </div>
-                        <hr class="hr" />
-                        <p>Questions</p>
-                        <div class="container" id="add-questions-container">
-                            <label for="evaluation-questions-input" class="form-label">Questions</label>
-                        </div>   
-                        <button class="btn btn-dark" id="set-evaluation-button">Set Evaluation</button>                     
-                    </form>
-                </div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editEvaluationModal" tabindex="-1" aria-labelledby="editEvaluationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEvaluationModalLabel">Edit Evaluation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-evaluation-form">
+                    <div class="mb-3">
+                        <label for="edit-evaluation-name-input" class="form-label">Evaluation Name</label>
+                        <input type="text" class="form-control" id="edit-evaluation-name-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-evaluation-program-input" class="form-label">Program</label>
+                        <select class="form-control" id="edit-evaluation-program-input" required>
+                            <option value=1>Computer Science</option>
+                            <option value=2>Accountancy</option>
+                            <option value=3>Management Accounting</option>
+                            <option value=4>Entrepreneurship</option>
+                            <option value=5>Tourism Management</option>
+                            <option value=6>Multimedia Arts</option>
+                            <option value=7>Information Technology</option>
+                            <option value=8>Financial Management</option>
+                            <option value=9>Marketing Management</option>
+                            <option value=10>Hospitality Management</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-evaluation-program-input" class="form-label">Semester</label>
+                        <input type="text" class="form-control" id="edit-evaluation-semester-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-evaluation-start-input" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="edit-evaluation-start-input" required>
+                    </div>
+                    <div class="mb-3" style="padding-bottom: 10px;">
+                        <label for="edit-evaluation-end-input" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="edit-evaluation-end-input" required>
+                    </div>
+                    <hr class="hr" />
+                    <p>Questions</p>
+                    <div class="container" id="edit-add-questions-container">
+                        <label for="edit-evaluation-questions-input" class="form-label">Questions</label>
+                    </div>
+                    <button class="btn btn-dark" id="edit-evaluation-button" onclick="applyEditEvaluation()">Apply</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editEvaluationModal" tabindex="-1" aria-labelledby="editEvaluationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editEvaluationModalLabel">Edit Evaluation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="edit-evaluation-form">
-                        <div class="mb-3">
-                            <label for="edit-evaluation-name-input" class="form-label">Evaluation Name</label>
-                            <input type="text" class="form-control" id="edit-evaluation-name-input" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-evaluation-program-input" class="form-label">Program</label>
-                            <select class="form-control" id="edit-evaluation-program-input" required>
-                                <option value=1>Computer Science</option>
-                                <option value=2>Accountancy</option>
-                                <option value=3>Management Accounting</option>
-                                <option value=4>Entrepreneurship</option>
-                                <option value=5>Tourism Management</option>
-                                <option value=6>Multimedia Arts</option>
-                                <option value=7>Information Technology</option>
-                                <option value=8>Financial Management</option>
-                                <option value=9>Marketing Management</option>
-                                <option value=10>Hospitality Management</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-evaluation-program-input" class="form-label">Semester</label>
-                            <input type="text" class="form-control" id="edit-evaluation-semester-input" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-evaluation-start-input" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="edit-evaluation-start-input" required>
-                        </div>
-                        <div class="mb-3" style="padding-bottom: 10px;">
-                            <label for="edit-evaluation-end-input" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="edit-evaluation-end-input" required>
-                        </div>
-                        <hr class="hr" />
-                        <p>Questions</p>
-                        <div class="container" id="edit-add-questions-container">
-                            <label for="edit-evaluation-questions-input" class="form-label">Questions</label>
-                        </div>   
-                        <button class="btn btn-dark" id="edit-evaluation-button" onclick="applyEditEvaluation()">Apply</button>                     
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </body>
 </html>

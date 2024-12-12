@@ -150,6 +150,39 @@ exports.viewQuestions = (req, res) => {
     });
 };
 
+exports.getAssociatedQuestions = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({ message: 'Access denied.' });
+    }
+
+    const evaluationID = req.query.evaluationID;
+
+    if (!evaluationID) {
+        return res.status(400).json({ message: 'Evaluation ID is required.' });
+    }
+
+    const query = `
+        SELECT q.QuestionID, q.QuestionDesc, q.QuestionType
+        FROM link l
+        JOIN question q ON l.QuestionID = q.QuestionID
+        WHERE l.EvaluationID = ?;
+    `;
+
+    // console.log('Executing query:', query);
+    // console.log('With evaluationID:', evaluationID);
+
+    db.execute(query, [evaluationID], (err, results) => {
+        if (err) {
+            console.error('Error fetching associated questions:', err);
+            return res.status(500).json({ message: 'Error fetching associated questions.', error: err.message });
+        }
+
+        // console.log('Query results:', results);
+        res.status(200).json({ questions: results });
+    });
+};
+
 exports.getQuestion = (req, res) => {
     // Verify if the user is an admin
     if (!req.session.user_id || req.session.user_type !== 'Admin') {
@@ -189,3 +222,4 @@ exports.getQuestion = (req, res) => {
         }
     });
 };
+
