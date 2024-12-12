@@ -7,10 +7,9 @@
     <title>Admin Dashboard</title>
 
     <link href="/public/css/bootstrap.css" rel="stylesheet">
-    <link href="/public/css/dashboard_style.css" rel="stylesheet">
-    <script defer src="/public/js/dashboard_script.js"></script>
+    <link href="/public/css/admin_utils.css" rel="stylesheet">
+    <script defer src="/public/js/admin_util.js"></script>
     <script defer src="/public/js/bootstrap.js"></script>
-    <script src="/js/chart.js/dist/chart.umd.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -65,34 +64,24 @@
         </div>
     </aside>
     <div class="main p-3">
-        <div class="text-center">
-            <h1>Admin Dashboard</h1>
-            <hr>
+        <div class="text-start mb-4">
+            <h1>Utilities</h1>
+            <hr class="hr"/>
         </div>
-
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="text-center">Respondent Distribution</p>
-                    <div class="chart-container">
-                        <canvas id="respondentBarChart"></canvas>
-                    </div>
-                </div>
+        <div>
+            <div class="text-start mb-4">
+                <h1>Upload a File</h1>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input name="file" required type="file">
+                    <button type="submit">Upload</button>
+                </form>
+                <p id="uploadMessage"></p>
             </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <p class="text-center">Respondent Population</p>
-                    <div class="chart-container">
-                        <canvas id="studentProgramPopulationChart"></canvas>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <p class="text-center">Evaluation Status</p>
-                    <div class="chart-container">
-                        <canvas id="evaluationStatusChart"></canvas>
-                    </div>
-                </div>
+            <div class="text-start mb-4">
+                <h1>Download a File</h1>
+                <form action="api/download_summary" method="get">
+                    <button type="submit">Download</button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,0 +1,6 @@
+Username,LastName,FirstName,Email,Password,UserType,ProgramID
+user1,Eydala,Aguilar,2233692@slu.edu.ph,123,Student,5
+user2,Boogle,Mercado,2247564@slu.edu.ph,123,Student,2
+user3,Bini Tin,Lactaotao,2246574@slu.edu.ph,456,Student,3
+user4,Michael,Smith,john.smith@example.com,789,Student,2
+user5,Ann,Doe,jane.doe@example.com,101,Student,4

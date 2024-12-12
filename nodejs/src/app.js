@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const evaluationRoutes = require('./routes/evaluationRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const utilRoutes = require('./routes/utilRoutes');
 
 const app = express();
 
@@ -26,9 +27,8 @@ app.use('/api', authRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes);
 app.use('/api', dashboardRoutes);
-
+app.use('/api', utilRoutes)
 app.use('/js', express.static(path.join(__dirname, '..', 'node_modules')));
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'static', 'login.html'));
 });
@@ -60,6 +60,14 @@ app.get('/admin_questions', (req, res) => {
 app.get('/admin_evaluations', (req, res) => {
     if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
         res.sendFile(path.join(__dirname, 'public', 'static', 'admin_evaluations.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/admin_utilities', (req, res) => {
+    if (req.session && req.session.user_id && req.session.user_type === 'Admin') {
+        res.sendFile(path.join(__dirname, 'public', 'static', 'admin_utils.html'));
     } else {
         res.redirect('/');
     }
