@@ -99,7 +99,7 @@ function loadEvaluations() {
                     if (evaluation.Status === 'Draft') {
                         actionCell.innerHTML = `
                             <button class="btn btn-primary btn-sm" onclick="editEvaluation(${evaluation.EvaluationID})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="publishEvaluation(${evaluation.EvaluationID})">Publish</button>
+                            <button class="btn btn-success btn-sm" onclick="publishEvaluation(${evaluation.EvaluationID})">Publish</button>
                         `;
                     }
 
