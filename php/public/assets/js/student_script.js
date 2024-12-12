@@ -59,7 +59,18 @@ function loadQuestions(evaluationID) {
                             questionsHtml += `
                                 <div class="question-card-item">
                                     <p>${question.questionDesc}</p>
-                                    <input type="text" name="answer_${question.QuestionID}" placeholder="Your answer" required>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="a" required> Very great
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="b" required> Great
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="c" required> Not that great
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="answer_${question.QuestionID}" value="d" required> Not great at all
+                                    </label>
                                 </div>
                             `;
                         } else if (question.QuestionType === 'TrueOrFalse') {
@@ -86,6 +97,7 @@ function loadQuestions(evaluationID) {
     };
     xhr.send();
 }
+
 
 // Setup click event for each evaluation card
 function setupCardClickEvents() {
