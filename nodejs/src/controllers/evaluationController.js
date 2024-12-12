@@ -174,21 +174,21 @@ exports.publishEvaluations = (req, res) => {
 
 exports.setEvaluations = async (req, res) => {
     if (!req.session.user_id) {
-        return res.status(403).json({message: 'You must be logged in to set an evaluation.'});
+        return res.status(403).json({ message: 'You must be logged in to set an evaluation.' });
     }
 
-    const {evaluationName, programID, semester, startDate, endDate, questionIDs} = req.body;
+    const { evaluationName, programID, semester, startDate, endDate, questionIDs } = req.body;
 
-    // validate required fields
+    // Validate required fields
     if (!evaluationName || !programID || !semester || !startDate || !endDate || !questionIDs) {
-        return res.status(400).json({message: 'Required fields are missing.'});
+        return res.status(400).json({ message: 'Required fields are missing.' });
     }
 
     try {
-        // begin a transaction
+        // Begin a transaction
         await db.promise().beginTransaction();
 
-        // insert the evaluation
+        // Insert the evaluation
         const evaluationQuery = `
             INSERT INTO EVALUATION (EvaluationName, ProgramID, Semester, StartDate, EndDate, Status)
             VALUES (?, ?, ?, ?, ?, 'Draft')
@@ -203,30 +203,20 @@ exports.setEvaluations = async (req, res) => {
 
         const evaluationID = evaluationResult.insertId;
 
-        // link questions to the evaluation
-        const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES (?, ?)";
-        const questionIDArray = questionIDs.split(',').map(qid => qid.trim());
+        // Link questions to the evaluation
+        const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES ?";
+        const linkValues = questionIDs.map(questionID => [evaluationID, questionID]);
+        await db.promise().query(linkQuery, [linkValues]);
 
-        for (const questionID of questionIDArray) {
-            if (questionID) {
-                // check if the question exists
-                const [questionResult] = await db.promise().execute("SELECT QuestionID FROM QUESTION WHERE QuestionID = ?", [questionID]);
-                if (questionResult.length === 0) {
-                    throw new Error(`QuestionID ${questionID} does not exist.`);
-                }
-                await db.promise().execute(linkQuery, [evaluationID, questionID]);
-            }
-        }
-
-        // commit transaction
+        // Commit the transaction
         await db.promise().commit();
 
-        res.status(200).json({message: 'Evaluation set successfully with selected questions!'});
+        res.json({ message: 'Evaluation created successfully.' });
     } catch (error) {
-        // rollback transaction in case of error
+        // Rollback the transaction in case of error
         await db.promise().rollback();
-        console.error('Error setting evaluation:', error);
-        res.status(500).json({message: 'Error setting evaluation.', error: error.message});
+        console.error(error);
+        res.status(500).json({ message: 'Error creating evaluation.' });
     }
 };
 
