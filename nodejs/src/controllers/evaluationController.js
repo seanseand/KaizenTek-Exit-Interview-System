@@ -293,7 +293,7 @@ exports.getEvaluation = (req, res) => {
     // Prepare the SQL query to fetch the evaluation by ID
     const query = `
         SELECT e.EvaluationID, e.EvaluationName, e.StartDate, e.EndDate, 
-               e.ProgramID
+               e.ProgramID, e.Semester
         FROM EVALUATION e
         WHERE e.EvaluationID = ?`;
 

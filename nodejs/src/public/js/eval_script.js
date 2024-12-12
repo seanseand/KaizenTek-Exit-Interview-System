@@ -207,16 +207,23 @@ window.editEvaluation = function (evaluationID) {
             const evaluation = JSON.parse(xhr.responseText);
 
             document.getElementById('edit-evaluation-name-input').value = evaluation.EvaluationName;
-            document.getElementById('edit-evaluation-program-input').value = evaluation.programID;
             document.getElementById('edit-evaluation-semester-input').value = evaluation.Semester;
-            document.getElementById('edit-evaluation-start-input').value = evaluation.StartDate;
-            document.getElementById('edit-evaluation-end-input').value = evaluation.EndDate;
+
+            const startDate = new Date(evaluation.StartDate).toLocaleDateString('en-CA');
+            const endDate = new Date(evaluation.EndDate).toLocaleDateString('en-CA');
+
+            document.getElementById('edit-evaluation-start-input').value = startDate;
+            document.getElementById('edit-evaluation-end-input').value = endDate;
+
+            const programSelect = document.getElementById('edit-evaluation-program-input');
+            console.log(programSelect.value)
+            programSelect.value = evaluation.programID;
 
             // Store the evaluation ID in the modal for later use (e.g., for saving the changes)
             document.getElementById('editEvaluationModal').setAttribute('data-evaluation-id', evaluationID);
-
             // Fetch and display the list of questions associated with this evaluation
             loadQuestionsForEdit(evaluationID);
+
 
             // Show the modal
             const modal = new bootstrap.Modal(document.getElementById('editEvaluationModal'));
@@ -373,8 +380,55 @@ function removeQuestionFromEvaluation(evaluationID, questionID) {
         });
 }
 
-function applyEditQuestion() {
-    //TODO: insert edit eval logic here
+function applyEditEvaluation() {
+    console.log('Apply button clicked');  // Check if the function is being triggered
+
+    const evaluationID = document.getElementById('editEvaluationModal').getAttribute('data-evaluation-id');
+    const evaluationName = document.getElementById('edit-evaluation-name-input').value.trim();
+    const programID = document.getElementById('edit-evaluation-program-input').value.trim();
+    const semester = document.getElementById('edit-evaluation-semester-input').value.trim();
+    const startDate = document.getElementById('edit-evaluation-start-input').value.trim();
+    const endDate = document.getElementById('edit-evaluation-end-input').value.trim();
+
+    if (!evaluationName || !programID || !semester || !startDate || !endDate) {
+        alert('All fields are required!');
+        return;
+    }
+
+    const selectedQuestions = Array.from(document.querySelectorAll('input[name="selectedQuestions"]:checked'))
+        .map(checkbox => checkbox.value);
+
+    const formData = {
+        evaluationID: evaluationID,
+        evaluationName: evaluationName,
+        programID: programID,
+        semester: semester,
+        startDate: startDate,
+        endDate: endDate,
+        questionIDs: selectedQuestions
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/editEvaluations', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('Response Status:', xhr.status);
+            console.log('Response Text:', xhr.responseText);
+
+            if (xhr.status === 200) {
+                alert('Evaluation updated successfully.');
+                loadEvaluations();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editEvaluationModal'));
+                modal.hide();
+            } else {
+                alert('Error: ' + xhr.status);
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(formData));
 }
 
 // Function to load questions and populate the table
