@@ -99,7 +99,7 @@ function loadEvaluations() {
                     if (evaluation.Status === 'Draft') {
                         actionCell.innerHTML = `
                             <button class="btn btn-primary btn-sm" onclick="editEvaluation(${evaluation.EvaluationID})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteEvaluation(${evaluation.EvaluationID})">Delete</button>
+                            <button class="btn btn-danger btn-sm" onclick="publishEvaluation(${evaluation.EvaluationID})">Publish</button>
                         `;
                     }
 
@@ -279,4 +279,31 @@ function createQuestionTable(questions) {
 
     table.appendChild(tbody);
     return table;
+}
+
+// Function to publish an evaluation
+function publishEvaluation(evaluationID) {
+    // Send a POST request to /api/publish_evaluations
+    fetch('/api/publish_evaluations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ evaluationID: evaluationID })
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Handle the response
+        if (result.message) {
+            alert(result.message);
+        } else {
+            alert('Evaluation published successfully.');
+        }
+        // Optionally, refresh the evaluations list
+        loadEvaluations();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error publishing evaluation.');
+    });
 }
