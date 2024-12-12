@@ -69,22 +69,37 @@
             <hr class="hr"/>
         </div>
         <div>
-            <div class="text-start mb-4">
-                <h1>Upload a File</h1>
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <input name="file" required type="file">
-                    <button type="submit">Upload</button>
-                </form>
-                <p id="uploadMessage"></p>
+            <div class="form-container">
+                <div class="text-start mb-4">
+                    <h1>Upload list of graduating students</h1>
+                    <form enctype="multipart/form-data" id="uploadForm">
+                        <input class="btn" name="file" required type="file">
+                        <button type="submit">Upload</button>
+                    </form>
+                    <p id="uploadMessage"></p>
+                    <p>Please upload a CSV file in the following format:</p>
+                    <p>
+                        Username,LastName,FirstName,Email,Password,UserType,ProgramID
+                        <br>user,last,name,email,pass,type,#
+                    </p>
+                </div>
             </div>
-            <div class="text-start mb-4">
-                <h1>Download a File</h1>
-                <form action="api/download_summary" method="get">
-                    <button type="submit">Download</button>
-                </form>
+            <div class="form-container">
+                <div class="text-start mb-4">
+                    <h1>Download Summary of Statistics</h1>
+                    <form action="api/download_summary" method="get">
+                        <button id="submit" type="submit">Download</button>
+                    </form>
+                    <br>
+                    <p>This will download a summary of statistics:</p>
+                    <ul>
+                        <li>Population of programs</li>
+                        <li>Status of evaluations</li>
+                        <li>Expected respondents vs responders</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
