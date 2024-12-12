@@ -344,11 +344,10 @@ function addQuestionToEvaluation(evaluationID, questionID) {
     fetch('/api/add_or_remove_questions', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'add', evaluationID, questionID})
+        body: JSON.stringify({action: 'add', evaluationID, questionIDs: questionID})
     })
         .then(response => response.json())
         .then(result => {
-            alert(result.message || 'Question added successfully!');
             loadQuestionsForEdit(evaluationID);
         })
         .catch(error => {
@@ -362,11 +361,10 @@ function removeQuestionFromEvaluation(evaluationID, questionID) {
     fetch('/api/add_or_remove_questions', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'remove', evaluationID, questionID})
+        body: JSON.stringify({action: 'remove', evaluationID, questionIDs: questionID})
     })
         .then(response => response.json())
         .then(result => {
-            alert(result.message || 'Question removed successfully!');
             loadQuestionsForEdit(evaluationID);
         })
         .catch(error => {
