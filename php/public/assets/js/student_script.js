@@ -55,7 +55,7 @@ function loadQuestions(evaluationID) {
                 } else {
                     let questionsHtml = '';
                     response.questions.forEach(question => {
-                        if (question.QuestionType === 'Multiple Choice') {
+                        if (question.QuestionType === 'multiple-choice') {
                             questionsHtml += `
                                 <div class="question-card-item">
                                     <p>${question.questionDesc}</p>
