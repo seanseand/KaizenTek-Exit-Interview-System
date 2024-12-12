@@ -215,5 +215,69 @@ function deleteQuestion(questionID) {
     }
 }
 
+// Get the table and the dropdown menu
+const table = document.getElementById('questions-table');
+const dropdown = document.getElementById('sort');
+
+// Function to sort the table
+function sortTable() {
+    // Get the selected option
+    const selectedOption = dropdown.value;
+
+    // Get the rows of the table body
+    const tbody = table.tBodies[0];
+    const rows = tbody.rows;
+
+    // Convert the rows to an array
+    const rowsArray = Array.from(rows);
+
+    // Sort the rows based on the selected option
+    rowsArray.sort((a, b) => {
+        // Get the cells of the rows
+        const cellsA = a.cells;
+        const cellsB = b.cells;
+
+        // Get the values of the cells based on the selected option
+        let valueA, valueB;
+        switch (selectedOption) {
+            case 'QuestionDesc':
+                valueA = cellsA[0].textContent;
+                valueB = cellsB[0].textContent;
+                break;
+            case 'QuestionType':
+                valueA = cellsA[1].textContent;
+                valueB = cellsB[1].textContent;
+                break;
+            case 'CreatorName':
+                valueA = cellsA[2].textContent;
+                valueB = cellsB[2].textContent;
+                break;
+            default:
+                return 0;
+        }
+
+        // Compare the values and return the result
+        if (valueA < valueB) {
+            return -1;
+        } else if (valueA > valueB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+    // Remove the existing rows from the table body
+    while (tbody.rows.length > 0) {
+        tbody.deleteRow(0);
+    }
+
+    // Add the sorted rows to the table body
+    rowsArray.forEach(row => {
+        tbody.appendChild(row);
+    });
+}
+
+// Add an event listener to the dropdown menu
+dropdown.addEventListener('change', sortTable);
 // Load questions on page load
 document.addEventListener('DOMContentLoaded', loadQuestions);
