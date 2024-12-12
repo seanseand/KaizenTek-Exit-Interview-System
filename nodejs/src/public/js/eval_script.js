@@ -198,11 +198,8 @@ dropdown.addEventListener('change', sortTable);
 // Load evaluations when the page loads
 document.addEventListener('DOMContentLoaded', loadEvaluations);
 
-// Function to handle the Edit button click
 window.editEvaluation = function(evaluationID) {
-        
     const xhr = new XMLHttpRequest();
-    // Replace ___insertgetevaluation___ with the correct API endpoint
     xhr.open('GET', `/api/get_evaluation?evaluationID=${evaluationID}`, true);
 
     xhr.onreadystatechange = function () {
@@ -211,14 +208,15 @@ window.editEvaluation = function(evaluationID) {
 
             document.getElementById('edit-evaluation-name-input').value = evaluation.EvaluationName;
             document.getElementById('edit-evaluation-program-input').value = evaluation.programID;
-
-            // Populate the modal with the question data
             document.getElementById('edit-evaluation-semester-input').value = evaluation.Semester;
             document.getElementById('edit-evaluation-start-input').value = evaluation.StartDate;
             document.getElementById('edit-evaluation-end-input').value = evaluation.EndDate;
 
-            // Store the questionID in the modal
+            // Store the evaluation ID in the modal for later use (e.g., for saving the changes)
             document.getElementById('editEvaluationModal').setAttribute('data-evaluation-id', evaluationID);
+
+            // Fetch and display the list of questions associated with this evaluation
+            loadQuestionsForEdit(evaluationID);
 
             // Show the modal
             const modal = new bootstrap.Modal(document.getElementById('editEvaluationModal'));
@@ -227,6 +225,89 @@ window.editEvaluation = function(evaluationID) {
     };
     xhr.send();
 };
+
+function loadQuestionsForEdit(evaluationID) {
+    // Fetch all questions
+    fetch('/api/view_questions')
+        .then(response => response.json())
+        .then(data => {
+            if (data.questions && data.questions.length > 0) {
+                const addQuestionContainer = document.getElementById('edit-add-questions-container');
+                addQuestionContainer.innerHTML = ''; // Clear the container
+
+                // Create the question table
+                const questionTable = createQuestionTableForEdit(data.questions, evaluationID);
+                addQuestionContainer.appendChild(questionTable);
+            } else {
+                addQuestionContainer.innerHTML = '<p>No questions available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching questions:', error);
+            addQuestionContainer.innerHTML = '<p>Error loading questions.</p>';
+        });
+}
+
+// Modify the function to create a table with checkboxes for editing
+function createQuestionTableForEdit(questions, evaluationID) {
+    // Create the table element
+    const table = document.createElement('table');
+    table.classList.add('table');
+
+    // Create the table header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+
+    const thCheckbox = document.createElement('th');
+    thCheckbox.textContent = 'Select';
+    headerRow.appendChild(thCheckbox);
+
+    const thDescription = document.createElement('th');
+    thDescription.textContent = 'Question Description';
+    headerRow.appendChild(thDescription);
+
+    const thType = document.createElement('th');
+    thType.textContent = 'Question Type';
+    headerRow.appendChild(thType);
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create the table body
+    const tbody = document.createElement('tbody');
+
+    questions.forEach(question => {
+        const row = document.createElement('tr');
+
+        const tdCheckbox = document.createElement('td');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'selectedQuestions';
+        checkbox.value = question.QuestionID;
+
+        // Check if the question is already associated with the evaluation
+        if (question.EvaluationIDs && question.EvaluationIDs.includes(evaluationID)) {
+            checkbox.checked = true; // Pre-select the checkbox if the question is associated with this evaluation
+        }
+
+        tdCheckbox.appendChild(checkbox);
+        row.appendChild(tdCheckbox);
+
+        const tdDescription = document.createElement('td');
+        tdDescription.textContent = question.QuestionDesc;
+        row.appendChild(tdDescription);
+
+        const tdType = document.createElement('td');
+        tdType.textContent = question.QuestionType;
+        row.appendChild(tdType);
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    return table;
+}
+
 
 function applyEditQuestion() {
     //insert edit eval logic here
