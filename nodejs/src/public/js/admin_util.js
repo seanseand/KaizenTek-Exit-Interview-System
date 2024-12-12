@@ -1,3 +1,9 @@
+const hamBurger = document.querySelector("#toggle-btn");
+
+hamBurger.addEventListener("click", function () {
+  document.querySelector("#sidebar").classList.toggle("expand");
+});
+
 document.getElementById('uploadForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const formData = new FormData(this);

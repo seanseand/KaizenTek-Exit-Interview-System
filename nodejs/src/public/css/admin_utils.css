@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: 'Poppins';
     src: url('/public/fonts/Poppins-Bold.ttf') format('truetype');
@@ -67,12 +68,13 @@ button.btn-danger:hover {
     background-color: #c82333;
 }
 
+/* Page Title */
 h1 {
-    padding: 1.125rem;
     font-weight: 600;
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: #1D184A;
+    padding: 1.125rem;
 }
 
 /* Text Alignments */
@@ -165,4 +167,23 @@ a.sidebar-link:hover {
 
 .sidebar-item {
     position: relative;
+}
+
+/* Responsive Form Container */
+.form-container {
+    border: 2px solid #ccc;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
 }
