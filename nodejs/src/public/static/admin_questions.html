@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/questions_style.css">
+    <link rel="stylesheet" href="/public/css/questions_style.css">
+
+    <script defer src="/public/js/questions_script.js"></script>
+    <script defer src="/public/js/bootstrap.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button id="toggle-btn" type="button">
+                    <img src="public/images/burger-menu-svgrepo-com.svg" alt="toggle">
+                </button>
+                <div class="sidebar-logo">
+                    <a href="/admin">
+                        <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
+                    </a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/admin" class="sidebar-link">
+                        <img src="public/images/home-icon-silhouette-svgrepo-com.svg" alt="Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_respondents" class="sidebar-link">
+                        <img src="public/images/person-svgrepo-com.svg" alt="Results">
+                        <span>Results</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_questions" class="sidebar-link">
+                        <img src="public/images/question-square-fill-svgrepo-com.svg" alt="Manage Questions">
+                        <span>Manage Questions</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_evaluations" class="sidebar-link">
+                        <img src="public/images/clipboard-svgrepo-com.svg" alt="Manage Evaluations">
+                        <span>Manage Evaluations</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin_utilities">
+                        <img alt="Utilities" src="public/images/util_wrench.svg">
+                        <span>Utilities</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/api/logout" class="sidebar-link">
+                    <img src="public/images/logout-2-svgrepo-com.svg" alt="Logout">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main p-3">
+            <div class="text-start mb-4">
+                <h1>Manage Questions</h1>
+                <hr class="hr" />
+                <div class="add-sort-container">
+                    <button id="create-question-button" class="btn btn-dark" type="button"
+                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="createQuestionModal">Create</button>
+                    <select name="sort" id="sort" class="select-container">
+                        <option value="QuestionDesc">Question</option>
+                        <option value="QuestionType">Type</option>
+                        <option value="CreatorName">Creator</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="questions-table" class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Question</th>
+                            <th>Type</th>
+                            <th>Creator</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="questions-table">
+                        <!-- Questions will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="createQuestionModal" tabindex="-1" aria-labelledby="createQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createQuestionModalLabel">Create Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-question-form">
+                        <div class="mb-3">
+                            <label for="question-desc-input" class="form-label">Question</label>
+                            <input type="text" class="form-control" id="question-desc-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="question-type" class="form-label">Type</label>
+                            <select class="form-select" id="question-type" required>
+                                <option value="TrueOrFalse">True or False</option>
+                                <option value="multiple-choice">Multiple Choice</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal = In backend logic, fill up all fields with info from db-->
+    <div class="modal fade" id="editQuestionModal" tabindex="-1" aria-labelledby="editQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editQuestionModalLabel">Edit Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-question-form">
+                        <div class="mb-3">
+                            <label for="edit-question-desc-input" class="form-label">Question</label>
+                            <input type="text" class="form-control" id="edit-question-desc-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-question-type" class="form-label">Type</label>
+                            <select class="form-select" id="edit-question-type" required>
+                                <option value="TrueOrFalse">TrueOrFalse</option>
+                                <option value="Multiple Choice">Multiple Choice</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="applyEditQuestion()">Apply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -104,8 +104,6 @@ To run a Node.js application, follow these steps:
 ## Contributors
 
 - Aguilar, Aaron Kyle
-- Paredes, Ayomi Tuazon
 - Lactaotao, Benny Gil A.
 - Fortaleza, Keanu Sonn
-- Lorente, Luisa Brianne
 - Octavo, Sean Drei 
