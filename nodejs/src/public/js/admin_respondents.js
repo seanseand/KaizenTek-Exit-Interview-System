@@ -62,6 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modal-start-date').innerText = startDate;
         document.getElementById('modal-end-date').innerText = endDate;
 
+        // Load respondents
+        loadRespondents(evaluation.EvaluationID);
+
+        // Load evaluation answers
+        loadEvaluationAnswers(evaluation.EvaluationID);
+
         // Show the modal
         const modal = new bootstrap.Modal(document.getElementById('resultDetailsModal'));
         modal.show();
@@ -85,6 +91,69 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             } else if (xhr.readyState === 4) {
                 console.error('Failed to load respondent count:', xhr.statusText);
+            }
+        };
+
+        xhr.send();
+    }
+
+    // Function to load respondents for an evaluation
+    function loadRespondents(evaluationID) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/get_respondents?evaluationID=${evaluationID}`, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                const respondentsList = document.getElementById('respondents-list-container').querySelector('.list-group');
+                respondentsList.innerHTML = '';  // Clear previous respondents
+
+                if (response.respondents && response.respondents.length > 0) {
+                    response.respondents.forEach((respondent, index) => {
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('list-group-item');
+                        listItem.textContent = `${index + 1}. ${respondent.FirstName} ${respondent.LastName}`;
+                        respondentsList.appendChild(listItem);
+                    });
+                } else {
+                    respondentsList.innerHTML = '<li class="list-group-item">No respondents found.</li>';
+                }
+            } else if (xhr.readyState === 4) {
+                console.error('Failed to load respondents:', xhr.statusText);
+            }
+        };
+
+        xhr.send();
+    }
+
+    // Function to load evaluation answers
+    function loadEvaluationAnswers(evaluationID) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/evaluation/${evaluationID}/questions-answers`, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                const answersList = document.getElementById('evaluation-answers-list-container').querySelector('.list-group');
+                answersList.innerHTML = '';  // Clear previous answers
+
+                if (response && response.length > 0) {
+                    response.forEach((question, index) => {
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('list-group-item');
+                        listItem.innerHTML = `
+                            <strong>${index + 1}. ${question.QuestionDesc}</strong>
+                            <ul>
+                                ${Object.entries(question.AnswerCounts).map(([answer, count]) => `<li>${answer.replace('Count', '')}: ${count}</li>`).join('')}
+                            </ul>
+                        `;
+                        answersList.appendChild(listItem);
+                    });
+                } else {
+                    answersList.innerHTML = '<li class="list-group-item">No answers found.</li>';
+                }
+            } else if (xhr.readyState === 4) {
+                console.error('Failed to load evaluation answers:', xhr.statusText);
             }
         };
 

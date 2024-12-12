@@ -358,10 +358,10 @@ exports.getQuestionsAndAnswers = (req, res) => {
             CASE
                 WHEN q.QuestionType = 'TrueOrFalse' THEN
                     JSON_OBJECT(
-                        'TrueCount', SUM(CASE WHEN a.Answer = 'true' THEN 1 ELSE 0 END),
-                        'FalseCount', SUM(CASE WHEN a.Answer = 'false' THEN 1 ELSE 0 END)
+                        'TrueCount', SUM(CASE WHEN a.Answer = 'True' THEN 1 ELSE 0 END),
+                        'FalseCount', SUM(CASE WHEN a.Answer = 'False' THEN 1 ELSE 0 END)
                     )
-                WHEN q.QuestionType = 'MultipleChoice' THEN
+                WHEN q.QuestionType = 'multiple-choice' THEN
                     JSON_OBJECT(
                         'ACount', SUM(CASE WHEN a.Answer = 'a' THEN 1 ELSE 0 END),
                         'BCount', SUM(CASE WHEN a.Answer = 'b' THEN 1 ELSE 0 END),
