@@ -312,3 +312,38 @@ exports.getEvaluation = (req, res) => {
     });
 };
 
+exports.getRespondents = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({message: 'Access denied.'});
+    }
+
+    // Get the evaluation ID from the query string
+    const evaluationID = req.query.evaluationID;
+
+    if (!evaluationID) {
+        return res.status(400).json({message: 'Evaluation ID is required.'});
+    }
+
+    // Prepare the SQL query to fetch the respondents by evaluation ID
+    const query = `
+        SELECT u.FirstName, u.LastName
+        FROM RESPONSE r
+        JOIN STUDENT s ON r.StudentID = s.StudentID
+        JOIN USER u ON s.StudentID = u.UserID
+        WHERE r.EvaluationID = ?
+    `;
+
+    db.execute(query, [evaluationID], (err, results) => {
+        if (err) {
+            console.error('Error fetching respondents:', err);
+            return res.status(500).json({message: 'Error fetching respondents.', error: err.message});
+        }
+
+        if (results.length > 0) {
+            res.status(200).json({respondents: results});
+        } else {
+            res.status(404).json({message: 'No respondents found for this evaluation.'});
+        }
+    });
+};

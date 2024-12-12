@@ -50,14 +50,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to load the modal with evaluation details
     function loadEvaluationModal(evaluation) {
-        // document.getElementById('modal-evaluation-name').innerText = evaluation.EvaluationName;
-        // document.getElementById('modal-program-name').innerText = evaluation.ProgramName;
-        // document.getElementById('modal-semester').innerText = evaluation.Semester;
-        // document.getElementById('modal-start-date').innerText = evaluation.StartDate;
-        // document.getElementById('modal-end-date').innerText = evaluation.EndDate;
+        document.getElementById('modal-evaluation-name').innerText = evaluation.EvaluationName;
+        document.getElementById('modal-program-name').innerText = evaluation.ProgramName;
+        document.getElementById('modal-semester').innerText = evaluation.Semester;
+
+        // Format the start date and end date
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const startDate = new Date(evaluation.StartDate).toLocaleDateString('en-US', options);
+        const endDate = new Date(evaluation.EndDate).toLocaleDateString('en-US', options);
+
+        document.getElementById('modal-start-date').innerText = startDate;
+        document.getElementById('modal-end-date').innerText = endDate;
 
         // Show the modal
-        const modal = new bootstrap.Modal(document.getElementById('evaluationModal'));
+        const modal = new bootstrap.Modal(document.getElementById('resultDetailsModal'));
         modal.show();
     }
 

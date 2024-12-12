@@ -83,15 +83,22 @@
 
     <!-- Modal -->
     <div class="modal fade" id="resultDetailsModal" tabindex="-1" aria-labelledby="resultDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="resultDetailsModalLabel">Result Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                
+                    <div class="mb-3">
+                        <div><strong>Evaluation:</strong> <span id="modal-evaluation-name"></span></div>
+                        <div><strong>Program:</strong> <span id="modal-program-name"></span></div>
+                        <div><strong>Semester:</strong> <span id="modal-semester"></span></div>
+                        <div><strong>Start Date:</strong> <span id="modal-start-date"></span></div>
+                        <div><strong>End Date:</strong> <span id="modal-end-date"></span></div>
+                    </div>
                 </div>
+                <hr class="hr" />
             </div>
         </div>
     </div>
