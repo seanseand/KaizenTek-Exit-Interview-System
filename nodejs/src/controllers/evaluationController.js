@@ -263,3 +263,40 @@ exports.viewEvaluations = (req, res) => {
         }
     });
 };
+
+exports.getEvaluation = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({message: 'Access denied.'});
+    }
+
+    // Get the evaluation ID from the query string
+    const evaluationID = req.query.evaluationID;
+
+    if (!evaluationID) {
+        return res.status(400).json({message: 'Evaluation ID is required.'});
+    }
+
+    // Prepare the SQL query to fetch the evaluation by ID
+    const query = `
+        SELECT e.EvaluationID, e.EvaluationName, e.Description, e.StartDate, e.EndDate, 
+               e.ProgramName, u.FirstName AS CreatorFirstName, u.LastName AS CreatorLastName
+        FROM EVALUATION e
+        LEFT JOIN USER u ON e.CreatorID = u.UserID
+        WHERE e.EvaluationID = ?`;
+
+    db.execute(query, [evaluationID], (err, results) => {
+        if (err) {
+            console.error('Error fetching evaluation:', err);
+            return res.status(500).json({message: 'Error fetching evaluation.', error: err.message});
+        }
+
+        if (results.length > 0) {
+            // Return the evaluation details
+            res.status(200).json(results[0]);
+        } else {
+            res.status(404).json({message: 'Evaluation not found.'});
+        }
+    });
+};
+

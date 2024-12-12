@@ -8,5 +8,6 @@ router.post('/editEvaluations', evaluationController.editEvaluations);
 router.post('/publish_evaluations', evaluationController.publishEvaluations);
 router.post('/setEvaluations', evaluationController.setEvaluations);
 router.get('/view_evaluations', evaluationController.viewEvaluations);
+router.get('/get_evaluation', evaluationController.getEvaluation);
 
 module.exports = router;
