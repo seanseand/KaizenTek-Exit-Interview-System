@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/eval_style.css">
     <script defer src="/public/js/eval_script.js"></script>   
-    <script defer src="/public/js/bootstrap.min.js"></script>
+    <script defer src="/public/js/bootstrap.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -68,7 +68,8 @@
             <div class="text-start mb-4">
                 <h1>Manage Evaluations</h1>
                 <hr class="hr" />
-                <button id="add-button" class="btn btn-dark" type="button">Create</button>
+                <button id="create-evaluation-button" class="btn btn-dark" type="button" 
+                data-mdb-ripple-init data-mdb-modal-init data-mdb-target="createEvaluationModal">Create</button>
                 <select name="sort" id="sort" class="select-container">
                     <option value=""></option>
                     <option value=""></option>
@@ -93,7 +94,59 @@
                 </table>
             </div>
         </div>
-        
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="createEvaluationModal" tabindex="-1" aria-labelledby="createEvaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEvaluationModalLabel">Create Evaluation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-evaluation-form">
+                        <div class="mb-3">
+                            <label for="evaluation-name-input" class="form-label">Evaluation Name</label>
+                            <input type="text" class="form-control" id="evaluation-name-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="evaluation-program-input" class="form-label">Program</label>
+                            <select class="form-control" id="evaluation-program-input" required>
+                                <option value=1>Computer Science</option>
+                                <option value=2>Accountancy</option>
+                                <option value=3>Management Accounting</option>
+                                <option value=4>Entrepreneurship</option>
+                                <option value=5>Tourism Management</option>
+                                <option value=6>Multimedia Arts</option>
+                                <option value=7>Information Technology</option>
+                                <option value=8>Financial Management</option>
+                                <option value=9>Marketing Management</option>
+                                <option value=10>Hospitality Management</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="evaluation-program-input" class="form-label">Semester</label>
+                            <input type="text" class="form-control" id="evaluation-semester-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="evaluation-start-input" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="evaluation-start-input" required>
+                        </div>
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label for="evaluation-end-input" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="evaluation-end-input" required>
+                        </div>
+                        <hr class="hr" />
+                        <p>Questions</p>
+                        <div class="container" id="add-questions-container">
+                            <label for="evaluation-questions-input" class="form-label">Questions</label>
+                        </div>   
+                        <button class="btn btn-dark" id="set-evaluation-button">Set Evaluation</button>                     
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
