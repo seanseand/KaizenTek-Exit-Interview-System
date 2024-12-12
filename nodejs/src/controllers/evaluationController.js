@@ -1,64 +1,65 @@
 const db = require('../config/db');
+const {body, validationResult} = require('express-validator');
 
-exports.addOrRemoveQuestions = (req, res) => {
-    // check if the user is logged in (using session)
-    if (!req.session.user_id) {
-        return res.status(403).json({message: 'You must be logged in to modify evaluation questions.'});
-    }
+exports.addOrRemoveQuestions = [
+    // Validation and sanitization
+    body('evaluationID').trim().escape().notEmpty().withMessage('Evaluation ID is required.'),
+    body('action').trim().escape().notEmpty().withMessage('Action is required.'),
+    body('questionIDs').trim().escape().notEmpty().withMessage('Question IDs are required.'),
 
-    // get the required fields from the request body
-    const {evaluationID, action, questionIDs} = req.body;
-
-    if (!evaluationID || !action || !questionIDs) {
-        return res.status(400).json({message: 'Required fields are missing.'});
-    }
-
-    // ensure that questionIDs is a comma-separated list and convert it to an array
-    const questionIDArray = questionIDs.split(',').map(id => id.trim()).filter(id => id);
-
-    // check if evaluation is in Draft status
-    const checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
-    db.execute(checkStatusQuery, [evaluationID], (err, results) => {
-        if (err) {
-            console.error('Error checking evaluation status:', err);
-            return res.status(500).json({message: 'Error checking evaluation status.', error: err.message});
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
         }
 
-        const evaluation = results[0];
-        if (!evaluation || evaluation.Status !== 'Draft') {
-            return res.status(400).json({message: 'Evaluation not found or is not in Draft status.'});
+        if (!req.session.user_id) {
+            return res.status(403).json({message: 'You must be logged in to modify evaluation questions.'});
         }
 
-        if (action === 'add') {
-            // add questions to the draft evaluation
-            const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES (?, ?)";
-            questionIDArray.forEach(questionID => {
-                const queryParams = [evaluationID, questionID];
-                db.execute(linkQuery, queryParams, (err, result) => {
-                    if (err) {
-                        console.error('Error adding question to evaluation:', err);
-                    }
+        const {evaluationID, action, questionIDs} = req.body;
+        const questionIDArray = questionIDs.split(',').map(id => id.trim()).filter(id => id);
+
+        const checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
+        db.execute(checkStatusQuery, [evaluationID], (err, results) => {
+            if (err) {
+                console.error('Error checking evaluation status:', err);
+                return res.status(500).json({message: 'Error checking evaluation status.', error: err.message});
+            }
+
+            const evaluation = results[0];
+            if (!evaluation || evaluation.Status !== 'Draft') {
+                return res.status(400).json({message: 'Evaluation not found or is not in Draft status.'});
+            }
+
+            if (action === 'add') {
+                const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES (?, ?)";
+                questionIDArray.forEach(questionID => {
+                    const queryParams = [evaluationID, questionID];
+                    db.execute(linkQuery, queryParams, (err, result) => {
+                        if (err) {
+                            console.error('Error adding question to evaluation:', err);
+                        }
+                    });
                 });
-            });
-            res.status(200).json({message: 'Questions added to the evaluation successfully!'});
-        } else if (action === 'remove') {
-            // remove questions from the draft evaluation
-            const unlinkQuery = "DELETE FROM LINK WHERE EvaluationID = ? AND QuestionID = ?";
-            questionIDArray.forEach(questionID => {
-                const queryParams = [evaluationID, questionID];
-                db.execute(unlinkQuery, queryParams, (err, result) => {
-                    if (err) {
-                        console.error('Error removing question from evaluation:', err);
-                    }
+                res.status(200).json({message: 'Questions added to the evaluation successfully!'});
+            } else if (action === 'remove') {
+                const unlinkQuery = "DELETE FROM LINK WHERE EvaluationID = ? AND QuestionID = ?";
+                questionIDArray.forEach(questionID => {
+                    const queryParams = [evaluationID, questionID];
+                    db.execute(unlinkQuery, queryParams, (err, result) => {
+                        if (err) {
+                            console.error('Error removing question from evaluation:', err);
+                        }
+                    });
                 });
-            });
-            res.status(200).json({message: 'Questions removed from the evaluation successfully!'});
-        } else {
-            res.status(400).json({message: 'Invalid action specified.'});
-        }
-    });
-};
-
+                res.status(200).json({message: 'Questions removed from the evaluation successfully!'});
+            } else {
+                res.status(400).json({message: 'Invalid action specified.'});
+            }
+        });
+    }
+];
 exports.checkResponses = (req, res) => {
     // check if the user is logged in and if they are an admin
     if (!req.session.user_id || req.session.user_type !== 'Admin') {
@@ -72,8 +73,8 @@ exports.checkResponses = (req, res) => {
         return res.status(400).json({error: 'Evaluation ID is required.'});
     }
 
-    // prepare the SQL query to get distinct StudentID values for the given evaluation
-    const query = "SELECT DISTINCT StudentID FROM RESPONSE WHERE EvaluationID = ?";
+    // prepare the SQL query to count distinct StudentID values for the given evaluation
+    const query = "SELECT COUNT(DISTINCT StudentID) AS respondentCount FROM RESPONSE WHERE EvaluationID = ?";
     db.execute(query, [evaluationID], (err, results) => {
         if (err) {
             console.error('Database query failed:', err);
@@ -81,52 +82,65 @@ exports.checkResponses = (req, res) => {
         }
 
         // check if there are responses for the given evaluation
-        if (results.length > 0) {
-            const studentIDs = results.map(row => row.StudentID);
-            res.status(200).json({status: 'success', students: studentIDs});
+        if (results.length > 0 && results[0].respondentCount > 0) {
+            res.status(200).json({
+                status: 'success',
+                respondentCount: results[0].respondentCount // include the count in the response
+            });
         } else {
-            res.status(200).json({status: 'no_responses', message: 'No responses yet for this evaluation.'});
+            res.status(200).json({
+                status: 'no_responses',
+                message: 'No responses yet for this evaluation.',
+                respondentCount: 0 // include the count in the response
+            });
         }
-    });};
-
-exports.editEvaluations = (req, res) => {
-    // check if the user is an admin
-    if (!req.session.user_id || req.session.user_type !== 'Admin') {
-        return res.status(403).json({message: 'Access denied.'});
-    }
-
-    // extract required fields from the request body
-    const {evaluationID, evaluationName, programID, startDate, endDate} = req.body;
-
-    if (!evaluationID || !evaluationName || !programID || !startDate || !endDate) {
-        return res.status(400).json({message: 'All fields are required.'});
-    }
-
-    // check if the evaluation status is 'Draft'
-    const checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
-    db.execute(checkStatusQuery, [evaluationID], (err, results) => {
-        if (err) {
-            console.error('Error checking evaluation status:', err);
-            return res.status(500).json({message: 'Error checking evaluation status.'});
-        }
-
-        const evaluation = results[0];
-        if (!evaluation || evaluation.Status !== 'Draft') {
-            return res.status(400).json({message: "Only evaluations with a status of 'Draft' can be edited."});
-        }
-
-        // proceed with updating the evaluation
-        const updateQuery = "UPDATE EVALUATION SET EvaluationName = ?, ProgramID = ?, StartDate = ?, EndDate = ? WHERE EvaluationID = ?";
-        db.execute(updateQuery, [evaluationName, programID, startDate, endDate, evaluationID], (err, result) => {
-            if (err) {
-                console.error('Error updating evaluation:', err);
-                return res.status(500).json({message: 'Error updating evaluation.', error: err.message});
-            }
-
-            res.status(200).json({message: 'Evaluation updated successfully.'});
-        });
     });
 };
+
+exports.editEvaluations = [
+    // Validation and sanitization
+    body('evaluationID').trim().escape().notEmpty().withMessage('Evaluation ID is required.'),
+    body('evaluationName').trim().escape().notEmpty().withMessage('Evaluation name is required.'),
+    body('programID').trim().escape().notEmpty().withMessage('Program ID is required.'),
+    body('startDate').trim().escape().notEmpty().withMessage('Start date is required.'),
+    body('endDate').trim().escape().notEmpty().withMessage('End date is required.'),
+
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+
+        if (!req.session.user_id || req.session.user_type !== 'Admin') {
+            return res.status(403).json({message: 'Access denied.'});
+        }
+
+        const {evaluationID, evaluationName, programID, startDate, endDate} = req.body;
+
+        const checkStatusQuery = "SELECT Status FROM EVALUATION WHERE EvaluationID = ?";
+        db.execute(checkStatusQuery, [evaluationID], (err, results) => {
+            if (err) {
+                console.error('Error checking evaluation status:', err);
+                return res.status(500).json({message: 'Error checking evaluation status.'});
+            }
+
+            const evaluation = results[0];
+            if (!evaluation || evaluation.Status !== 'Draft') {
+                return res.status(400).json({message: "Only evaluations with a status of 'Draft' can be edited."});
+            }
+
+            const updateQuery = "UPDATE EVALUATION SET EvaluationName = ?, ProgramID = ?, StartDate = ?, EndDate = ? WHERE EvaluationID = ?";
+            db.execute(updateQuery, [evaluationName, programID, startDate, endDate, evaluationID], (err, result) => {
+                if (err) {
+                    console.error('Error updating evaluation:', err);
+                    return res.status(500).json({message: 'Error updating evaluation.', error: err.message});
+                }
+
+                res.status(200).json({message: 'Evaluation updated successfully.'});
+            });
+        });
+    }
+];
 
 exports.publishEvaluations = (req, res) => {
     // check if the user is logged in and is an admin
@@ -172,16 +186,16 @@ exports.setEvaluations = async (req, res) => {
 
     const {evaluationName, programID, semester, startDate, endDate, questionIDs} = req.body;
 
-    // validate required fields
+    // Validate required fields
     if (!evaluationName || !programID || !semester || !startDate || !endDate || !questionIDs) {
         return res.status(400).json({message: 'Required fields are missing.'});
     }
 
     try {
-        // begin a transaction
+        // Begin a transaction
         await db.promise().beginTransaction();
 
-        // insert the evaluation
+        // Insert the evaluation
         const evaluationQuery = `
             INSERT INTO EVALUATION (EvaluationName, ProgramID, Semester, StartDate, EndDate, Status)
             VALUES (?, ?, ?, ?, ?, 'Draft')
@@ -196,30 +210,20 @@ exports.setEvaluations = async (req, res) => {
 
         const evaluationID = evaluationResult.insertId;
 
-        // link questions to the evaluation
-        const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES (?, ?)";
-        const questionIDArray = questionIDs.split(',').map(qid => qid.trim());
+        // Link questions to the evaluation
+        const linkQuery = "INSERT INTO LINK (EvaluationID, QuestionID) VALUES ?";
+        const linkValues = questionIDs.map(questionID => [evaluationID, questionID]);
+        await db.promise().query(linkQuery, [linkValues]);
 
-        for (const questionID of questionIDArray) {
-            if (questionID) {
-                // check if the question exists
-                const [questionResult] = await db.promise().execute("SELECT QuestionID FROM QUESTION WHERE QuestionID = ?", [questionID]);
-                if (questionResult.length === 0) {
-                    throw new Error(`QuestionID ${questionID} does not exist.`);
-                }
-                await db.promise().execute(linkQuery, [evaluationID, questionID]);
-            }
-        }
-
-        // commit transaction
+        // Commit the transaction
         await db.promise().commit();
 
-        res.status(200).json({message: 'Evaluation set successfully with selected questions!'});
+        res.json({message: 'Evaluation created successfully.'});
     } catch (error) {
-        // rollback transaction in case of error
+        // Rollback the transaction in case of error
         await db.promise().rollback();
-        console.error('Error setting evaluation:', error);
-        res.status(500).json({message: 'Error setting evaluation.', error: error.message});
+        console.error(error);
+        res.status(500).json({message: 'Error creating evaluation.'});
     }
 };
 
@@ -229,15 +233,26 @@ exports.viewEvaluations = (req, res) => {
         return res.status(403).json({message: 'Access denied.'});
     }
 
-    // set sorting order for evaluations
+    // Set sorting order for evaluations
     const sortOption = req.query.sortOption || 'EvaluationID';
     const validSortOptions = ['EvaluationID', 'ProgramID', 'StartDate', 'EndDate'];
     const orderBy = validSortOptions.includes(sortOption) ? sortOption : 'EvaluationID';
 
-    // fetch evaluations sorted by the chosen option
-    const query = `SELECT *
-                   FROM EVALUATION
-                   ORDER BY ${orderBy}`;
+    // Fetch evaluations along with program names
+    const query = `
+        SELECT e.EvaluationID,
+               e.EvaluationName,
+               e.ProgramID,
+               e.Semester,
+               e.StartDate,
+               e.EndDate,
+               e.Status,
+               p.ProgramName
+        FROM EVALUATION e
+                 LEFT JOIN PROGRAM p ON e.ProgramID = p.ProgramID
+        ORDER BY ${orderBy}
+    `;
+
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching evaluations:', err);
@@ -249,14 +264,128 @@ exports.viewEvaluations = (req, res) => {
                 EvaluationID: row.EvaluationID,
                 EvaluationName: row.EvaluationName,
                 ProgramID: row.ProgramID,
+                ProgramName: row.ProgramName,
                 Semester: row.Semester,
                 StartDate: row.StartDate,
                 EndDate: row.EndDate,
-                Status: row.Status
+                Status: row.Status,
             }));
             res.status(200).json({evaluations: tableRows});
         } else {
             res.status(200).json({message: 'No evaluations found.'});
         }
+    });
+};
+
+exports.getEvaluation = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({message: 'Access denied.'});
+    }
+
+    // Get the evaluation ID from the query string
+    const evaluationID = req.query.evaluationID;
+
+    if (!evaluationID) {
+        return res.status(400).json({message: 'Evaluation ID is required.'});
+    }
+
+    // Prepare the SQL query to fetch the evaluation by ID
+    const query = `
+        SELECT e.EvaluationID, e.EvaluationName, e.StartDate, e.EndDate, 
+               e.ProgramID, e.Semester
+        FROM EVALUATION e
+        WHERE e.EvaluationID = ?`;
+
+    db.execute(query, [evaluationID], (err, results) => {
+        if (err) {
+            console.error('Error fetching evaluation:', err);
+            return res.status(500).json({message: 'Error fetching evaluation.', error: err.message});
+        }
+
+        if (results.length > 0) {
+            // Return the evaluation details
+            res.status(200).json(results[0]);
+        } else {
+            res.status(404).json({message: 'Evaluation not found.'});
+        }
+    });
+};
+
+exports.getRespondents = (req, res) => {
+    // Verify if the user is an admin
+    if (!req.session.user_id || req.session.user_type !== 'Admin') {
+        return res.status(403).json({message: 'Access denied.'});
+    }
+
+    // Get the evaluation ID from the query string
+    const evaluationID = req.query.evaluationID;
+
+    if (!evaluationID) {
+        return res.status(400).json({message: 'Evaluation ID is required.'});
+    }
+
+    // Prepare the SQL query to fetch the respondents by evaluation ID
+    const query = `
+        SELECT u.FirstName, u.LastName
+        FROM RESPONSE r
+        JOIN STUDENT s ON r.StudentID = s.StudentID
+        JOIN USER u ON s.StudentID = u.UserID
+        WHERE r.EvaluationID = ?
+    `;
+
+    db.execute(query, [evaluationID], (err, results) => {
+        if (err) {
+            console.error('Error fetching respondents:', err);
+            return res.status(500).json({message: 'Error fetching respondents.', error: err.message});
+        }
+
+        if (results.length > 0) {
+            res.status(200).json({respondents: results});
+        } else {
+            res.status(404).json({message: 'No respondents found for this evaluation.'});
+        }
+    });
+};
+
+exports.getQuestionsAndAnswers = (req, res) => {
+    const evaluationId = req.params.id;
+
+    const query = `
+        SELECT
+            q.QuestionDesc,
+            q.QuestionType,
+            CASE
+                WHEN q.QuestionType = 'TrueOrFalse' THEN
+                    JSON_OBJECT(
+                        'TrueCount', SUM(CASE WHEN a.Answer = 'True' THEN 1 ELSE 0 END),
+                        'FalseCount', SUM(CASE WHEN a.Answer = 'False' THEN 1 ELSE 0 END)
+                    )
+                WHEN q.QuestionType = 'multiple-choice' THEN
+                    JSON_OBJECT(
+                        'ACount', SUM(CASE WHEN a.Answer = 'a' THEN 1 ELSE 0 END),
+                        'BCount', SUM(CASE WHEN a.Answer = 'b' THEN 1 ELSE 0 END),
+                        'CCount', SUM(CASE WHEN a.Answer = 'c' THEN 1 ELSE 0 END),
+                        'DCount', SUM(CASE WHEN a.Answer = 'd' THEN 1 ELSE 0 END)
+                    )
+            END AS AnswerCounts
+        FROM
+            question q
+            JOIN answer a ON q.QuestionID = a.QuestionID
+            JOIN response r ON a.EvaluationID = r.EvaluationID
+        WHERE
+            r.EvaluationID = ?
+        GROUP BY
+            q.QuestionID
+        ORDER BY
+            q.QuestionID;
+    `;
+
+    db.execute(query, [evaluationId], (err, results) => {
+        if (err) {
+            console.error('Error retrieving questions and answers:', err);
+            return res.status(500).json({ error: 'Error retrieving questions and answers.' });
+        }
+        res.status(200).json(results);
     });
 };

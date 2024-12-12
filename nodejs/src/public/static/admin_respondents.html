@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/dashboard_style.css">
+    <link rel="stylesheet" href="/public/css/admin_respondents.css">
+    <script defer src="/public/js/dashboard_script.js"></script>   
+    <script defer src="/public/js/bootstrap.js"></script>
+    <script defer src="/public/js/admin_respondents.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button id="toggle-btn" type="button">
+                    <img src="public/images/burger-menu-svgrepo-com.svg" alt="toggle">
+                </button>
+                <div class="sidebar-logo">
+                    <a href="/admin">
+                        <span class="kaizen">Kaizen</span><span class="forms">Forms</span>
+                    </a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/admin" class="sidebar-link">
+                        <img src="public/images/home-icon-silhouette-svgrepo-com.svg" alt="Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_respondents" class="sidebar-link">
+                        <img src="public/images/person-svgrepo-com.svg" alt="Results">
+                        <span>Results</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_questions" class="sidebar-link">
+                        <img src="public/images/question-square-fill-svgrepo-com.svg" alt="Manage Questions">
+                        <span>Manage Questions</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="/admin_evaluations" class="sidebar-link">
+                        <img src="public/images/clipboard-svgrepo-com.svg" alt="Manage Evaluations">
+                        <span>Manage Evaluations</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin_utilities">
+                        <img alt="Utilities" src="public/images/util_wrench.svg">
+                        <span>Utilities</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/api/logout" class="sidebar-link">
+                    <img src="public/images/logout-2-svgrepo-com.svg" alt="Logout">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        <div class="main p-3">
+            <div class="text-start">
+                <h1 class="page-title">Results</h1>
+                <hr class="hr" />
+                <div class="search-div" style="padding-left: 1.125rem;">
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    </div>
+                </div>
+                <div class="results-container" id="resultsContainer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resultDetailsModal" tabindex="-1" aria-labelledby="resultDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultDetailsModalLabel">Result Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div><strong>Evaluation:</strong> <span id="modal-evaluation-name"></span></div>
+                        <div><strong>Program:</strong> <span id="modal-program-name"></span></div>
+                        <div><strong>Semester:</strong> <span id="modal-semester"></span></div>
+                        <div><strong>Start Date:</strong> <span id="modal-start-date"></span></div>
+                        <div><strong>End Date:</strong> <span id="modal-end-date"></span></div>
+                    </div>
+                    <hr class="hr" />
+                    <div class="mb-3" id="respondents-list-container">
+                        <label><strong>List of Respondents:</strong></label>
+                        <ul class="list-group list-group-light">
+                            
+                        </ul>
+                    </div>
+                    <hr class="hr" />
+                    <div class="mb-3" id="evaluation-answers-list-container">
+                        <label><strong>Evaluation Answers</strong></label>
+                        <ul class="list-group list-group-light">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
