@@ -347,3 +347,45 @@ exports.getRespondents = (req, res) => {
         }
     });
 };
+
+exports.getQuestionsAndAnswers = (req, res) => {
+    const evaluationId = req.params.id;
+
+    const query = `
+        SELECT
+            q.QuestionDesc,
+            q.QuestionType,
+            CASE
+                WHEN q.QuestionType = 'TrueOrFalse' THEN
+                    JSON_OBJECT(
+                        'TrueCount', SUM(CASE WHEN a.Answer = 'true' THEN 1 ELSE 0 END),
+                        'FalseCount', SUM(CASE WHEN a.Answer = 'false' THEN 1 ELSE 0 END)
+                    )
+                WHEN q.QuestionType = 'MultipleChoice' THEN
+                    JSON_OBJECT(
+                        'ACount', SUM(CASE WHEN a.Answer = 'a' THEN 1 ELSE 0 END),
+                        'BCount', SUM(CASE WHEN a.Answer = 'b' THEN 1 ELSE 0 END),
+                        'CCount', SUM(CASE WHEN a.Answer = 'c' THEN 1 ELSE 0 END),
+                        'DCount', SUM(CASE WHEN a.Answer = 'd' THEN 1 ELSE 0 END)
+                    )
+            END AS AnswerCounts
+        FROM
+            question q
+            JOIN answer a ON q.QuestionID = a.QuestionID
+            JOIN response r ON a.EvaluationID = r.EvaluationID
+        WHERE
+            r.EvaluationID = ?
+        GROUP BY
+            q.QuestionID
+        ORDER BY
+            q.QuestionID;
+    `;
+
+    db.execute(query, [evaluationId], (err, results) => {
+        if (err) {
+            console.error('Error retrieving questions and answers:', err);
+            return res.status(500).json({ error: 'Error retrieving questions and answers.' });
+        }
+        res.status(200).json(results);
+    });
+};
