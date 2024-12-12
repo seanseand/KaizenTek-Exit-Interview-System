@@ -125,6 +125,9 @@ window.editQuestion = function(questionID) {
             document.getElementById('edit-question-desc-input').value = question.QuestionDesc;
             document.getElementById('edit-question-type').value = question.QuestionType;
 
+            // Store the questionID in the modal
+            document.getElementById('editQuestionModal').setAttribute('data-question-id', questionID);
+
             // Show the modal
             const modal = new bootstrap.Modal(document.getElementById('editQuestionModal'));
             modal.show();
@@ -133,6 +136,56 @@ window.editQuestion = function(questionID) {
 
     xhr.send();
 };
+
+// Function to handle the Apply button click in the Edit modal
+function applyEditQuestion() {
+    // Get the updated question details from the modal form
+    const questionID = document.getElementById('editQuestionModal').getAttribute('data-question-id');
+    const description = document.getElementById('edit-question-desc-input').value.trim();
+    const type = document.getElementById('edit-question-type').value.trim();
+
+    // Validate required fields
+    if (!description || !type) {
+        alert('Both fields are required!');
+        return;
+    }
+
+    // Prepare payload
+    const formData = {
+        questionID: questionID,
+        questionDesc: description,
+        questionType: type
+    };
+
+    // Send a POST request
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/editQuestions', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('Response Status:', xhr.status);
+            console.log('Response Text:', xhr.responseText);
+
+            if (xhr.status === 200) {
+                alert('Question edited successfully.');
+                loadQuestions(); // Reload questions table
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editQuestionModal'));
+                modal.hide();
+            } else {
+                try {
+                    alert('Editing question: ' + (response.message || 'Unknown error.'));
+                    loadQuestions();
+                } catch (error) {
+                    alert('Error: ' + xhr.statusText + '\n' + xhr.responseText);
+                }
+            }
+        }
+    };
+
+    // Send JSON payload
+    xhr.send(JSON.stringify(formData));
+}
 
 // Placeholder for deleting a question
 function deleteQuestion(questionID) {
