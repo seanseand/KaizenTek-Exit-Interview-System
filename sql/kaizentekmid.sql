@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 07, 2024 at 04:41 PM
+-- Generation Time: Dec 12, 2024 at 02:44 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -175,7 +175,7 @@ INSERT INTO `question` (`QuestionID`, `QuestionDesc`, `QuestionType`, `CreatorID
 (1, 'The program/course met my expectations.', 'TrueOrFalse', 1),
 (2, 'The course content was easy to understand.', 'TrueOrFalse', 1),
 (3, 'The professor was an effective teacher.', 'TrueOrFalse', 6),
-(4, 'How supportive were your academic advisors? A) Very great B) Great C) Not that great D) Not great at all', 'Multiple Choice', 1);
+(4, 'How supportive were your academic advisors?', 'multiple-choice', 1);
 
 -- --------------------------------------------------------
 
